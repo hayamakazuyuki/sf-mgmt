@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include "navbar.html" %}
+<div class="container mx-auto" x-data="{ open: false }">
+    <div class="max-w-4xl mx-auto my-8">
+        <h1 class="font-bold text-xl text-gray-500">パートナー登録</h1>
+
+        <div class="my-5 flex" x-data="getToday">
+            <p class="text-lg mr-20" x-text="today"></p>
+        </div>
+    </div>
+</div>
+<!-- alpine.js -->
+<script>
+    const getToday = () => {
+        let now = new Date();
+        let year = now.getFullYear();
+        let month = now.getMonth() + 1;
+        let date = now.getDate();
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+        return {
+            today: year + "年" + month + "月" + date + "日" + "　" + hours + ":" + minutes
+        }
+    }
+</script>
+{% endblock %}
