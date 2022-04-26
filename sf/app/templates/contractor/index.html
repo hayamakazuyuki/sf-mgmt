@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include "navbar.html" %}
+{% include "_flashing.html" %}
+
+<div class="container mx-auto">
+    <div class="max-w-4xl mx-auto my-8">
+        <h1 class="font-bold text-xl text-gray-500">出荷依頼一覧</h1>
+        <a href="/contractor/register">登録</a>
+        <table class="table-auto my-3 w-full">
+            <thead>
+                <tr>
+                    <td class="border-black border-b py-2"></td>
+                    <td class="border-black border-b px-4 py-2">ID</td>
+                    <td class="border-black border-b px-4 py-2"></td>
+                    <td class="border-black border-b px-4 py-2">業者名</td>
+                    <td class="border-black border-b px-4 py-2">郵便番号</td>
+                    <td class="border-black border-b px-4 py-2">住所</td>
+                    <td class="border-black border-b px-4 py-2">電話</td>                
+                </tr>
+            </thead>
+            <tbody>
+            {% if contractors %}
+            {% for contractor in contractors.items %}
+                <tr>
+                    <td class="border-b py-1">
+                        {% if contractor.is_inactive %}
+                        <p class="inline-flex px-1 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">休</p>
+                        {% endif %}
+                    </td>
+        
+                    <td class="border-b px-4 py-1"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contractor/{{ contractor.id }}">
+                        {{ contractor.id }}</a></td>
+                    <td class="border-b px-4 py-1">
+                        {% if contractor.satiscare.membership == 1 %}
+                        <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-pink-600 rounded-full">
+                            ケア</span>
+                        {% endif %}
+                    </td>
+                    <td class="border-b px-4 py-1">{{ contractor.name }}</td>
+                    <td class="border-b px-4 py-1">{{ '{}-{}'.format(contractor.zip[:3], contractor.zip[3:]) }}</td>
+                    <td class="border-b px-4 py-1">{{ contractor.prefecture }}{{ contractor.city }}{{ contractor.town }}{{ contractor.address }}</td>
+                    <td class="border-b px-4 py-1">{{ contractor.tel }}</td>
+                </tr>
+            {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -3,3 +3,5 @@ __pycache__/
 env_variables.yaml
 
 postcode.js
+
+mysql/

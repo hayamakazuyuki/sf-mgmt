@@ -1,5 +1,7 @@
 from flask import Flask
 
+from .extentions import db
+
 from .contractor.views import contractor
 
 def create_app():
@@ -14,6 +16,7 @@ def create_app():
     else:
         app.config.from_object('app.config.DevelopmentConfig')
 
+    db.init_app(app)
 
     app.register_blueprint(contractor)
 

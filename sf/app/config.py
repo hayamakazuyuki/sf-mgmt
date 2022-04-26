@@ -4,6 +4,7 @@ class BaseConfig(object):
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'secret'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://user:password@mysql_c/devdb?charset=utf8'
 
 class ProductionConfig(BaseConfig):
     SECRET_KEY = os.environ.get('SECRET_KEY')

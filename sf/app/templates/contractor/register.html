@@ -48,6 +48,10 @@
             {{ render_field_with_errors(form.tel, class_="w-full text-gray-700 focus:outline-none
                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
+
+        <div class="my-5 text-sm">{{ form.care.label(class_=" text-base text-gray-500") }}
+            {{ form.care(class_="border mx-3 align-middle", value="1") }}</div>
+    
         <button type="submit" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
     hover:bg-blue-800 transition duration-200">登録</button>
 

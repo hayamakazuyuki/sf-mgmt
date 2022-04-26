@@ -1,6 +1,34 @@
 version: '3.9'
 
 services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_c
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: devdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: Asia/Tokyo
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+  default:
+    build: ./default
+    container_name: default_c
+    ports:
+      - 50001:5000
+    tty: true
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: development
+    volumes:
+      - ./default:/app
+    command: flask run --host=0.0.0.0
+
   sf:
     build: ./sf
     container_name: sf_c
