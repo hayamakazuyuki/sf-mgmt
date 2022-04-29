@@ -1,3 +1,4 @@
+from email.policy import default
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
@@ -10,11 +11,29 @@ contractor = Blueprint('contractor', __name__, url_prefix='/contractor')
 
 @contractor.route('/')
 def index():
-    page = request.args.get('page', 1, type=int)
 
-    contractors = Contractor.query.paginate(page=page, per_page=20)
+    q = request.args.get('q', default=None)
 
-    return render_template('contractor/index.html', contractors=contractors)
+    if q:
+        page = request.args.get('page', 1, type=int)
+
+        if q.isdigit():
+            contractor = Contractor.query.get(q)
+
+            if contractor:
+                return redirect(url_for('contractor.profile', id=q))
+
+            else:
+                return redirect(url_for('contractor.index'))
+
+        else:
+            search = "%{}%".format(q)
+            contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=20)
+            count = len(Contractor.query.filter(Contractor.name.like(search)).all())
+
+            return render_template('contractor/index.html', page=page, contractors=contractors, count=count)
+    else:
+        return render_template('contractor/index.html')
 
 
 @contractor.route('/register', methods=['GET', 'POST'])
