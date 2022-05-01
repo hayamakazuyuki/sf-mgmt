@@ -7,9 +7,9 @@ from ..models import Contractor, Satiscare
 
 from .forms import ContractorForm
 
-contractor = Blueprint('contractor', __name__, url_prefix='/contractor')
+contractor = Blueprint('contractor', __name__)
 
-@contractor.route('/')
+@contractor.route('/contractor')
 def index():
 
     q = request.args.get('q', default=None)
@@ -36,7 +36,7 @@ def index():
         return render_template('contractor/index.html')
 
 
-@contractor.route('/register', methods=['GET', 'POST'])
+@contractor.route('/contractor/register', methods=['GET', 'POST'])
 def register():
 
     form = ContractorForm()
@@ -81,3 +81,14 @@ def register():
             return redirect(url_for('contractor.index'))
 
     return render_template('contractor/register.html', form=form)
+
+# show and update customer profile
+@contractor.route('/contractor/<int:id>')
+@contractor.route('/contractor/<int:id>/<mode>')
+def profile(id, mode=None):
+    contractor = Contractor.query.get(id)
+
+    if mode == 'edit':
+        return '編集'
+
+    return render_template('contractor/profile.html', contractor=contractor)
