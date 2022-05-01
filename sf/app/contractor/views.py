@@ -12,12 +12,12 @@ contractor = Blueprint('contractor', __name__)
 @contractor.route('/contractor')
 def index():
 
-    q = request.args.get('q', default=None)
+    q = request.args.get('q')
 
     if q:
-        page = request.args.get('page', 1, type=int)
 
         if q.isdigit():
+    
             contractor = Contractor.query.get(q)
 
             if contractor:
@@ -27,11 +27,13 @@ def index():
                 return redirect(url_for('contractor.index'))
 
         else:
+
             search = "%{}%".format(q)
-            contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=20)
+            page = request.args.get('page', 1, type=int)
+            contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=2)
             count = len(Contractor.query.filter(Contractor.name.like(search)).all())
 
-            return render_template('contractor/index.html', page=page, contractors=contractors, count=count)
+            return render_template('contractor/index.html', page=page, contractors=contractors, count=count, search=search)
     else:
         return render_template('contractor/index.html')
 
@@ -78,7 +80,7 @@ def register():
 
             flash('パートナーを登録しました。', 'success')
 
-            return redirect(url_for('contractor.index'))
+            return redirect(url_for('contractor.profile', id=id))
 
     return render_template('contractor/register.html', form=form)
 

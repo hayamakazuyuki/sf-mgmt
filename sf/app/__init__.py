@@ -1,6 +1,7 @@
 from flask import Flask
 
 from .extentions import db
+from .views import top
 
 from .contractor.views import contractor
 
@@ -18,6 +19,7 @@ def create_app():
 
     db.init_app(app)
 
+    app.register_blueprint(top)
     app.register_blueprint(contractor)
 
     return app
