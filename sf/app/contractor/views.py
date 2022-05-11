@@ -1,4 +1,3 @@
-from email.policy import default
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
@@ -7,38 +6,40 @@ from ..models import Contractor, Satiscare
 
 from .forms import ContractorForm
 
-contractor = Blueprint('contractor', __name__)
+contractor = Blueprint('contractor', __name__, url_prefix='/contractor')
 
-@contractor.route('/contractor')
+@contractor.route('/')
 def index():
 
     q = request.args.get('q')
 
     if q:
 
-        if q.isdigit():
+        # if q.isdigit():
     
-            contractor = Contractor.query.get(q)
+        #     contractor = Contractor.query.get(q)
 
-            if contractor:
-                return redirect(url_for('contractor.profile', id=q))
+        #     if contractor:
+        #         return redirect(url_for('contractor.profile', id=q))
 
-            else:
-                return redirect(url_for('contractor.index'))
+        #     else:
+        #         return redirect(url_for('contractor.index'))
 
-        else:
+        # else:
 
-            search = "%{}%".format(q)
-            page = request.args.get('page', 1, type=int)
-            contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=2)
-            count = len(Contractor.query.filter(Contractor.name.like(search)).all())
+        search = "%{}%".format(q)
+        page = request.args.get('page', 1, type=int)
+        contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=2)
+        count = len(Contractor.query.filter(Contractor.name.like(search)).all())
 
-            return render_template('contractor/index.html', page=page, contractors=contractors, count=count, search=search)
+        return render_template('contractor/index.html', page=page, contractors=contractors, count=count, search=search)
+    
     else:
+        # return 'なし'
         return render_template('contractor/index.html')
 
 
-@contractor.route('/contractor/register', methods=['GET', 'POST'])
+@contractor.route('/register', methods=['GET', 'POST'])
 def register():
 
     form = ContractorForm()
@@ -85,8 +86,8 @@ def register():
     return render_template('contractor/register.html', form=form)
 
 # show and update customer profile
-@contractor.route('/contractor/<int:id>')
-@contractor.route('/contractor/<int:id>/<mode>')
+@contractor.route('/<int:id>')
+@contractor.route('/<int:id>/<mode>')
 def profile(id, mode=None):
     contractor = Contractor.query.get(id)
 
