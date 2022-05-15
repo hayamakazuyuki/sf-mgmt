@@ -29,7 +29,7 @@ def index():
 
         search = "%{}%".format(q)
         page = request.args.get('page', 1, type=int)
-        contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=2)
+        contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=20)
         count = len(Contractor.query.filter(Contractor.name.like(search)).all())
 
         return render_template('contractor/index.html', page=page, contractors=contractors, count=count, search=search)
