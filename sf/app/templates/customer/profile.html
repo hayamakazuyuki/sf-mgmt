@@ -30,7 +30,53 @@
                 <p class="items-end">{{ customer.registered_by }}</p>
             </div>
         </div>
+        <p class="mx-5">
+            <a href="/customer/{{ customer.id }}/shop/register" class="text-blue-500 hover:text-blue-700 hover:underline">
+            事業所の登録
+            </a>
+        </p>
+        {% if shops %}
+        <diV>
+            {% if pages %}
+            {% for page_num in customers.iter_pages(left_edge=3, right_edge=3) %}
+            {% if page_num %}
+                {% if customers.page == page_num %}
+                <a class="text-blue-600 underline" href="{{ url_for('customer.index', q=search, page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                <a class="text-blue-600" href="{{ url_for('customer.index', q=search, page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+            {% endfor %}  
+    
+            {% endif %}
+        </diV>
+        <table class="table-auto w-full mx-2 text-sm">
+            <thead>
+                <tr class="border-black border-b">
+                    <td class="p-2">ID</td>
+                    <td class="p-2">事業所名</td>
+                    <td class="p-2">住所</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for shop in shops.items %}
+                <tr class="">
+                    <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/customer/{{ customer.id }}">
+                        {{ shop.id }}</a></td>
+                    <td class="border-b">{{ shop.name }}</td>
+                    <td class="border-b">{{ shop.prefecture }}{{ shop.city }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+    
     </div>
+
+
 
 </div>
 
