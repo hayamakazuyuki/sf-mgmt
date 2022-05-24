@@ -2,4 +2,39 @@
 {% block content %}
 {% include "navbar.html" %}
 {% include "_flashing.html" %}
+
+<div class="container max-w-2xl mx-auto mt-7 px-2">
+    <div class="max-w-md mx-auto">
+        <p class="font-bold text-lg my-5">事業所情報</p>
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+            <div class="">
+                <p class="text-right">
+                    <a href="/customer/{{ shop.customer_id }}/{{ shop.id }}/edit" class="px-1 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right">編集</a>
+                </p>
+                <p class="text-gray-500 text-sm">
+                </p>    
+            </div>
+            {% if shop.is_inactive %}
+            <p class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-700 rounded-full">停止</p>
+            {% endif %}
+            <p class="mt-3 text-lg font-bold">{{ shop.customer_id }}-{{ shop.id }}</p>
+            <p class="text-2xl my-2">{{ shop.name }}</p>
+            <p class="text-gray-700">{{ '〒{}-{}'.format(shop.zip[:3], shop.zip[3:]) }}</p>
+            <p class="text-gray-700">{{ shop.prefecture }}{{ shop.city }}{{ shop.town }}{{ shop.address }}</p>
+            <p class="text-gray-700">{{ shop.bldg }}</p>
+            <hr class="mt-5 mb-3">
+
+            <div class="flex justify-between text-gray-500 text-sm">
+                <p class="items-end">{{ shop.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="items-end">{{ shop.registered_by }}</p>
+            </div>
+        </div>
+        <p class="mx-5">
+            <a href="/customer/{{ shop.id }}/shop/register" class="text-blue-500 hover:text-blue-700 hover:underline">
+            事業所の登録
+            </a>
+        </p>
+    </div>
+</div>
+
 {% endblock %}

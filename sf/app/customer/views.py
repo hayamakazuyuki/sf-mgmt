@@ -83,7 +83,7 @@ def shop_register(id):
     form = ShopForm()
     customer = Customer.query.get(id)
 
-    if form.validate_on_submit():        
+    if form.validate_on_submit():
         # has to check if the id already exists in the Shop table
         customer_id = customer.id
         shop_id = request.form['id']
@@ -97,20 +97,30 @@ def shop_register(id):
         bldg = request.form.get('bldg')
         registered_by = 1
 
-        shop = Shop(customer_id=customer_id, id=shop_id, shop_number=shop_number, name=name, zip=zip,
-             prefecture=prefecture, city=city, town=town, address=address, bldg=bldg, registered_by=registered_by)
+        # check if requested shop already exists in the db
+        exists = Shop.query.get((customer_id, shop_id))
 
-        db.session.add(shop)
+        if exists:
+            return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
+
+        else:
+
+            shop = Shop(customer_id=customer_id, id=shop_id, shop_number=shop_number, name=name, zip=zip,
+                 prefecture=prefecture, city=city, town=town, address=address, bldg=bldg, registered_by=registered_by)
+
+            db.session.add(shop)
     
-        db.session.commit()
+            db.session.commit()
 
-        flash('事業所を登録しました。', 'success')
+            flash('事業所を登録しました。', 'success')
 
-        return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
+            return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
 
     return render_template('customer/shop_register.html', customer=customer, form=form)
 
 
 @customer.route('/<int:customer_id>/<int:id>')
 def shop_profile(customer_id, id):
-    return render_template('customer/shop_profile.html')
+    shop = Shop.query.get_or_404((customer_id, id))
+    
+    return render_template('customer/shop_profile.html', shop=shop)
