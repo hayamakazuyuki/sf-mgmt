@@ -64,12 +64,11 @@ def register():
             town = request.form['town']
             address = request.form.get('address')
             bldg = request.form.get('bldg')
-            tel = request.form['tel']
             registered_by = 1
             care = request.form.get('care')
 
             contractor = Contractor(id=id, name=name, title=title, representative=representative, zip=zip,
-             prefecture=prefecture, city=city, town=town, address=address, bldg=bldg, tel=tel, registered_by=registered_by)
+             prefecture=prefecture, city=city, town=town, address=address, bldg=bldg, registered_by=registered_by)
 
             db.session.add(contractor)
             

@@ -15,6 +15,4 @@ class ContractorForm(FlaskForm):
     town = StringField('町域', validators=[InputRequired('町域は必須です。')])
     address = StringField('住所', validators=[InputRequired('住所は必須です。')])
     bldg = StringField('建物名等')
-    tel = StringField('tel', validators=[InputRequired('電話番号は必須です。')])
-    is_inactive = BooleanField('休止')
     care = BooleanField('サティスケア会員')

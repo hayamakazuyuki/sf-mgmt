@@ -15,7 +15,6 @@ class CustomerForm(FlaskForm):
     town = StringField('町域', validators=[InputRequired('町域は必須です。')])
     address = StringField('住所', validators=[InputRequired('住所は必須です。')])
     bldg = StringField('建物名等')
-    is_inactive = BooleanField('休止')
 
 
 class ShopForm(FlaskForm):
@@ -30,6 +29,3 @@ class ShopForm(FlaskForm):
     town = StringField('町域', validators=[InputRequired('町域は必須です。')])
     address = StringField('住所', validators=[InputRequired('住所は必須です。')])
     bldg = StringField('建物名等')
-    is_inactive = BooleanField('休止')
-
-
