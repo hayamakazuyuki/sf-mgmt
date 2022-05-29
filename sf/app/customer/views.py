@@ -2,11 +2,19 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
 
-from ..models import Customer, Shop
+from ..models import Customer, Shop, Parent
 
 from .forms import CustomerForm, ShopForm
 
 customer = Blueprint('customer', __name__, url_prefix='/customer')
+
+
+@customer.route('/parent')
+def parent():
+    parents = Parent.query.all()
+
+    return render_template('customer/parent.html', parents=parents)
+
 
 @customer.route('/')
 def index():
@@ -77,14 +85,16 @@ def profile(id, mode=None):
 
         if form.validate_on_submit():
             customer.name = request.form['name']
-            customer.title = request.form['title']
+            customer.title = request.form.get('title')
             customer.representative = request.form['representative']
             customer.zip = request.form['zip']
             customer.prefecture = request.form['prefecture']
             customer.city = request.form['city']
             customer.town = request.form['town']
-            customer.address = request.form['address']
-            customer.bldg = request.form['bldg']
+            customer.address = request.form.get('address')
+            customer.bldg = request.form.get('bldg')
+            customer.registered_by = 1
+
             db.session.commit()
 
             flash('取引先の情報を更新しました。')
@@ -147,9 +157,23 @@ def shop_profile(customer_id, id, mode=None):
         form = ShopForm()
 
         if form.validate_on_submit():
+            shop.shop_number = request.form.get('shop_number')
+            shop.name = request.form['name']
+            shop.zip = request.form['zip']
+            shop.prefecture = request.form['prefecture']
+            shop.city = request.form['city']
+            shop.town = request.form['town']
+            shop.address = request.form.get('address')
+            shop.bldg = request.form.get('bldg')
+            shop.registered_by = 1
+
+            db.session.commit()
+
             flash('事業所の情報を更新しました。')
+
             return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=id))
 
         return render_template('customer/shop-edit.html', shop=shop, form=form)
 
     return render_template('customer/shop_profile.html', shop=shop)
+

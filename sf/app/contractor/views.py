@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
@@ -86,11 +87,49 @@ def register():
 
 # show and update customer profile
 @contractor.route('/<int:id>')
-@contractor.route('/<int:id>/<mode>')
+@contractor.route('/<int:id>/<mode>', methods=['GET', 'POST'])
 def profile(id, mode=None):
     contractor = Contractor.query.get(id)
 
     if mode == 'edit':
-        return '編集'
+        form = ContractorForm()
+
+        if form.validate_on_submit():
+
+            contractor.name = request.form['name']
+            contractor.title = request.form.get('title')
+            contractor.representative = request.form['representative']
+            contractor.zip = request.form['zip']
+            contractor.prefecture = request.form['prefecture']
+            contractor.city = request.form['city']
+            contractor.town = request.form['town']
+            contractor.address = request.form.get('address')
+            contractor.bldg = request.form.get('bldg')
+            contractor.registered_by = 1
+
+            # if care checkbox is checked
+            care = request.form.get('care')
+
+            # if already a satiscare member 
+            is_member = Satiscare.query.filter_by(contractor_id=id).first()
+
+            if is_member and not care:
+                member = Satiscare.query.filter_by(contractor_id=id).first()
+                db.session.delete(member)
+
+            elif not is_member and care:
+                care = Satiscare(contractor_id=id, membership=care)
+                db.session.add(care)
+
+            else:
+                pass
+
+            db.session.commit()
+
+            flash('パートナー情報を更新しました。', 'success')
+
+            return redirect(url_for('contractor.profile', id=id))
+
+        return render_template('contractor/edit.html', contractor=contractor, form=form)
 
     return render_template('contractor/profile.html', contractor=contractor)
