@@ -106,7 +106,7 @@ def profile(id, mode=None):
     return render_template('customer/profile.html', customer=customer, shops=shops)
 
 
-@customer.route('/<int:id>/shop/register', methods=['GET', 'POST'])
+@customer.route('/<int:id>/register', methods=['GET', 'POST'])
 def shop_register(id):
     form = ShopForm()
     customer = Customer.query.get(id)
@@ -144,7 +144,7 @@ def shop_register(id):
 
             return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
 
-    return render_template('customer/shop_register.html', customer=customer, form=form)
+    return render_template('customer/shop-register.html', customer=customer, form=form)
 
 
 # show and update shop profile
@@ -171,9 +171,9 @@ def shop_profile(customer_id, id, mode=None):
 
             flash('事業所の情報を更新しました。')
 
-            return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=id))
+            return redirect(url_for('customer.shop-profile', customer_id=customer_id, id=id))
 
         return render_template('customer/shop-edit.html', shop=shop, form=form)
 
-    return render_template('customer/shop_profile.html', shop=shop)
+    return render_template('customer/shop-profile.html', shop=shop)
 

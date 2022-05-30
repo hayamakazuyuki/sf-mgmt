@@ -7,7 +7,7 @@
 <div class="container mx-auto max-w-sm py-10">
     <h1 class="font-bold text-xl text-gray-500">取引先登録</h1>
 
-    <form action="/customer/{{ customer.id }}/shop/register" method="POST">
+    <form action="/customer/{{ customer.id }}/register" method="POST">
         {{ form.csrf_token }}
         <div class="my-5 text-gray-800 text-lg">
             {{ customer.id }} {{ customer.name }}

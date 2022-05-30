@@ -66,7 +66,7 @@
             {% for customer in customers.items %}
                 <tr class="">
                     <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/customer/{{ customer.id }}">
-                        {{ customer.id }}</a></td>
+                        {{ '%05d' % customer.id }}</a></td>
                     <td class="border-b">{{ customer.name }}</td>
                     <td class="border-b">{{ '{}-{}'.format(customer.zip[:3], customer.zip[3:]) }}</td>
                     <td class="border-b">{{ customer.prefecture }}{{ customer.city }}{{ customer.town }}{{ customer.address }}</td>
