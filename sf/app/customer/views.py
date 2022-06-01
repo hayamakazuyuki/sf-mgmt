@@ -103,7 +103,7 @@ def profile(id, mode=None):
 
         return render_template('customer/edit.html', form=form, customer=customer)
 
-    return render_template('customer/profile.html', customer=customer, shops=shops)
+    return render_template('customer/profile.html', customer=customer, shops=shops, page=page)
 
 
 @customer.route('/<int:id>/register', methods=['GET', 'POST'])
