@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include "navbar.html" %}
+{% include "_flashing.html" %}
+{% from "_macros.html" import render_field_with_errors, render_input_field %}
+
+<div class="container mx-auto max-w-sm py-10">
+    <h1 class="font-bold text-xl text-gray-500">契約の登録</h1>
+
+    <form action="/contract/register/{{ shop.customer_id }}/{{ shop.id }}" method="POST">
+        {{ form.csrf_token }}
+
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.customer_id, class_="w-full text-gray-700 px-3 pb-1",
+            readonly=True, value=shop.customer_id)}}
+        </div>
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.shop_id, class_="w-full text-gray-700 px-3 pb-1",
+            readonly=True, value=shop.id)}}
+        </div>
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.contractor_id, class_="w-full text-gray-700 px-3 pb-1")}}
+        </div>
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.item_id, class_="w-full text-gray-700 px-3 pb-1")}}
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
+    hover:bg-blue-800 transition duration-200">登録</button>
+    </form>
+</div>
+{% endblock %}

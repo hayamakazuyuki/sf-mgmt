@@ -1,3 +1,4 @@
+from unicodedata import name
 from .extentions import db, admin
 from sqlalchemy import func
 from flask_admin.contrib.sqla import ModelView
@@ -17,6 +18,7 @@ class Contractor(db.Model):
     registered_by = db.Column(db.Integer, nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
     satiscare = db.relationship('Satiscare', backref='contractor', uselist=False)
+    contracts = db.relationship('Contract', backref=db.backref('contractor', lazy=True))
 
 
 class Satiscare(db.Model):
@@ -63,7 +65,28 @@ class Shop(db.Model):
     registered_at = db.Column(db.DateTime, default=func.now())
 
 
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    contracts = db.relationship('Contract', backref=db.backref('item', lazy=True))
+
+
+class Contract(db.Model):
+    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    customer_id = db.Column(db.Integer, nullable=False)
+    shop_id = db.Column(db.Integer, nullable=False)
+    contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    registered_by = db.Column(db.Integer, nullable=False)
+    registered_at = db.Column(db.DateTime, default=func.now())
+
+
 class ParentAdminView(ModelView):
     form_excluded_columns = ['registered_at']
 
+class ItemAdminView(ModelView):
+    form_columns = ['id', 'name']
+    column_list = ['id', 'name']
+
 admin.add_view(ParentAdminView(Parent, db.session))
+admin.add_view(ItemAdminView(Item, db.session))

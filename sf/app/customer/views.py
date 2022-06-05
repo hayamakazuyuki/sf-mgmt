@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
 
-from ..models import Customer, Shop, Parent
+from ..models import Customer, Shop, Parent, Contract
 
 from .forms import CustomerForm, ShopForm
 
@@ -151,7 +151,9 @@ def shop_register(id):
 @customer.route('/<int:customer_id>/<int:id>')
 @customer.route('/<int:customer_id>/<int:id>/<mode>', methods=['GET', 'POST'])
 def shop_profile(customer_id, id, mode=None):
+
     shop = Shop.query.get_or_404((customer_id, id))
+    contracts = Contract.query.filter_by(customer_id=customer_id).all()
 
     if mode == 'edit':
         form = ShopForm()
@@ -175,5 +177,5 @@ def shop_profile(customer_id, id, mode=None):
 
         return render_template('customer/shop-edit.html', shop=shop, form=form)
 
-    return render_template('customer/shop-profile.html', shop=shop)
+    return render_template('customer/shop-profile.html', shop=shop, contracts=contracts)
 

@@ -3,8 +3,9 @@ from flask import Flask
 from .extentions import db, admin
 from .views import top
 
-from .customer.views import customer
+from .contract.views import contract
 from .contractor.views import contractor
+from .customer.views import customer
 
 def create_app():
     app = Flask(__name__)
@@ -22,6 +23,7 @@ def create_app():
     admin.init_app(app)
 
     app.register_blueprint(top)
+    app.register_blueprint(contract)
     app.register_blueprint(customer)
     app.register_blueprint(contractor)
 

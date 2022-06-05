@@ -28,9 +28,38 @@
                 <p class="items-end">{{ shop.registered_by }}</p>
             </div>
         </div>
-        <p class="mx-5">
+        <p class="mx-5 text-right">
+            <a href="/contract/register/{{ shop.customer_id }}/{{ shop.id }}" class="text-blue-500 hover:text-blue-700 hover:underline">
+            契約の登録
+            </a>
         </p>
+
     </div>
+
+    {% if contracts %}
+    <div class="max-w-md mx-auto">
+        <table class="table-auto w-full m-2 text-sm">
+            <thead>
+                <tr class="font-bold border-black border-b">
+                    <td class="p-2">ID</td>
+                    <td class="p-2">契約種類</td>
+                    <td class="p-2">処理業者</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for contract in contracts %}
+                <tr class="">
+                    <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/customer">
+                        {{ contract.id }}</a></td>
+                    <td class="border-b">{{ contract.item.name }}</td>
+                    <td class="border-b">{{ contract.contractor.name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+
 </div>
 
 {% endblock %}
