@@ -173,7 +173,7 @@ def shop_profile(customer_id, id, mode=None):
 
             flash('事業所の情報を更新しました。')
 
-            return redirect(url_for('customer.shop-profile', customer_id=customer_id, id=id))
+            return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=id))
 
         return render_template('customer/shop-edit.html', shop=shop, form=form)
 

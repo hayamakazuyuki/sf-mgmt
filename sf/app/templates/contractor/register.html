@@ -12,24 +12,24 @@
 
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.id, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="数字1〜5桁")}}
             <div id="error_id" style="color: red;"></div>{# jsでバリエーションしてエラー表示をさせる場所 #}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.name, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="株式会社さてぃす産業")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.title, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="代表取締役")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.representative, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="左茶須　三行")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.zip, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="1040032")}}
         </div>
         <div class="flex my-3">
             {{ render_input_field(form.prefecture, class_="w-full border-b px-3 text-lg", readonly=True)}}
@@ -38,7 +38,7 @@
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.address, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="三丁目12番8号")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.bldg, class_="w-full text-gray-700 focus:outline-none
