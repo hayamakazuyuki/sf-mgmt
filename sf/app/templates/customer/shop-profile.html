@@ -49,7 +49,7 @@
             <tbody>
             {% for contract in contracts %}
                 <tr class="">
-                    <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/customer">
+                    <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contract/{{ contract.id }}">
                         {{ contract.id }}</a></td>
                     <td class="border-b">{{ contract.item.name }}</td>
                     <td class="border-b">{{ contract.contractor.name }}</td>

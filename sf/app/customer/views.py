@@ -32,6 +32,7 @@ def index():
     else:
         return render_template('customer/index.html')
 
+
 @customer.route('/register', methods=['GET', 'POST'])
 def register():
     form = CustomerForm()
@@ -43,7 +44,7 @@ def register():
         exists = Customer.query.get(id)
 
         if exists:
-            return 'あります'
+            return redirect(url_for('customer.profile', id=id))
 
         else:
             name = request.form['name']
@@ -112,7 +113,6 @@ def shop_register(id):
     customer = Customer.query.get(id)
 
     if form.validate_on_submit():
-        # has to check if the id already exists in the Shop table
         customer_id = customer.id
         shop_id = request.form['id']
         shop_number = request.form.get('shop_number')

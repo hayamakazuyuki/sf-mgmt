@@ -1,0 +1,32 @@
+{% extends "layout.html" -%}
+{% block content -%}
+{% include "navbar.html" -%}
+{% include "_flashing.html" -%}
+
+<div class="container max-w-2xl mx-auto mt-7 px-2">
+    <div class="max-w-md mx-auto">
+        <p class="font-bold text-lg my-5">契約内容</p>
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+            <div class="">
+                <p class="text-right">
+                    <a href="/contractor/{{ contract.id }}/edit" class="px-1 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right">編集</a>
+                </p>
+                <p class="text-gray-500 text-sm">
+                </p>    
+            </div>
+            <p class="text-gray-700 mt-3">{{ '%05d' % contract.id }}</p>
+            <p class="text-xl my-2">{{ contract.item.name }} 契約</p>
+
+            <p class="text-gray-700 my-2">{{ shop.customer.name }} - {{ contract.contractor.name }}</p>
+            <p class="text-gray-700 my-2">-> {{ shop.name }}</p>
+
+            <hr class="mt-5 mb-3">
+
+            <div class="flex justify-between text-gray-500 text-sm">
+                <p class="items-end">{{ contract.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="items-end">{{ contract.registered_by }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

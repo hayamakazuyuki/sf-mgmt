@@ -36,3 +36,11 @@ def register(customer_id, id):
         return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
 
     return render_template('contract/register.html', shop=shop, form=form)
+
+
+@contract.route('/<int:id>')
+def detail(id):
+    contract = Contract.query.get_or_404(id)
+    shop = Shop.query.get_or_404((contract.customer_id, contract.shop_id))
+
+    return render_template('contract/details.html', contract=contract, shop=shop)

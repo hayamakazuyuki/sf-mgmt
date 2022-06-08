@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
@@ -15,28 +14,14 @@ def index():
     q = request.args.get('q')
 
     if q:
-
-        # if q.isdigit():
-    
-        #     contractor = Contractor.query.get(q)
-
-        #     if contractor:
-        #         return redirect(url_for('contractor.profile', id=q))
-
-        #     else:
-        #         return redirect(url_for('contractor.index'))
-
-        # else:
-
         search = "%{}%".format(q)
         page = request.args.get('page', 1, type=int)
         contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=20)
         count = len(Contractor.query.filter(Contractor.name.like(search)).all())
 
         return render_template('contractor/index.html', page=page, contractors=contractors, count=count, search=search)
-    
+
     else:
-        # return 'なし'
         return render_template('contractor/index.html')
 
 
@@ -48,12 +33,12 @@ def register():
     if form.validate_on_submit():
 
         id = request.form['id']
-        
+
         # check if id already exists in the db
         exists = Contractor.query.get(id)
 
         if exists:
-            return 'あります'
+            return redirect(url_for('contractor.profile', id=id))
 
         else:
             name = request.form['name']
@@ -72,7 +57,7 @@ def register():
              prefecture=prefecture, city=city, town=town, address=address, bldg=bldg, registered_by=registered_by)
 
             db.session.add(contractor)
-            
+
             if care:
                 care = Satiscare(contractor_id=id, membership=care)
                 db.session.add(care)
