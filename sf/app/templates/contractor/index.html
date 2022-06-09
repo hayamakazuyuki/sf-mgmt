@@ -3,7 +3,7 @@
 {% include "navbar.html" %}
 {% include "_flashing.html" %}
 
-<div class="container mx-auto max-w-4xl">
+<div class="container mx-auto max-w-4xl flex-grow">
 
     <div class="mx-auto my-12 max-w-md">
 
@@ -36,6 +36,7 @@
     {% if contractors %}
     <div class="px-3 items-center flex mx-auto text-sm align-bottom justify-between">
         <p><span class="text-lg font-bold">{{ count }} </span>件</p>
+
         <p class="">
             {% if page %}
             {% for page_num in contractors.iter_pages(left_edge=3, right_edge=3) %}

@@ -1,14 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 {% include "navbar.html" %}
-<div class="container mx-auto" x-data="{ open: false }">
+<div class="container mx-auto flex-grow" x-data="{ open: false }">
     <div class="max-w-4xl mx-auto my-8">
-        <h1 class="font-bold text-xl text-gray-500">出荷依頼一覧</h1>
-        <a href="/contractor/register">登録</a>
+        <h1 class="font-bold text-xl text-gray-500">index</h1>
 
         <div class="my-5 flex" x-data="getToday">
             <p class="text-lg mr-20" x-text="today"></p>
-            <button x-on:click="open = true" class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-1 px-5 rounded-full shadow-md" type="button">ダウンロード</button>
         </div>
     </div>
 

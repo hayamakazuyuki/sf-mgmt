@@ -12,17 +12,20 @@ contractor = Blueprint('contractor', __name__, url_prefix='/contractor')
 def index():
 
     q = request.args.get('q')
+    page = request.args.get('page', 1, type=int)
 
     if q:
         search = "%{}%".format(q)
-        page = request.args.get('page', 1, type=int)
         contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=20)
         count = len(Contractor.query.filter(Contractor.name.like(search)).all())
 
         return render_template('contractor/index.html', page=page, contractors=contractors, count=count, search=search)
 
     else:
-        return render_template('contractor/index.html')
+        contractors = Contractor.query.paginate(page=page, per_page=20)
+        count = len(Contractor.query.all())
+
+        return render_template('contractor/index.html', contractors=contractors, page=page, count=count)
 
 
 @contractor.route('/register', methods=['GET', 'POST'])
