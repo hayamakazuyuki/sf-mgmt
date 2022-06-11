@@ -16,6 +16,19 @@ services:
     volumes:
       - ./mysql/data:/var/lib/mysql
 
+  cs:
+    build: ./cs
+    container_name: cs_c
+    ports:
+      - 50006:5000
+    tty: true
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: development
+    volumes:
+      - ./cs:/app
+    command: flask run --host=0.0.0.0
+
   default:
     build: ./default
     container_name: default_c
