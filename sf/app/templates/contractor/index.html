@@ -68,7 +68,7 @@
             {% for contractor in contractors.items %}
                 <tr class="">        
                     <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contractor/{{ contractor.id }}">
-                        {{ contractor.id }}</a></td>
+                        {{ '%05d' % contractor.id }}</a></td>
                     <td class="border-b">
                         {% if contractor.satiscare.membership == 1 %}
                         <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-indigo-700 rounded-full">

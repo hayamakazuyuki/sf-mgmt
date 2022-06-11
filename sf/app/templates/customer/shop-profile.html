@@ -3,7 +3,7 @@
 {% include "navbar.html" %}
 {% include "_flashing.html" %}
 
-<div class="container max-w-2xl mx-auto mt-7 px-2">
+<div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
     <div class="max-w-md mx-auto">
         <p class="font-bold text-lg my-5">事業所情報</p>
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
@@ -42,7 +42,7 @@
             <thead>
                 <tr class="font-bold border-black border-b">
                     <td class="p-2">ID</td>
-                    <td class="p-2">契約種類</td>
+                    <td class="p-2">契約</td>
                     <td class="p-2">処理業者</td>
                 </tr>
             </thead>
@@ -50,7 +50,7 @@
             {% for contract in contracts %}
                 <tr class="">
                     <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contract/{{ contract.id }}">
-                        {{ contract.id }}</a></td>
+                        {{ '%05d' % contract.id }}</a></td>
                     <td class="border-b">{{ contract.item.name }}</td>
                     <td class="border-b">{{ contract.contractor.name }}</td>
                 </tr>
