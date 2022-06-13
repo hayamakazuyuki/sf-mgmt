@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField, BooleanField
+from wtforms import IntegerField, StringField
 from wtforms.validators import InputRequired, NumberRange, Length
 
 class CustomerForm(FlaskForm):
@@ -13,7 +13,7 @@ class CustomerForm(FlaskForm):
     prefecture = StringField('都道府県', validators=[InputRequired('都道府県は必須です。')])
     city = StringField('市区町村', validators=[InputRequired('市区町村は必須です。')])
     town = StringField('町域', validators=[InputRequired('町域は必須です。')])
-    address = StringField('住所', validators=[InputRequired('住所は必須です。')])
+    address = StringField('住所')
     bldg = StringField('建物名等')
 
 
@@ -27,5 +27,5 @@ class ShopForm(FlaskForm):
     prefecture = StringField('都道府県', validators=[InputRequired('都道府県は必須です。')])
     city = StringField('市区町村', validators=[InputRequired('市区町村は必須です。')])
     town = StringField('町域', validators=[InputRequired('町域は必須です。')])
-    address = StringField('住所', validators=[InputRequired('住所は必須です。')])
+    address = StringField('住所')
     bldg = StringField('建物名等')
