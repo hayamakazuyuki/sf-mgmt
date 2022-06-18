@@ -18,18 +18,21 @@ class Contractor(db.Model):
     registered_at = db.Column(db.DateTime, default=func.now())
     satiscare = db.relationship('Satiscare', backref='contractor', uselist=False)
     contracts = db.relationship('Contract', backref=db.backref('contractor', lazy=True))
+    licenses = db.relationship('License', backref=db.backref('contractor', lazy=True))
 
 
 class License(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
-    contractor_id = db.Column(db.Integer, nullable=False)
-    issuer = db.Column(db.Integer, nullable=False)
-    license_type = db.Column(db.Integer, nullable=False)
+    contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), nullable=False)
+    issuer_id = db.Column(db.Integer, db.ForeignKey('issuer.id'), nullable=False)
+    license_type_id = db.Column(db.Integer, db.ForeignKey('license_type.id'), nullable=False)
     reserved_num = db.Column(db.Integer, nullable=False)
     unique_num = db.Column(db.Integer, nullable=False)
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     copy_url = db.Column(db.String(2083))
+    registered_by = db.Column(db.Integer, nullable=False)
+    registered_at = db.Column(db.DateTime, default=func.now())
 
 
 class Satiscare(db.Model):
@@ -95,10 +98,12 @@ class Contract(db.Model):
 class Issuer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(10), nullable=False)
+    licenses = db.relationship('License', backref=db.backref('issuer', lazy=True))
 
 class LicenseType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+    licenses = db.relationship('License', backref=db.backref('license_type', lazy=True))
 
 class ParentAdminView(ModelView):
     form_excluded_columns = ['registered_at']
@@ -107,16 +112,16 @@ class ItemAdminView(ModelView):
     form_columns = ['id', 'name']
     column_list = ['id', 'name']
 
-class IssuerAdminView(ModelView):
-    form_columns = ['id', 'name']
-    column_list = ['id', 'name']
+# class IssuerAdminView(ModelView):
+#     form_columns = ['id', 'name']
+#     column_list = ['id', 'name']
 
-class LicenseTypeAdminView(ModelView):
-    form_columns = ['id', 'name']
-    column_list = ['id', 'name']
+# class LicenseTypeAdminView(ModelView):
+#     form_columns = ['id', 'name']
+#     column_list = ['id', 'name']
 
 
 admin.add_view(ParentAdminView(Parent, db.session))
 admin.add_view(ItemAdminView(Item, db.session))
-admin.add_view(IssuerAdminView(Issuer, db.session))
-admin.add_view(LicenseTypeAdminView(LicenseType, db.session))
+# admin.add_view(IssuerAdminView(Issuer, db.session))
+# admin.add_view(LicenseTypeAdminView(LicenseType, db.session))

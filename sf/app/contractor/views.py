@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
 
-from ..models import Contractor, Satiscare
+from ..models import Contractor, Satiscare, License
 
 from .forms import ContractorForm, LicenseRegisterForm
 
@@ -79,6 +79,7 @@ def register():
 @contractor.route('/<int:id>/<mode>', methods=['GET', 'POST'])
 def profile(id, mode=None):
     contractor = Contractor.query.get(id)
+    licenses = License.query.filter(License.contractor_id == id).all()
 
     if mode == 'edit':
         form = ContractorForm()
@@ -121,7 +122,7 @@ def profile(id, mode=None):
 
         return render_template('contractor/edit.html', contractor=contractor, form=form)
 
-    return render_template('contractor/profile.html', contractor=contractor)
+    return render_template('contractor/profile.html', contractor=contractor, licenses=licenses)
 
 
 #register license
@@ -132,6 +133,27 @@ def license_register(id):
     form = LicenseRegisterForm()
 
     if form.validate_on_submit():
-        return request.form
+        contractor_id = id
+        issuer_id = request.form['issuer']
+        license_type_id = request.form['license_type']
+        reserved_num = request.form['reserved_num']
+        unique_num = request.form['unique_num']
+        effective_from = request.form['effective_from']
+        expires_on = request.form['expires_on']
+        copy_url = request.form['copy_url']
+        registered_by = 1
+
+        license = License(contractor_id=contractor_id, issuer_id=issuer_id, license_type_id=license_type_id, reserved_num=reserved_num,
+            unique_num=unique_num, effective_from=effective_from, expires_on=expires_on, copy_url=copy_url, registered_by=registered_by)
+
+        db.session.add(license)
+        db.session.commit()
+
+        flash('許可証情報を登録しました。', 'success')
+
+        return redirect(url_for('contractor.profile', id=id))
 
     return render_template('contractor/license-register.html', contractor=contractor, form=form)
+
+"""
+"""

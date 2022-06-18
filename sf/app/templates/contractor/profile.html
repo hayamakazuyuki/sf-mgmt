@@ -31,7 +31,34 @@
                 <p class="items-end">{{ contractor.registered_by }}</p>
             </div>
         </div>
-        <div><a href="/contractor/{{ contractor.id }}/license/register" class="px-1 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right">許可情報の登録</a></div>
+        <div class="flex justify-between mt-10 mb-5 px-5">
+            <h2 class="font-bold text-gray-800">許可情報</h2>
+            <p>
+                <a href="/contractor/{{ contractor.id }}/license/register" class="text-blue-600 hover:underline hover:text-blue-800 text-sm">
+                    + 登録
+                </a>
+            </p>
+        </div>
+
+        {% if licenses %}
+        <table class="table-auto w-full m-2">
+            <thead></thead>
+            <tbody>
+            {% for license in licenses %}
+                <tr class="">
+                    <td class="">{{ license.issuer.name }}</td>
+                    <td class="">{{ license.license_type.name }}</td>
+                    <td class="">
+                        <a href="" class="text-blue-600 hover:underline hover:text-blue-800">
+                            {{ '%03d' % license.issuer_id }} {{ license.license_type_id }}{{ license.reserved_num }} {{ license.unique_num }}                    
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% endif %}
     </div>
 
 </div>
