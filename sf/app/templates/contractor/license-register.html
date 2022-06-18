@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include "navbar.html" %}
+{% include "_flashing.html" %}
+{% from "_macros.html" import render_field_with_errors, render_input_field %}
+
+<div class="container mx-auto max-w-sm py-10 flex-grow">
+    <h1 class="font-bold text-xl text-gray-500">許可証の登録</h1>
+    <h2 class="my-5 font-bold text-lg text-gray-800">{{ contractor.id }}: {{ contractor.name }}</h2>
+
+    <form action="/contractor/{{ contractor.id }}/license/register" method="POST">
+        {{ form.csrf_token }}
+
+        <div class="my-5 text-gray-500 align-middle">
+            <p class="">許可番号<span class="text-xs ml-3 text-red-500">必須</span></p>
+            <div class="flex">
+            {{ render_input_field(form.issuer, class_="text-gray-700 focus:outline-none
+                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+            -
+            {{ render_input_field(form.license_type, class_="text-gray-700 focus:outline-none
+                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+            {{ render_input_field(form.reserved_num, class_="text-gray-700 focus:outline-none
+                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+            -
+            {{ render_input_field(form.unique_num, class_="text-gray-700 focus:outline-none
+                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+            </div>
+        </div>
+
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.effective_from, class_="w-full text-gray-700 focus:outline-none
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+        </div>
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.expires_on, class_="w-full text-gray-700 focus:outline-none
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+        </div>
+
+        <div class="my-5 text-gray-500">
+            <p class="">許可証写し<span class="text-xs ml-3 text-red-500">必須</span></p>
+        </div>
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.copy_url, class_="w-full text-gray-700 focus:outline-none
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
+    hover:bg-blue-800 transition duration-200">登録</button>
+
+    </form>
+</div>
+
+{% endblock %}

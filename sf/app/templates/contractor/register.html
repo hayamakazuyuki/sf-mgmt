@@ -31,10 +31,10 @@
             {{ render_field_with_errors(form.zip, class_="w-full text-gray-700 focus:outline-none
                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="1040032")}}
         </div>
-        <div class="flex my-3">
-            {{ render_input_field(form.prefecture, class_="w-full border-b px-3 text-lg", readonly=True)}}
-            {{ render_input_field(form.city, class_="w-full border-b px-3 text-lg", readonly=True)}}
-            {{ render_input_field(form.town, class_="w-full border-b px-3 text-lg", readonly=True)}}
+        <div class="flex my-3 text-sm">
+            {{ render_input_field(form.prefecture, class_="w-full border-b px-3", readonly=True, placeholder="千葉県")}}
+            {{ render_input_field(form.city, class_="w-full border-b px-3", readonly=True, placeholder="市川市")}}
+            {{ render_input_field(form.town, class_="w-full border-b px-3", readonly=True, placeholder="西条")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.address, class_="w-full text-gray-700 focus:outline-none

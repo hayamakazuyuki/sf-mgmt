@@ -4,7 +4,7 @@ from ..extentions import db
 
 from ..models import Contractor, Satiscare
 
-from .forms import ContractorForm
+from .forms import ContractorForm, LicenseRegisterForm
 
 contractor = Blueprint('contractor', __name__, url_prefix='/contractor')
 
@@ -73,6 +73,7 @@ def register():
 
     return render_template('contractor/register.html', form=form)
 
+
 # show and update customer profile
 @contractor.route('/<int:id>')
 @contractor.route('/<int:id>/<mode>', methods=['GET', 'POST'])
@@ -121,3 +122,16 @@ def profile(id, mode=None):
         return render_template('contractor/edit.html', contractor=contractor, form=form)
 
     return render_template('contractor/profile.html', contractor=contractor)
+
+
+#register license
+@contractor.route('/<int:id>/license/register', methods=['GET', 'POST'])
+def license_register(id):
+    contractor = Contractor.query.get(id)
+
+    form = LicenseRegisterForm()
+
+    if form.validate_on_submit():
+        return request.form
+
+    return render_template('contractor/license-register.html', contractor=contractor, form=form)
