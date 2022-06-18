@@ -45,10 +45,10 @@
             <thead></thead>
             <tbody>
             {% for license in licenses %}
-                <tr class="">
+                <tr class="w-full">
                     <td class="">{{ license.issuer.name }}</td>
                     <td class="">{{ license.license_type.name }}</td>
-                    <td class="">
+                    <td class="text-right">
                         <a href="{{ license.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank">
                             {{ '%03d' % license.issuer_id }} {{ license.license_type_id }}{{ license.reserved_num }} {{ license.unique_num }}                    
                         </a>
