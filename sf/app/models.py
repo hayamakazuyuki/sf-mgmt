@@ -27,7 +27,7 @@ class License(db.Model):
     issuer_id = db.Column(db.Integer, db.ForeignKey('issuer.id'), nullable=False)
     license_type_id = db.Column(db.Integer, db.ForeignKey('license_type.id'), nullable=False)
     reserved_num = db.Column(db.Integer, nullable=False)
-    unique_num = db.Column(db.Integer, nullable=False)
+    unique_num = db.Column(db.String(6), nullable=False)
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     copy_url = db.Column(db.String(2083))
@@ -112,16 +112,16 @@ class ItemAdminView(ModelView):
     form_columns = ['id', 'name']
     column_list = ['id', 'name']
 
-# class IssuerAdminView(ModelView):
-#     form_columns = ['id', 'name']
-#     column_list = ['id', 'name']
+class IssuerAdminView(ModelView):
+    form_columns = ['id', 'name']
+    column_list = ['id', 'name']
 
-# class LicenseTypeAdminView(ModelView):
-#     form_columns = ['id', 'name']
-#     column_list = ['id', 'name']
+class LicenseTypeAdminView(ModelView):
+    form_columns = ['id', 'name']
+    column_list = ['id', 'name']
 
 
 admin.add_view(ParentAdminView(Parent, db.session))
 admin.add_view(ItemAdminView(Item, db.session))
-# admin.add_view(IssuerAdminView(Issuer, db.session))
-# admin.add_view(LicenseTypeAdminView(LicenseType, db.session))
+admin.add_view(IssuerAdminView(Issuer, db.session))
+admin.add_view(LicenseTypeAdminView(LicenseType, db.session))
