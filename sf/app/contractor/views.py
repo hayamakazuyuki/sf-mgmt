@@ -133,15 +133,23 @@ def license_register(id):
     form = LicenseRegisterForm()
 
     if form.validate_on_submit():
-        # contractor_id = id
-        # issuer_id = request.form['issuer']
-        # license_type_id = request.form['license_type']
-        # reserved_num = request.form['reserved_num']
-        # unique_num = request.form['unique_num']
-        # effective_from = request.form['effective_from']
-        # expires_on = request.form['expires_on']
-        # copy_url = request.form['copy_url']
-        # registered_by = 1
+        contractor_id = id
+        issuer_id = request.form['issuer']
+        license_type_id = request.form['license_type']
+        reserved_num = request.form['reserved_num']
+        unique_num = request.form['unique_num']
+        effective_from = request.form['effective_from']
+        expires_on = request.form['expires_on']
+        registered_by = 1
+
+        if request.files:
+            # copy_url = request.form['copy_url']
+            filename = issuer_id + license_type_id + reserved_num + unique_num + '.pdf'
+            license_copy = request.files['license_copy']
+
+            return filename
+
+        return request.form
 
         # license = License(contractor_id=contractor_id, issuer_id=issuer_id, license_type_id=license_type_id, reserved_num=reserved_num,
         #     unique_num=unique_num, effective_from=effective_from, expires_on=expires_on, copy_url=copy_url, registered_by=registered_by)
@@ -149,9 +157,9 @@ def license_register(id):
         # db.session.add(license)
         # db.session.commit()
 
-        flash('許可証情報を登録しました。', 'success')
+        # flash('許可証情報を登録しました。', 'success')
 
-        return redirect(url_for('contractor.profile', id=id))
+        # return redirect(url_for('contractor.profile', id=id))
 
     return render_template('contractor/license-register.html', contractor=contractor, form=form)
 

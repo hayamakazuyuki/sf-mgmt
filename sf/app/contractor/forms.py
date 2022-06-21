@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, StringField, BooleanField, DateField, SelectField, FileField
-from wtforms.validators import InputRequired, NumberRange, Length, URL, Regexp
+from wtforms.validators import InputRequired, NumberRange, Length, URL, Regexp, DataRequired, Optional
 
 from ..models import Issuer, LicenseType
 
@@ -24,12 +24,11 @@ class LicenseRegisterForm(FlaskForm):
     issuer = SelectField('都道府県・政令市', validators=[InputRequired('必須です。')])
     license_type = SelectField('業の種類', validators=[InputRequired('選択してください。')])
     reserved_num = SelectField('都道府県・政令市用番号', choices=['',0,1,2,3,4,5,6,7,8,9], validators=[InputRequired('選択してください。')])
-    unique_num = StringField('固有番号', validators=[InputRequired('固有番号は必須です。'), Length(min=6, max=6, message='6桁の数字のみです。'), 
-            Regexp('[0-9]+', message='数字のみです。')])
+    unique_num = StringField('固有番号', validators=[Regexp('[0-9]{6}', message='数字のみ6桁です。')])
     effective_from = DateField('許可の年月日', validators=[InputRequired('許可の年月日を入力してください。')])
     expires_on = DateField('許可の有効年月日', validators=[InputRequired('許可の有効年月日を入力してください。')])
-    copy_url = StringField('許可証のリンクURL', validators=[URL(require_tld=True, message='有効なURLを入力してください。')])
-    pdf = FileField('PDFアップロード')
+    copy_url = StringField('許可証のリンクURL', validators=[Optional(), URL(require_tld=True, message='有効なURLを入力してください。')])
+    license_copy = FileField('PDFアップロード')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
