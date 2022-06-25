@@ -143,14 +143,6 @@ def license_register(id):
         copy_url = request.form['copy_url']
         registered_by = 1
 
-        # if request.files:
-        #     filename = issuer_id + license_type_id + reserved_num + unique_num + '.pdf'
-        #     license_copy = request.files['license_copy']
-
-        #     return filename
-
-        # return request.form
-
         license = License(contractor_id=contractor_id, issuer_id=issuer_id, license_type_id=license_type_id, reserved_num=reserved_num,
             unique_num=unique_num, effective_from=effective_from, expires_on=expires_on, copy_url=copy_url, registered_by=registered_by)
 
