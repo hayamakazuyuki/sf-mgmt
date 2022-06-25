@@ -7,25 +7,30 @@
 <div class="container mx-auto max-w-sm py-10">
     <h1 class="font-bold text-xl text-gray-500">契約の登録</h1>
 
-    <form action="/contract/register/{{ shop.customer_id }}/{{ shop.id }}" method="POST">
+    <form action="/contract/register/{{ shop.customer_id }}/{{ shop.id }}" method="POST" enctype="multipart/form-data"
+    x-data="{}">
         {{ form.csrf_token }}
 
-        <div class="my-5 text-gray-500">
-            {{ render_field_with_errors(form.customer_id, class_="w-full text-gray-700 px-3 pb-1",
-            readonly=True, value=shop.customer_id)}}
+        <div class="my-5 text-gray-500 text-sm">
+            {{ render_field_with_errors(form.customer_id, class_="w-full text-gray-700 text-base font-bold mt-2 
+            px-3 pb-1", readonly=True, value=shop.customer_id)}}
         </div>
-        <div class="my-5 text-gray-500">
-            {{ render_field_with_errors(form.shop_id, class_="w-full text-gray-700 px-3 pb-1",
+        <div class="my-5 text-gray-500 text-sm">
+            {{ render_field_with_errors(form.shop_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 text-base font-bold",
             readonly=True, value=shop.id)}}
         </div>
-        <div class="my-5 text-gray-500">
-            {{ render_field_with_errors(form.contractor_id, class_="w-full text-gray-700 px-3 pb-1")}}
+        <div class="my-5 text-gray-500 text-sm">
+            {{ render_field_with_errors(form.contractor_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b
+            text-base font-bold")}}
         </div>
-        <div class="my-5 text-gray-500">
-            {{ render_field_with_errors(form.item_id, class_="w-full text-gray-700 px-3 pb-1")}}
+        <div class="my-5 text-gray-500 text-sm">
+            {{ render_field_with_errors(form.item_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b font-bold text-base")}}
+        </div>
+        <div class="my-5 text-gray-500 text-sm">
+            {{ render_field_with_errors(form.contract_copy, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b")}}
         </div>
 
-        <button type="submit" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
+        <button type="button" x-on:click="$el.closest('form').submit();" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
     hover:bg-blue-800 transition duration-200">登録</button>
     </form>
 </div>

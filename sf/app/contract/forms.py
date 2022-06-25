@@ -1,21 +1,27 @@
 from unicodedata import name
 from flask_wtf import FlaskForm
-from wtforms import IntegerField
-from wtforms.validators import InputRequired, NumberRange
-from wtforms_sqlalchemy.fields import QuerySelectField
+from wtforms import IntegerField, FileField, SelectField
+from wtforms.validators import NumberRange, DataRequired
 
 from ..models import Item
 
 
-def item_query():
-    return Item.query
-
-
 class ContractRegisterForm(FlaskForm):
-    customer_id = IntegerField('取引先ID', validators=[InputRequired('取引先IDは必須です。'),
+    customer_id = IntegerField('取引先ID', validators=[DataRequired('取引先IDは必須です。'),
         NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
-    shop_id = IntegerField('事業所ID', validators=[InputRequired('事業所IDは必須です。'),
+    shop_id = IntegerField('事業所ID', validators=[DataRequired('事業所IDは必須です。'),
         NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
-    contractor_id = IntegerField('パートナーID', validators=[InputRequired('パートナーIDは必須です。'),
+    contractor_id = IntegerField('パートナーID', validators=[DataRequired('パートナーIDは必須です。'),
         NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
-    item_id = QuerySelectField('契約', query_factory=item_query, allow_blank=True, get_label='name')
+    item_id = SelectField('契約種類', coerce=int)
+    # item_id = QuerySelectField('契約', query_factory=item_query, allow_blank=True, get_label='name')
+    contract_copy = FileField('契約書コピー')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._set_item_id()
+
+    def _set_item_id(self):
+        items = Item.query.all()
+        # set item_id from db as tuple(value, text)
+        self.item_id.choices = [(item.id, item.name) for item in items]

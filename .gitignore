@@ -3,5 +3,8 @@ __pycache__/
 env_variables.yaml
 
 postcode.js
+gcp-credentials/
 
 mysql/
+
+.DS_Store
