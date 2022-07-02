@@ -20,6 +20,7 @@ def parent():
 def index():
 
     q = request.args.get('q')
+    page = request.args.get('page', 1, type=int)
 
     if q:
         search = "%{}%".format(q)
@@ -30,7 +31,10 @@ def index():
         return render_template('customer/index.html', page=page, customers=customers, count=count, search=search)
     
     else:
-        return render_template('customer/index.html')
+        customers = Customer.query.paginate(page=page, per_page=20)
+        count = len(Customer.query.all())
+
+        return render_template('customer/index.html', page=page, customers=customers, count=count)
 
 
 @customer.route('/register', methods=['GET', 'POST'])
