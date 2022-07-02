@@ -3,3 +3,5 @@ Dockerfile
 __pycache__/
 
 .gcloudignore
+
+.DS_Store

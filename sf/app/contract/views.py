@@ -1,5 +1,5 @@
+from http import client
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from google.cloud import storage
 
 from ..extentions import db
 
@@ -26,17 +26,29 @@ def register(customer_id, id):
         shop_id = request.form['shop_id']
         contractor_id = request.form['contractor_id']
         item_id = request.form['item_id']
-        file = request.files.get('contract_copy')
         registered_by = 1
-
-        if file:
-            return 'ある'
 
         # new_contract = Contract(customer_id= customer_id, shop_id=shop_id, contractor_id=contractor_id,
         #     item_id=item_id, registered_by=registered_by)
 
         # db.session.add(new_contract)
         # db.session.commit()
+
+        file = request.files.get('contract_copy')
+
+        if file:
+            pass
+            # bucket = client.bucket('contract')
+            # blob = bucket.blob('test.pdf')
+            # blob.upload_from_file(file)
+
+            # try:
+            #     blob = bucket.blob('test.pdf') #okay until here
+            #     blob.upload_from_file(file)
+
+            # except Exception as e:
+            #     print(e)
+
 
         flash('契約を登録しました。', 'success')
 
