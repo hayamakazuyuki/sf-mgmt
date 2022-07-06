@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from google.cloud import storage
 
 from ..extentions import db
 
 from ..models import Contract, Shop
 from .forms import ContractRegisterForm
+
 
 
 contract = Blueprint('contract', __name__, url_prefix='/contract')
@@ -35,8 +37,12 @@ def register(customer_id, id):
 
         file = request.files.get('contract_copy')
 
-        if file:
-            pass
+        # if file:
+        storage_client = storage.Client()
+        buckets = storage_client.list_buckets()
+
+            # bucket = storage_client.bucket(bucket_name)
+            # pass
             # bucket = client.bucket('contract')
             # blob = bucket.blob('test.pdf')
             # blob.upload_from_file(file)
@@ -51,7 +57,7 @@ def register(customer_id, id):
 
         flash('契約を登録しました。', 'success')
 
-        return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
+        return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id, buckets=buckets))
 
     return render_template('contract/register.html', shop=shop, form=form)
 
