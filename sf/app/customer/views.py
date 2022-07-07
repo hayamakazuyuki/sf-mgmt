@@ -159,6 +159,8 @@ def shop_profile(customer_id, id, mode=None):
     shop = Shop.query.get_or_404((customer_id, id))
     contracts = Contract.query.filter_by(customer_id=customer_id).all()
     buckets = request.args.get('buckets')
+    if not buckets:
+        buckets = None
 
     if mode == 'edit':
         form = ShopForm()
