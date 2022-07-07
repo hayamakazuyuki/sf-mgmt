@@ -28,6 +28,9 @@
                 <p class="items-end">{{ shop.registered_by }}</p>
             </div>
         </div>
+        {% for bucket in buckets %}
+        {{ bucket.name }}
+        {% endfor %}
 
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
             <div class="flex justify-between">
@@ -61,7 +64,6 @@
             </div>
             {% endif %}
         </div>
-        {{ buckets }}
     </div>
 </div>
 
