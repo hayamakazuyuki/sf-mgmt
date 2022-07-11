@@ -2,6 +2,7 @@ from unicodedata import name
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, FileField, SelectField
 from wtforms.validators import NumberRange, DataRequired
+from flask_wtf.file import FileAllowed
 
 from ..models import Item
 

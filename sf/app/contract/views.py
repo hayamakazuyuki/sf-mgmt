@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+import os
+
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from google.cloud import storage
 
 from ..extentions import db
 
 from ..models import Contract, Shop
 from .forms import ContractRegisterForm
-
 
 
 contract = Blueprint('contract', __name__, url_prefix='/contract')
@@ -29,35 +30,35 @@ def register(customer_id, id):
         item_id = request.form['item_id']
         registered_by = 1
 
-        # new_contract = Contract(customer_id= customer_id, shop_id=shop_id, contractor_id=contractor_id,
-        #     item_id=item_id, registered_by=registered_by)
+        contract = Contract(customer_id=customer_id, shop_id=shop_id, contractor_id=contractor_id,
+            item_id=item_id, registered_by=registered_by)
 
-        # db.session.add(new_contract)
-        # db.session.commit()
+        db.session.add(contract)
+        db.session.commit()
+
+        # retrieve the contract id
+        contract_id = str(contract.id)
 
         file = request.files.get('contract_copy')
 
-        # if file:
-        storage_client = storage.Client()
-        buckets = storage_client.list_buckets()
+        if file:
+            try:
+                bucket_name = current_app.config['GCS_BUCKET_NAME']
 
-            # bucket = storage_client.bucket(bucket_name)
-            # pass
-            # bucket = client.bucket('contract')
-            # blob = bucket.blob('test.pdf')
-            # blob.upload_from_file(file)
+                storage_client = storage.Client()
 
-            # try:
-            #     blob = bucket.blob('test.pdf') #okay until here
-            #     blob.upload_from_file(file)
+                bucket = storage_client.bucket(bucket_name)
 
-            # except Exception as e:
-            #     print(e)
+                blob = bucket.blob('contract/' + contract_id + '.pdf')
+                blob.upload_from_string(file.read(), content_type=file.content_type)
 
+            except Exception:
+                pass
 
+            # return 'id' + contract_id
         flash('契約を登録しました。', 'success')
 
-        return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id, buckets=buckets))
+        return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
 
     return render_template('contract/register.html', shop=shop, form=form)
 
