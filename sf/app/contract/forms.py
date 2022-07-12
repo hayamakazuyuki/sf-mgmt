@@ -15,8 +15,7 @@ class ContractRegisterForm(FlaskForm):
     contractor_id = IntegerField('パートナーID', validators=[DataRequired('パートナーIDは必須です。'),
         NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
     item_id = SelectField('契約種類', coerce=int)
-    # item_id = QuerySelectField('契約', query_factory=item_query, allow_blank=True, get_label='name')
-    contract_copy = FileField('契約書コピー')
+    contract_copy = FileField('契約書コピー', validators=[FileAllowed('pdf', '登録可能なファイルはPDFのみです。')])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

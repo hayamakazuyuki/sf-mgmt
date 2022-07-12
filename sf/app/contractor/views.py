@@ -74,7 +74,7 @@ def register():
     return render_template('contractor/register.html', form=form)
 
 
-# show and update customer profile
+# show and update contractor profile
 @contractor.route('/<int:id>')
 @contractor.route('/<int:id>/<mode>', methods=['GET', 'POST'])
 def profile(id, mode=None):
@@ -155,5 +155,11 @@ def license_register(id):
 
     return render_template('contractor/license-register.html', contractor=contractor, form=form)
 
-"""
-"""
+
+# license detail
+@contractor.route('/<int:contractor_id>/license/<int:id>', methods=['GET', 'POST'])
+def license_detail(contractor_id, id):
+    contractor = Contractor.query.get(contractor_id)
+    license = License.query.get(id)
+
+    return render_template('contractor/license-detail.html', contractor=contractor, license=license)

@@ -4,7 +4,7 @@
 {% include "_flashing.html" %}
 {% from "_macros.html" import render_field_with_errors, render_input_field %}
 
-<div class="container mx-auto max-w-sm py-10 flex-grow" x-data="{radio: ''}">
+<div class="container mx-auto max-w-sm py-10 flex-grow">
 
     <!-- x-data="{ open: false,
               radio: '',
@@ -17,10 +17,10 @@
               copy_url: '',
             }"> -->
 
-     
     <h1 class="font-bold text-xl text-gray-500">許可証の登録</h1>
     <h2 class="my-5 font-bold text-lg text-gray-500">{{ '%05d' % contractor.id }}: {{ contractor.name }}</h2>
-        <form x-data="{}" action="/contractor/{{ contractor.id }}/license/register" method="POST" enctype="multipart/form-data">
+        <form  x-data="{radio: ''}" 
+                        action="/contractor/{{ contractor.id }}/license/register" method="POST" enctype="multipart/form-data">
             {{ form.csrf_token }}
     
             <div class="my-5 text-gray-500 align-middle">
@@ -96,5 +96,8 @@
         </div> -->
     </form>
 </div>
+
+<script>
+</script>
 
 {% endblock %}

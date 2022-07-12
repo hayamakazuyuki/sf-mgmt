@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include "navbar.html" %}
+{% include "_flashing.html" %}
+
+<div class="container mx-auto max-w-sm py-10 flex-grow">
+    <div class="max-w-md mx-auto">
+        <p class="font-bold text-lg my-5">許可情報</p>
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+            <div class="">
+                <p class="text-right">
+                    <a href="" class="px-1 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right">編集</a>
+                </p>
+            </div>
+
+            <p class="mt-3 text-lg font-bold">{{ '%05d' % contractor.id }}</p>
+            <p class="text-2xl my-2">{{ contractor.name }}</p>
+            <p class="text-lg font-bold">{{ license.issuer.name }} {{ license.license_type.name }}</p>
+            <p class="text-gray-700 text-sm">許可番号：
+                {% if license.copy_url %}
+                <a href="{{ license.copy_url }}" class="text-lg text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                    {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}
+                </a>
+                {% else %}
+                <span>
+                    {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}
+                </span>
+                {% endif %}
+            </p>
+
+            <p class="text-gray-700 text-sm">許可の年月日：
+                <span class="text-lg font-bold">{{ license.effective_from }}</span>
+            </p>
+            <p class="text-gray-700 text-sm">許可の有効年月日：
+                <span class="text-lg font-bold">{{ license.expires_on }}</span>
+            </p>
+
+            <hr class="mt-5 mb-3">
+
+            <div class="flex justify-between text-gray-500 text-sm">
+                <p class="items-end">{{ license.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="items-end">{{ license.registered_by }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
