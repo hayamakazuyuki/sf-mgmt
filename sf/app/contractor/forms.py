@@ -39,7 +39,7 @@ class LicenseRegisterForm(FlaskForm):
     def _set_issuers(self):
         issuers = Issuer.query.all()
         # set issuers from db as tuple(value, text)
-        self.issuer.choices = [('')]+[('%03d' % issuer.id) for issuer in issuers]
+        self.issuer.choices = [(issuer.id, '%03d' % issuer.id) for issuer in issuers]
 
     def _set_license_type(self):
         types = LicenseType.query.all()

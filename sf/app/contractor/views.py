@@ -157,9 +157,37 @@ def license_register(id):
 
 
 # license detail
-@contractor.route('/<int:contractor_id>/license/<int:id>', methods=['GET', 'POST'])
-def license_detail(contractor_id, id):
+@contractor.route('/<int:contractor_id>/license/<int:id>')
+@contractor.route('/<int:contractor_id>/license/<int:id>/<mode>', methods=['GET', 'POST'])
+def license_detail(contractor_id, id, mode=None):
     contractor = Contractor.query.get(contractor_id)
     license = License.query.get(id)
 
+    if mode == 'edit':
+        issuer_id = license.issuer_id
+        license_type_id = license.license_type_id
+        reserved_num = license.reserved_num
+
+        form = LicenseRegisterForm(issuer=issuer_id, license_type=license_type_id, reserved_num=reserved_num)
+
+        if form.validate_on_submit():
+            license.issuer_id = request.form['issuer']
+            license.license_type_id = request.form['license_type']
+            license.reserved_num = request.form['reserved_num']
+            license.unique_num = request.form['unique_num']
+            license.effective_from = request.form['effective_from']
+            license.expires_on = request.form['expires_on']
+            license.copy_url = request.form.get('copy_url')
+            license.registered_by = 1
+
+            db.session.commit()
+
+            flash('許可証情報を更新しました。', 'success')
+
+            return render_template('contractor/license-detail.html', contractor=contractor, license=license)
+
+        return render_template('contractor/license-edit.html', contractor=contractor, license=license, form=form)
+
     return render_template('contractor/license-detail.html', contractor=contractor, license=license)
+
+
