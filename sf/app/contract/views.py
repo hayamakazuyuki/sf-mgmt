@@ -28,10 +28,16 @@ def register(customer_id, id):
         shop_id = request.form['shop_id']
         contractor_id = request.form['contractor_id']
         item_id = request.form['item_id']
+        effective_from = request.form['effective_from']
+        expires_on = request.form['expires_on']
+        auto_extention = request.form.get('auto_extention')
+        if auto_extention:
+            auto_extention = 1
         registered_by = 1
 
         contract = Contract(customer_id=customer_id, shop_id=shop_id, contractor_id=contractor_id,
-            item_id=item_id, registered_by=registered_by)
+            item_id=item_id, effective_from=effective_from, expires_on=expires_on, auto_extention=auto_extention, 
+            registered_by=registered_by)
 
         db.session.add(contract)
         db.session.commit()

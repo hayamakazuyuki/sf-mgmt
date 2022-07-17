@@ -15,8 +15,8 @@ class ContractRegisterForm(FlaskForm):
     contractor_id = IntegerField('パートナーID', validators=[DataRequired('パートナーIDは必須です。'),
         NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
     item_id = SelectField('契約種類', coerce=int)
-    effective_from = DateField('契約有効開始日')
-    expires_on = DateField('契約終了日')
+    effective_from = DateField('契約有効開始日', validators=[DataRequired('契約の有効開始日を入力して下さい。')])
+    expires_on = DateField('契約終了日', validators=[DataRequired('契約の終了日を入力して下さい。')])
     auto_extention = BooleanField('自動更新')
     contract_copy = FileField('契約書コピー', validators=[FileAllowed('pdf', '登録可能なファイルはPDFのみです。')])
 

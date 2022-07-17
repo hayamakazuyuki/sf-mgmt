@@ -20,6 +20,12 @@
             <p class="text-gray-700">{{ '%05d' % shop.id }}<span class="ml-1 text-base font-bold">{{ shop.name }}</span></p>
             <p class="text-gray-700 mt-5">{{ '%05d' % contract.contractor.id }}
                 <span class="ml-1 text-base font-bold">{{ contract.contractor.name }}</span></p>
+            <p class="text-gray-700 mt-3 text-base font-bold">{{ contract.effective_from }}<span class="font-normal">〜</span>
+                {{ contract.expires_on }}
+                {% if contract.auto_extention == 1 %}
+                <span class="ml-3 px-2 py-1 text-xs text-white bg-gray-500 rounded-full font-light">自動更新</span>
+                {% endif %}
+            </p>
 
             <hr class="mt-5 mb-3">
 
