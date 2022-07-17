@@ -26,6 +26,16 @@
         <div class="my-5 text-gray-500 text-sm">
             {{ render_field_with_errors(form.item_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b font-bold text-base")}}
         </div>
+
+        <div class="my-5 text-gray-500 text-sm">
+            {{ render_field_with_errors(form.effective_from, class_="w-1/2 text-gray-700 mt-2 px-3 pb-1 border-b text-sm")}}
+        </div>
+
+        <div class="my-5 text-gray-500 text-sm">
+            {{ render_field_with_errors(form.expires_on, class_="w-1/2 text-gray-700 mt-2 px-3 pb-1 border-b text-base")}}
+            <span class="ml-3">{{ form.auto_extention }}</span><span class="ml-2">{{ form.auto_extention.label }}</span>
+        </div>
+
         <div class="my-5 text-gray-500 text-sm">
             {{ render_field_with_errors(form.contract_copy, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b")}}
         </div>
