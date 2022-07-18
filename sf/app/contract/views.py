@@ -58,10 +58,13 @@ def register(customer_id, id):
                 blob = bucket.blob('contract/' + contract_id + '.pdf')
                 blob.upload_from_string(file.read(), content_type=file.content_type)
 
+                contract = Contract.query.get(contract.id)
+                contract.has_copy = 1
+                db.session.commit()
+
             except Exception:
                 pass
 
-            # return 'id' + contract_id
         flash('契約を登録しました。', 'success')
 
         return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
@@ -75,3 +78,4 @@ def detail(id):
     shop = Shop.query.get_or_404((contract.customer_id, contract.shop_id))
 
     return render_template('contract/details.html', contract=contract, shop=shop)
+

@@ -18,7 +18,7 @@ class ContractRegisterForm(FlaskForm):
     effective_from = DateField('契約有効開始日', validators=[DataRequired('契約の有効開始日を入力して下さい。')])
     expires_on = DateField('契約終了日', validators=[DataRequired('契約の終了日を入力して下さい。')])
     auto_extention = BooleanField('自動更新')
-    contract_copy = FileField('契約書コピー', validators=[FileAllowed('pdf', '登録可能なファイルはPDFのみです。')])
+    contract_copy = FileField('契約書コピー', validators=[FileAllowed(['pdf', 'PDF'], '登録可能なファイルはPDFのみです。')])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
