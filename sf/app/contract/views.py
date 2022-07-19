@@ -1,6 +1,6 @@
-import os
+import os, io
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort, send_file
 from google.cloud import storage
 
 from ..extentions import db
@@ -79,3 +79,27 @@ def detail(id):
 
     return render_template('contract/details.html', contract=contract, shop=shop)
 
+
+@contract.route('/get_copy/<int:id>')
+def get_copy(id):
+    try:
+
+        contract_id = str(id)
+
+        bucket_name = current_app.config['GCS_BUCKET_NAME']
+
+        storage_client = storage.Client()
+
+        bucket = storage_client.bucket(bucket_name)
+        blob = bucket.blob('contract/' + contract_id + '.pdf')
+        pdf_binary = blob.download_as_bytes()
+
+        return send_file(
+            io.BytesIO(pdf_binary),
+            mimetype='application/pdf',
+            as_attachment=False,
+            attachment_filename='test.pdf'
+        )
+
+    except FileNotFoundError:
+        abort(404)
