@@ -5,6 +5,7 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'secret'
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://user:password@mysql_c/devdb?charset=utf8'
+    MAX_CONTENT_LENGTH = 2 * 1024 * 1024
     GCS_BUCKET_NAME = os.environ.get('GCS_BUCKET_NAME')
 
 

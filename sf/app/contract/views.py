@@ -55,7 +55,7 @@ def register(customer_id, id):
 
                 bucket = storage_client.bucket(bucket_name)
 
-                blob = bucket.blob('contract/' + contract_id + '.pdf')
+                blob = bucket.blob('contract/' + customer_id + '/' + shop_id + '/' + contract_id + '.pdf')
                 blob.upload_from_string(file.read(), content_type=file.content_type)
 
                 contract = Contract.query.get(contract.id)
@@ -82,16 +82,20 @@ def detail(id):
 
 @contract.route('/get_copy/<int:id>')
 def get_copy(id):
-    try:
 
-        contract_id = str(id)
+    contract = Contract.query.get(id)
+
+    try:
+        customer_id = str(contract.customer_id)
+        shop_id = str(contract.shop_id)
+        contract_id = str(contract.id)
 
         bucket_name = current_app.config['GCS_BUCKET_NAME']
 
         storage_client = storage.Client()
 
         bucket = storage_client.bucket(bucket_name)
-        blob = bucket.blob('contract/' + contract_id + '.pdf')
+        blob = bucket.blob('contract/' + customer_id + '/' + shop_id + '/' + contract_id + '.pdf')
         pdf_binary = blob.download_as_bytes()
 
         return send_file(
