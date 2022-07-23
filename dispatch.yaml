@@ -1,3 +1,7 @@
 dispatch:
   - url: "sf.singen.eco/*"
     service: sf
+  - url: "cs.singen.eco/*"
+    service: cs
+  - url: "www.singen.eco/*"
+    service: default
