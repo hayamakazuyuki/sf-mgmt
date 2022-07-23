@@ -1,5 +1,4 @@
 runtime: python39
-service: www
 
 handlers:
 -  url: /.*
