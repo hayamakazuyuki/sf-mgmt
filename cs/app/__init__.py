@@ -1,10 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask
+
+from .views import view
 
 def create_app():
     app = Flask(__name__)
 
-    @app.route('/')
-    def index():
-        return render_template('index.html')
-
+    app.register_blueprint(view)
+    
     return app
