@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<nav class="bg-white sticky top-0 py-10">
+    <div class="mx-auto max-w-xl">
+        <div class="flex justify-between px-5">
+            <div class="">
+            </div>
+            <div class="items-center">
+                <a href="/login" class="px-3 py-2 text-rose-700 rounded-full border border-rose-700 hover:bg-rose-100">
+                    ログイン
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="h-screen w-screen flex justify-center items-center px-5">
+    <img src="{{ url_for('static', filename='img/singen_top.png') }}" width=350 height=67 alt="シンゲン ロゴ">
+</div>
+{% endblock %}
