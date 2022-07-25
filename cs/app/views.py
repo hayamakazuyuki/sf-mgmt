@@ -1,10 +1,12 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app
 
 view = Blueprint('view', __name__)
 
 @view.route('/')
 def index():
-    return render_template('index.html')
+    debug = current_app.config['DEBUG']
+    gcs = current_app.config['GCS_BUCKET_NAME']
+    return render_template('index.html', gcs=gcs)
 
 @view.route('/home')
 def home():
