@@ -7,3 +7,5 @@ postcode.js
 mysql/
 
 .DS_Store
+
+.env
