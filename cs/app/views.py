@@ -1,3 +1,5 @@
+import json
+from functools import wraps
 from flask import Blueprint, redirect, render_template, current_app, url_for, session
 from urllib.parse import quote_plus, urlencode
 
@@ -6,9 +8,27 @@ from .extentions import oauth
 view = Blueprint('view', __name__)
 
 
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if 'user' not in session:
+            return redirect('/')
+        return f(*args, **kwargs)
+    return decorated
+
+
 @view.route('/')
 def index():
-    return render_template('index.html')
+    if 'user' in session:
+        return render_template('home.html')
+    else:
+        return render_template('index.html')
+
+
+@view.route('/info')
+@requires_auth
+def info():
+    return render_template("home.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 @view.route("/login")
@@ -26,6 +46,7 @@ def callback():
 
 
 @view.route("/logout")
+@requires_auth
 def logout():
     session.clear()
     return redirect(

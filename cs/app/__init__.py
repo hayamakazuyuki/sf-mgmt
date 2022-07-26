@@ -29,7 +29,6 @@ def create_app():
         server_metadata_url=f'https://{app.config["AUTH0_DOMAIN"]}/.well-known/openid-configuration'
     )
 
-
     app.register_blueprint(view)
     
     return app

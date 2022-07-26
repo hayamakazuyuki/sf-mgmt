@@ -23,6 +23,7 @@
 
         <!-- secondary nav -->
         <div class="hidden md:flex items-center space-x-5">
+            <p>{{ session['user'].userinfo.email }}</p>
             <a href="/logout" class="px-3 py-2 text-rose-700 rounded-full hover:bg-rose-100">ログアウト</a>
         </div>
 
