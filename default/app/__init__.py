@@ -14,7 +14,7 @@ def create_app():
 
     else:
         app.config.from_object('app.config.DevelopmentConfig')
-    
+
     oauth.init_app(app)
 
     oauth.register(
