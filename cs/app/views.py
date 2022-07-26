@@ -3,7 +3,6 @@ from functools import wraps
 from flask import Blueprint, redirect, render_template, current_app, url_for, session, request
 from urllib.parse import quote_plus, urlencode
 
-from .models import Customer, Shop
 
 from .extentions import oauth
 
@@ -45,17 +44,6 @@ def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
     return redirect(url_for('view.index'))
-
-
-@view.route('/shop')
-def shop():
-    page = request.args.get('page', 1, type=int)
-
-
-    shops = Shop.query.paginate(page=page, per_page=20)
-    count = len(Shop.query.all())
-
-    return render_template('shop.html', shops=shops, count=count)
 
 
 @view.route("/logout")

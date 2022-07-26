@@ -2,6 +2,7 @@ from flask import Flask
 from .extentions import db, oauth
 
 from .views import view
+from .shop.views import shop
 
 def create_app():
     app = Flask(__name__)
@@ -30,5 +31,6 @@ def create_app():
     )
 
     app.register_blueprint(view)
+    app.register_blueprint(shop)
     
     return app
