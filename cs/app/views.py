@@ -1,6 +1,6 @@
 import json
 from functools import wraps
-from flask import Blueprint, redirect, render_template, current_app, url_for, session, request
+from flask import Blueprint, redirect, render_template, current_app, url_for, session
 from urllib.parse import quote_plus, urlencode
 
 
@@ -18,12 +18,6 @@ def requires_auth(f):
     return decorated
 
 
-@view.route('/')
-def index():
-    if 'user' in session:
-        return render_template('home.html')
-    else:
-        return render_template('index.html')
 
 
 @view.route('/info')
@@ -43,7 +37,7 @@ def login():
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
-    return redirect(url_for('view.index'))
+    return redirect(url_for('main.index'))
 
 
 @view.route("/logout")
@@ -55,14 +49,9 @@ def logout():
         + "/v2/logout?"
         + urlencode(
             {
-                "returnTo": url_for("view.index", _external=True),
+                "returnTo": url_for("main.index", _external=True),
                 "client_id": current_app.config["AUTH0_CLIENT_ID"],
             },
             quote_via=quote_plus,
         )
     )
-
-
-# @view.route('/home')
-# def home():
-#     return render_template('home.html')

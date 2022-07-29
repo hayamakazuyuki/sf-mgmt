@@ -1,4 +1,4 @@
-<nav class="bg-white sticky top-0 shadow-lg px-3 py-4">
+<nav class="bg-white sticky top-0 px-3 py-4">
     <div class="max-w-4xl mx-auto">
         <div class="flex justify-between">
             <div class="flex space-x-5">
@@ -12,19 +12,21 @@
 
                 <!-- primary nav -->
                 <div class="hidden md:flex items-center space-x-1 font-bold">
-                    <a href="/shop" class="py-3 px-3 text-gray-500 hover:text-rose-700 hover:underline">
+                    <a href="/shop" class="py-3 px-3 text-gray-500 hover:text-rose-700">
                         事業所
                     </a>
     
-                    <a href="/contractor" class="py-3 px-3 text-gray-500 hover:text-gray-800 hover:underline">
+                    <a href="/contractor" class="py-3 px-3 text-gray-500 hover:text-rose-700">
                         パートナー</a>
                 </div>
             </div>
 
         <!-- secondary nav -->
         <div class="hidden md:flex items-center space-x-5">
+
             <p>{{ session['user'].userinfo.email }}</p>
-            <a href="/logout" class="px-3 py-2 text-rose-700 rounded-full hover:bg-rose-100">ログアウト</a>
+
+            <a href="/logout" class="px-3 py-1 text-rose-700 rounded-full hover:bg-rose-100">ログアウト</a>
         </div>
 
             <!-- mobile button goes here -->

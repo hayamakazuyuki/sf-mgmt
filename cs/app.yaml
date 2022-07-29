@@ -1,6 +1,9 @@
 runtime: python39
 service: cs
 
+includes:
+  - env_variables.yaml
+
 handlers:
 -  url: /.*
    secure: always
