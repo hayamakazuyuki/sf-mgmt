@@ -1,8 +1,9 @@
 from flask import Flask
 from .extentions import db, oauth
 
-from .views import view
+# from .views import view
 from .main import main
+from .auth import auth
 
 def create_app():
     app = Flask(__name__)
@@ -30,7 +31,8 @@ def create_app():
         server_metadata_url=f'https://{app.config["AUTH0_DOMAIN"]}/.well-known/openid-configuration'
     )
 
-    app.register_blueprint(view)
+    # app.register_blueprint(view)
     app.register_blueprint(main)
+    app.register_blueprint(auth)
     
     return app
