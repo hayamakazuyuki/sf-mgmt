@@ -1,10 +1,11 @@
 from flask import Flask
 from .extentions import db, oauth
 
-from .main import main
-from .auth import auth
-from .shop.views import shop
-from .contractor.views import contractor
+from app.main import main
+from app.auth import auth
+from app.shop import shop
+from app.contractor import contractor
+
 
 def create_app():
     app = Flask(__name__)

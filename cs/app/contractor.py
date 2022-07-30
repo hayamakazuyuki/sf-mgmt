@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request
 
-from ..models import Contractor
+from .models import Contractor
 
 contractor = Blueprint('contractor', __name__)
 
 @contractor.route('/contractor')
 def index():
-    
+
     q = request.args.get('q')
     page = request.args.get('page', 1, type=int)
 
