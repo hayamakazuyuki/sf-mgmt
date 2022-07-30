@@ -35,9 +35,9 @@
             {% for page_num in contractors.iter_pages(left_edge=3, right_edge=3) %}
             {% if page_num %}
                 {% if contractors.page == page_num %}
-                <a class="text-blue-600 underline" href="{{ url_for('contractor.index', q=search, page=page_num) }}">{{ page_num }}</a>
+                <a class="text-rose-500 underline" href="{{ url_for('contractor.index', q=search, page=page_num) }}">{{ page_num }}</a>
                 {% else %}
-                <a class="text-blue-600" href="{{ url_for('contractor.index', q=search, page=page_num) }}">{{ page_num }}</a>
+                <a class="text-rose-500" href="{{ url_for('contractor.index', q=search, page=page_num) }}">{{ page_num }}</a>
                 {% endif %}
             {% else %}
             ...
@@ -59,7 +59,7 @@
             <tbody>
             {% for contractor in contractors.items %}
                 <tr class="">        
-                    <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contractor/{{ contractor.id }}">
+                    <td class="border-b"><a class="text-rose-500 hover:underline hover:text-rose-700" href="/contractor/{{ contractor.id }}">
                         {{ '%05d' % contractor.id }}</a></td>
                     <td class="border-b">{{ contractor.name }}</td>
                     <td class="border-b">{{ '{}-{}'.format(contractor.zip[:3], contractor.zip[3:]) }}</td>

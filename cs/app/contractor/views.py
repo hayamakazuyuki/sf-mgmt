@@ -11,7 +11,11 @@ def index():
     page = request.args.get('page', 1, type=int)
 
     if q:
-        return 'q'
+
+        search = "%{}%".format(q)
+        contractors = Contractor.query.filter(Contractor.name.like(search)).paginate(page=page, per_page=20)
+
+        return render_template('contractor/index.html', page=page, contractors=contractors)
 
     else:
         contractors = Contractor.query.paginate(page=page, per_page=20)
@@ -19,12 +23,6 @@ def index():
         return render_template('contractor/index.html', page=page, contractors=contractors)
 
 
-"""
-    if q:
-        search = "%{}%".format(q)
-        page = request.args.get('page', 1, type=int)
-        customers = Customer.query.filter(Customer.name.like(search)).paginate(page=page, per_page=20)
-        count = len(Customer.query.filter(Customer.name.like(search)).all())
-
-        return render_template('customer/index.html', page=page, customers=customers, count=count, search=search)
-"""
+@contractor.route('/contractor/<int:id>')
+def contractor_profile(id):
+    return f'{id}'
