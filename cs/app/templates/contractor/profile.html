@@ -1,0 +1,48 @@
+{% extends "layout.html" -%}
+{% block content -%}
+{% include "navbar.html" -%}
+{% include "_flashing.html" -%}
+
+<div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
+    <div class="max-w-md mx-auto">
+        <p class="font-bold text-lg my-5">処理業者情報</p>
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+            <p class="mt-3 text-lg font-bold">{{ '%05d' % contractor.id }}</p>
+            <p class="text-2xl my-2">{{ contractor.name }}</p>
+            <p class="text-gray-700">{{ contractor.title }} {{ contractor.representative }}</p>
+            <p class="text-gray-700">{{ '〒{}-{}'.format(contractor.zip[:3], contractor.zip[3:]) }}</p>
+            <p class="text-gray-700">{{ contractor.prefecture }}{{ contractor.city }}{{ contractor.town }}{{ contractor.address }}</p>
+            <p class="text-gray-700">{{ contractor.bldg }}</p>
+            <hr class="mt-5 mb-3">
+
+        </div>
+        <div class="flex justify-between mt-10 mb-5 px-5">
+            <h2 class="font-bold text-gray-800">許可情報</h2>
+        </div>
+
+        {% if licenses %}
+        <table class="table-auto w-full m-2">
+            <thead></thead>
+            <tbody>
+            {% for license in licenses %}
+                <tr class="w-full">
+                    <td class="mr-2"><a href="/contractor/{{ contractor.id}}/license/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+                        {{ license.id }}</a></td>
+                    <td class="">{{ license.issuer.name }}</td>
+                    <td class="">{{ license.license_type.name }}</td>
+                    <td class="text-right">
+                        <a href="{{ license.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                            {{ '%03d' % license.issuer_id }} {{ license.license_type_id }}{{ license.reserved_num }} {{ license.unique_num }}                    
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

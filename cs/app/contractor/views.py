@@ -25,4 +25,7 @@ def index():
 
 @contractor.route('/contractor/<int:id>')
 def contractor_profile(id):
-    return f'{id}'
+
+    contractor = Contractor.query.get_or_404(id)
+    
+    return render_template('contractor/profile.html', contractor=contractor)
