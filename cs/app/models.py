@@ -1,4 +1,5 @@
 from .extentions import db
+from sqlalchemy import func
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,3 +26,4 @@ class Shop(db.Model):
     town = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(100))
     bldg = db.Column(db.String(50))
+    registered_at = db.Column(db.DateTime, default=func.now())

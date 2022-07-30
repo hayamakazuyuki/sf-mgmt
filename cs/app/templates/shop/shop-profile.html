@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include "navbar.html" %}
+{% include "_flashing.html" %}
+
+<div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
+    <div class="max-w-md mx-auto">
+        <p class="font-bold text-lg my-5">事業所情報</p>
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+            <p class="mt-3">{{ '%05d' % shop.customer_id }}-{{ shop.id }}</p>
+            <p class="text-2xl my-2">{{ shop.name }}</p>
+            <p class="text-gray-700">{{ '〒{}-{}'.format(shop.zip[:3], shop.zip[3:]) }}</p>
+            <p class="text-gray-700">{{ shop.prefecture }}{{ shop.city }}{{ shop.town }}{{ shop.address }}</p>
+            <p class="text-gray-700">{{ shop.bldg }}</p>
+            <hr class="mt-5 mb-3">
+
+            <div class="flex justify-between text-gray-500 text-sm">
+                <p class="items-end">{{ shop.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="items-end">{{ shop.registered_by }}</p>
+            </div>
+        </div>
+        {% for bucket in buckets %}
+        {{ bucket.name }}
+        {% endfor %}
+
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+            <div class="flex">
+                <p class="text-base font-bold">契約一覧</p>
+            </div>
+
+            {% if contracts %}
+            <div class="max-w-md mx-auto my-3">
+                <table class="table-auto w-full text-sm">
+                    <thead>
+                        <tr class="font-bold border-black border-b">
+                            <td class="p-2">ID</td>
+                            <td class="p-2">契約</td>
+                            <td class="p-2">処理業者</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for contract in contracts %}
+                        <tr class="">
+                            <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contract/{{ contract.id }}">
+                                {{ '%05d' % contract.id }}</a></td>
+                            <td class="border-b">{{ contract.item.name }}</td>
+                            <td class="border-b">{{ contract.contractor.name }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
