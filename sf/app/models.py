@@ -82,6 +82,7 @@ class Shop(db.Model):
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+    abbrev = db.Column(db.String(10))
     contracts = db.relationship('Contract', backref=db.backref('item', lazy=True))
 
 
@@ -109,12 +110,25 @@ class LicenseType(db.Model):
     name = db.Column(db.String(50), nullable=False)
     licenses = db.relationship('License', backref=db.backref('license_type', lazy=True))
 
+
+class VolumeReport(db.Model):
+    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    customer_id = db.Column(db.Integer, nullable=False)
+    shop_id = db.Column(db.Integer, nullable=False)
+    contractor_id = db.Column(db.Integer, nullable=False) 
+    item_id = db.Column(db.Integer, nullable=False) 
+    name = db.Column(db.String(50), nullable=False)
+    volume = db.Column(db.Integer, nullable=False)
+    registered_by = db.Column(db.Integer, nullable=False)
+    registered_at = db.Column(db.DateTime, default=func.now())
+
+
 class ParentAdminView(ModelView):
     form_excluded_columns = ['registered_at']
 
 class ItemAdminView(ModelView):
-    form_columns = ['id', 'name']
-    column_list = ['id', 'name']
+    form_columns = ['id', 'name', 'abbrev']
+    column_list = ['id', 'name', 'abbrev']
 
 class IssuerAdminView(ModelView):
     form_columns = ['id', 'name']
