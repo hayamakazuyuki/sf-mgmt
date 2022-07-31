@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 from datetime import datetime
 
-from .models import Shop
+from .models import Shop, VolumeReport
 
 shop = Blueprint('shop', __name__)
 
@@ -32,6 +32,6 @@ def find_shop():
 def shop_profile(id):
     shop = Shop.query.get((99999, id))
 
-    reports = 'reports'
-    now = datetime.now()
-    return render_template('shop/shop-profile.html', shop=shop, reports=reports, now=now)
+    reports = VolumeReport.query.all()
+
+    return render_template('shop/shop-profile.html', shop=shop, reports=reports)

@@ -67,3 +67,21 @@ class Contract(db.Model):
     auto_extention = db.Column(db.Boolean, nullable=True)
     has_copy = db.Column(db.Boolean, nullable=True)
     registered_at = db.Column(db.DateTime, default=func.now())
+
+
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    abbrev = db.Column(db.String(10))
+    volume_reports = db.relationship('VolumeReport', backref=db.backref('item', lazy=True))
+
+
+class VolumeReport(db.Model):
+    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    customer_id = db.Column(db.Integer, nullable=False)
+    shop_id = db.Column(db.Integer, nullable=False)
+    contractor_id = db.Column(db.Integer, nullable=False)
+    month = db.Column(db.Date, nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False) 
+    name = db.Column(db.String(50), nullable=False)
+    volume = db.Column(db.Integer, nullable=False)

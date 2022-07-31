@@ -54,103 +54,29 @@
         </div>
 
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
-            <div class="flex">
-                <p class="text-base font-bold">処理実績</p>
-                {{ now }}
+            <div class="flex mb-2">
+                <p class="text-base font-bold">排出量実績</p>
             </div>
-
-            {% if reports %}
-            <div class="max-w-md mx-auto my-3">
-                <p class="border-b">2022年7月</p>
-                <table class="table-auto w-full text-sm my-3">
-                    <thead>
-                    </thead>
-                    <tbody>
-                        {#
-                    {% for contract in contracts %}
-                    #}
-                        <tr class="">
-                            <td class="">一廃</td>
-                            <td class="">一般廃棄物</td>
-                            <td class="">850kg</td>
-                        </tr>
-                        <tr class="">
-                            <td class="">産廃</td>
-                            <td class="">廃プラスチック</td>
-                            <td class="">560kg</td>
-                        </tr>
-                        <tr class="">
-                            <td class="">専ら物</td>
-                            <td class="">古紙</td>
-                            <td class="">1200kg</td>
-                        </tr>
-
-                        {#
-                    {% endfor %}
-                    </tbody>
-                    #}
-                </table>
-                <p class="border-b">2022年6月</p>
-                <table class="table-auto w-full text-sm my-3">
-                    <thead>
-                    </thead>
-                    <tbody>
-                        {#
-                    {% for contract in contracts %}
-                    #}
-                        <tr class="">
-                            <td class="">一廃</td>
-                            <td class="">一般廃棄物</td>
-                            <td class="">850kg</td>
-                        </tr>
-                        <tr class="">
-                            <td class="">産廃</td>
-                            <td class="">廃プラスチック</td>
-                            <td class="">560kg</td>
-                        </tr>
-                        <tr class="">
-                            <td class="">専ら物</td>
-                            <td class="">古紙</td>
-                            <td class="">1200kg</td>
-                        </tr>
-
-                        {#
-                    {% endfor %}
-                    </tbody>
-                    #}
-                </table>
-                <p class="border-b">2022年5月</p>
-                <table class="table-auto w-full text-sm my-3">
-                    <thead>
-                    </thead>
-                    <tbody>
-                        {#
-                    {% for contract in contracts %}
-                    #}
-                        <tr class="">
-                            <td class="">一廃</td>
-                            <td class="">一般廃棄物</td>
-                            <td class="">850kg</td>
-                        </tr>
-                        <tr class="">
-                            <td class="">産廃</td>
-                            <td class="">廃プラスチック</td>
-                            <td class="">560kg</td>
-                        </tr>
-                        <tr class="">
-                            <td class="">専ら物</td>
-                            <td class="">古紙</td>
-                            <td class="">1200kg</td>
-                        </tr>
-
-                        {#
-                    {% endfor %}
-                    </tbody>
-                    #}
-                </table>
-
-            </div>
-            {% endif %}
+            <table class="table-auto w-full text-sm">
+                <thead>
+                    <tr class="border-black border-b">
+                        <td class="p-2">月</td>
+                        <td class="p-2">種別</td>
+                        <td class="p-2">品目</td>
+                        <td class="p-2">kg</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for report in reports  %}
+                    <tr class="">
+                        <td class="border-b">{{ report.month.strftime('%m月')  }}</td>
+                        <td class="border-b">{{ report.item.abbrev }}</td>
+                        <td class="border-b">{{ report.name }}</td>
+                        <td class="border-b">{{ report.volume }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
 
     </div>
