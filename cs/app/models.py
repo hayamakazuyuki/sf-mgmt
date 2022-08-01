@@ -85,3 +85,15 @@ class VolumeReport(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False) 
     name = db.Column(db.String(50), nullable=False)
     volume = db.Column(db.Integer, nullable=False)
+
+class CollectionRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    customer_id = db.Column(db.Integer, nullable=False)
+    shop_id = db.Column(db.Integer, nullable=False)
+    details = db.Column(db.String, nullable=False)
+    preferreddate = db.Column(db.Date, nullable=True)
+    fluorescentlamp = db.Column(db.Integer, nullable=True)
+    battery = db.Column(db.Integer, nullable=True)
+    consumerelectronics = db.Column(db.Integer, nullable=True)
+    registered_by = db.Column(db.String, nullable=False)
+    registered_at = db.Column(db.DateTime, default=func.now())

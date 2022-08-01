@@ -27,8 +27,10 @@ def login():
 
 @auth.route("/callback", methods=["GET", "POST"])
 def callback():
+
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+
     return redirect(url_for('main.index'))
 
 
@@ -51,4 +53,5 @@ def logout():
 @auth.route('/info')
 @requires_auth
 def info():
-    return render_template("info.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+    return render_template("info.html", session=session.get('user'), pretty=json.dumps(session['user'], indent=4))

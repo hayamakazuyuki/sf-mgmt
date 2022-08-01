@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include "navbar.html" %}
+{% include "_flashing.html" %}
+{% from "_macros.html" import render_field_with_errors %}
+
+<div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
+    <div class="max-w-md mx-auto">
+        <p class="font-bold text-lg my-5 text-gray-700">産廃処理依頼</p>
+        <div class="max-w-xl rounded shadow-lg my-5 p-7">
+            <p class="">{{ '%05d' % shop.customer_id }}-{{ shop.id }}</p>
+            <p class="text-2xl my-2">{{ shop.name }}</p>
+            <p class="text-gray-700">{{ '〒{}-{}'.format(shop.zip[:3], shop.zip[3:]) }}</p>
+            <p class="text-gray-700">{{ shop.prefecture }}{{ shop.city }}{{ shop.town }}{{ shop.address }}</p>
+            <p class="text-gray-700">{{ shop.bldg }}</p>
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto">
+        <form action="/collection-request" method="POST">
+            {{ form.csrf_token }}
+    
+            <div class="my-5 text-gray-500">
+                {{ render_field_with_errors(form.details, class_="w-full text-gray-700 focus:outline-none
+                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="可能な範囲で詳細にご記入ください。例）店舗什器、オフィス家具など、トラック1台分位")}} 
+            </div>
+            <div class="my-5 text-gray-500">
+                {{ render_field_with_errors(form.preferreddate, class_="text-gray-700 focus:outline-none
+                focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}} 
+            </div>
+            <p class="text-sm">以下の品目がある場合はチェックをお願いします。</p>
+            <div class="my-5 text-gray-500">
+                {{ render_field_with_errors(form.fluorescentlamp, class_="text-gray-700 ml-3", value=1)}} 
+            </div>
+            <div class="my-5 text-gray-500">
+                {{ render_field_with_errors(form.battery, class_="text-gray-700 ml-3", value=1)}} 
+            </div>
+            <div class="my-5 text-gray-500">
+                {{ render_field_with_errors(form.consumerelectronics, class_="text-gray-700 ml-3", value=1)}} 
+            </div>
+    
+            <button type="submit" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
+        hover:bg-blue-800 transition duration-200">登録</button>
+    
+        </form>
+        </div>
+
+</div>
+
+{% endblock %}
