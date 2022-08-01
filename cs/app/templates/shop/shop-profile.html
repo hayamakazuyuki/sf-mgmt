@@ -69,10 +69,10 @@
                 <tbody>
                 {% for report in reports  %}
                     <tr class="">
-                        <td class="border-b">{{ report.month.strftime('%m月')  }}</td>
+                        <td class="border-b">{{ report.month.strftime('%-m月')  }}</td>
                         <td class="border-b">{{ report.item.abbrev }}</td>
                         <td class="border-b">{{ report.name }}</td>
-                        <td class="border-b">{{ report.volume }}</td>
+                        <td class="border-b text-right">{{ report.volume }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
