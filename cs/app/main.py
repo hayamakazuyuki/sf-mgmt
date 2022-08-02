@@ -7,6 +7,9 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
+
+    page = request.args.get('page', 1, type=int)
+
     if 'user' in session:
 
         userinfo = session['user']['userinfo']
@@ -27,10 +30,10 @@ def index():
             return render_template('home.html', shops=shops, count=count)
 
         elif customer_id and shop_id is None:
-            shops = Shop.query.paginate(page=page, per_page=20)
-            count = len(Shop.query.all())
+            shops = Shop.query.filter(Shop.customer_id == customer_id).paginate(page=page, per_page=20)
+            count = len(Shop.query.filter(Shop.customer_id == customer_id).all())
 
-            return render_template('home.html', shops=shops, count=count)
+            return render_template('home.html', shops=shops, count=count, page=page)
 
         else: 
             shop = Shop.query.get((customer_id, shop_id))
