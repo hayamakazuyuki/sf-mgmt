@@ -1,4 +1,4 @@
-from flask import Blueprint, session, render_template, request
+from flask import Blueprint, session, render_template, request, redirect, url_for
 
 from .models import Customer, Shop, VolumeReport
 
@@ -35,11 +35,9 @@ def index():
 
             return render_template('home.html', shops=shops, count=count, page=page)
 
-        else: 
-            shop = Shop.query.get((customer_id, shop_id))
-            reports = VolumeReport.query.all()
+        else:
 
-            return render_template('home-shop.html', shop=shop, reports=reports)
+            return redirect(url_for('shop.shop_profile', id=shop_id))
 
     else:
 
