@@ -32,8 +32,11 @@ def find_shop():
         return render_template('home.html', page=page, shops=shops, count=count)
 
 
-@shop.route('/<int:customer_id>/<int:id>')
-def shop_profile(customer_id, id):
+@shop.route('/<int:id>')
+def shop_profile(id):
+
+    userinfo = session['user']['userinfo']
+    customer_id = userinfo.get('customer')
 
     shop = Shop.query.get((customer_id, id))
 
