@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 
-from .models import Contractor
+from .models import Contractor, License
 
 contractor = Blueprint('contractor', __name__)
 
@@ -27,5 +27,18 @@ def index():
 def contractor_profile(id):
 
     contractor = Contractor.query.get_or_404(id)
-    
-    return render_template('contractor/profile.html', contractor=contractor)
+
+    licenses = License.query.filter(License.contractor_id == id).all()
+
+    return render_template('contractor/profile.html', contractor=contractor, licenses=licenses)
+
+
+# license detail
+@contractor.route('/contractor/<int:contractor_id>/license/<int:id>')
+def license_detail(contractor_id, id):
+    contractor = Contractor.query.get(contractor_id)
+    license = License.query.get(id)
+
+    return render_template('contractor/license-details.html', contractor=contractor, license=license)
+
+

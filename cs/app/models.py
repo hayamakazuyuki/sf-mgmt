@@ -1,5 +1,5 @@
 from .extentions import db
-from sqlalchemy import func
+from sqlalchemy import ForeignKeyConstraint, func
 
 
 class Parent(db.Model):
@@ -37,6 +37,7 @@ class Shop(db.Model):
     address = db.Column(db.String(100))
     bldg = db.Column(db.String(50))
     registered_at = db.Column(db.DateTime, default=func.now())
+    # collection_requests = db.relationship('CollectionRequest', backref=db.backref('shop', lazy=True))
 
 
 class Contractor(db.Model):
@@ -107,3 +108,15 @@ class CollectionRequest(db.Model):
     consumerelectronics = db.Column(db.Integer, nullable=True)
     registered_by = db.Column(db.String, nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
+
+    # __table_args__ = (ForeignKeyConstraint(['customer_id', 'shop_id'], ['shop.customer_id', 'shop.id']))
+
+class Issuer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10), nullable=False)
+    licenses = db.relationship('License', backref=db.backref('issuer', lazy=True))
+
+class LicenseType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    licenses = db.relationship('License', backref=db.backref('license_type', lazy=True))
