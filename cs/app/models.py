@@ -84,6 +84,7 @@ class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     abbrev = db.Column(db.String(10))
+    contracts = db.relationship('Contract', backref=db.backref('item', lazy=True))
     volume_reports = db.relationship('VolumeReport', backref=db.backref('item', lazy=True))
 
 

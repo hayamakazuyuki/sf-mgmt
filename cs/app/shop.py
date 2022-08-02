@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import desc
 
 from .extentions import db
-from .models import Customer, CollectionRequest, Shop, VolumeReport
+from .models import Customer, CollectionRequest, Contract, Shop, VolumeReport
 from .forms import CollectionRequestForm
 
 shop = Blueprint('shop', __name__)
@@ -39,10 +39,11 @@ def shop_profile(id):
     customer_id = userinfo.get('customer')
 
     shop = Shop.query.get((customer_id, id))
+    contracts = Contract.query.all()
 
     reports = VolumeReport.query.all()
 
-    return render_template('shop/shop-profile.html', shop=shop, reports=reports)
+    return render_template('shop/shop-profile.html', shop=shop, contracts=contracts, reports=reports)
 
 
 @shop.route('/collection')
