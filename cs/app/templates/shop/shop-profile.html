@@ -12,16 +12,7 @@
             <p class="text-gray-700">{{ '〒{}-{}'.format(shop.zip[:3], shop.zip[3:]) }}</p>
             <p class="text-gray-700">{{ shop.prefecture }}{{ shop.city }}{{ shop.town }}{{ shop.address }}</p>
             <p class="text-gray-700">{{ shop.bldg }}</p>
-            <hr class="mt-5 mb-3">
-
-            <div class="flex justify-between text-gray-500 text-sm">
-                <p class="items-end">{{ shop.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
-                <p class="items-end">{{ shop.registered_by }}</p>
-            </div>
         </div>
-        {% for bucket in buckets %}
-        {{ bucket.name }}
-        {% endfor %}
 
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
             <div class="flex">
