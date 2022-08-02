@@ -30,6 +30,8 @@ def index():
             shops = Shop.query.paginate(page=page, per_page=20)
             count = len(Shop.query.all())
 
+            return render_template('home.html', shops=shops, count=count)
+
         else: 
             shop = Shop.query.get((customer_id, shop_id))
             reports = VolumeReport.query.all()
