@@ -1,9 +1,10 @@
 from crypt import methods
 from flask import Blueprint, render_template, request, session, flash, redirect, url_for
 from datetime import datetime
+from sqlalchemy import desc
 
 from .extentions import db
-from .models import CollectionRequest, Shop, VolumeReport
+from .models import Customer, CollectionRequest, Shop, VolumeReport
 from .forms import CollectionRequestForm
 
 shop = Blueprint('shop', __name__)
@@ -31,12 +32,10 @@ def find_shop():
         return render_template('home.html', page=page, shops=shops, count=count)
 
 
-@shop.route('/<int:id>')
-def shop_profile(id):
+@shop.route('/<int:customer_id>/<int:id>')
+def shop_profile(customer_id, id):
 
-    customer = session['user']
-
-    shop = Shop.query.get((customer, id))
+    shop = Shop.query.get((customer_id, id))
 
     reports = VolumeReport.query.all()
 
@@ -45,12 +44,27 @@ def shop_profile(id):
 
 @shop.route('/collection')
 def collection():
-    customer_id = session['user']['userinfo'].get('customer')
-    shop_id = session['user']['userinfo'].get('shop')
 
-    requests = CollectionRequest.query.filter_by(customer_id=customer_id).filter_by(shop_id=shop_id).all()
+    userinfo = session['user']['userinfo']
+    hq = userinfo.get('hq')
+
+    if hq:
+        customers = Customer.query.filter(Customer.parent_id == hq).all()
+
+        # shops = Shop.query.filter(Shop.customer_id.in_([c.id for c in customers])).paginate(page=page, per_page=20)
+
+        requests = CollectionRequest.query.filter(CollectionRequest.customer_id.in_([c.id for c in customers])).order_by(desc(CollectionRequest.id)).all()
     
-    return render_template('shop/collection.html', requests=requests)
+        return render_template('shop/collection.html', requests=requests)
+
+    else:
+
+        customer_id = session['user']['userinfo'].get('customer')
+        shop_id = session['user']['userinfo'].get('shop')
+
+        requests = CollectionRequest.query.filter_by(customer_id=customer_id).filter_by(shop_id=shop_id).order_by(desc(CollectionRequest.id)).all()
+    
+        return render_template('shop/collection.html', requests=requests)
 
 
 @shop.route('/collection-request', methods=['GET', 'POST'])

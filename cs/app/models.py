@@ -1,8 +1,18 @@
 from .extentions import db
 from sqlalchemy import func
 
+
+class Parent(db.Model):
+    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    name = db.Column(db.String(100), nullable=False)
+    registered_by = db.Column(db.Integer, nullable=False)
+    registered_at = db.Column(db.DateTime, default=func.now())
+    customers = db.relationship('Customer', backref = db.backref('parent', lazy=True))
+
+
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    parent_id = db.Column(db.Integer, db.ForeignKey('parent.id'), nullable=True)
     name = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(50), nullable=True)
     representative = db.Column(db.String(50), nullable=False)

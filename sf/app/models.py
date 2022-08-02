@@ -40,16 +40,18 @@ class Satiscare(db.Model):
     contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), unique=True, nullable=False)
     membership = db.Column(db.Integer, nullable=True)
 
-
+# for refactoring
 class Parent(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
     name = db.Column(db.String(100), nullable=False)
     registered_by = db.Column(db.Integer, nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
+    customers = db.relationship('Customer', backref = db.backref('parent', lazy=True))
 
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    parent_id = db.Column(db.Integer, db.ForeignKey('parent.id'), nullable=True)
     name = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(50), nullable=True)
     representative = db.Column(db.String(50), nullable=False)
@@ -144,3 +146,4 @@ admin.add_view(ParentAdminView(Parent, db.session))
 admin.add_view(ItemAdminView(Item, db.session))
 admin.add_view(IssuerAdminView(Issuer, db.session))
 admin.add_view(LicenseTypeAdminView(LicenseType, db.session))
+admin.add_view(ModelView(Customer, db.session, endpoint='customerview'))

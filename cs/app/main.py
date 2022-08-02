@@ -1,6 +1,6 @@
 from flask import Blueprint, session, render_template, request
 
-from .models import Shop, VolumeReport
+from .models import Customer, Shop, VolumeReport
 
 main = Blueprint('main', __name__)
 
@@ -18,8 +18,13 @@ def index():
         page = request.args.get('page', 1, type=int)
 
         if hq:
-            shops = Shop.query.paginate(page=page, per_page=20)
-            count = len(Shop.query.all())
+            customers = Customer.query.filter(Customer.parent_id == hq).all()
+
+            shops = Shop.query.filter(Shop.customer_id.in_([c.id for c in customers])).paginate(page=page, per_page=20)
+
+            count = len(Shop.query.filter(Shop.customer_id.in_([c.id for c in customers])).all())
+
+            return render_template('home.html', shops=shops, count=count)
 
         elif customer_id and shop_id is None:
             shops = Shop.query.paginate(page=page, per_page=20)

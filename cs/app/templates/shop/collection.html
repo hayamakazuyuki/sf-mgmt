@@ -6,16 +6,28 @@
 <div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
     <div class="max-w-md mx-auto">
         <p class="font-bold text-lg my-5 text-gray-700">依頼一覧</p>
-        {#
-        <div class="max-w-xl rounded shadow-lg my-5 p-7">
-            <p class="">{{ '%05d' % shop.customer_id }}-{{ shop.id }}</p>
-            <p class="text-2xl my-2">{{ shop.name }}</p>
-            <p class="text-gray-700">{{ '〒{}-{}'.format(shop.zip[:3], shop.zip[3:]) }}</p>
-            <p class="text-gray-700">{{ shop.prefecture }}{{ shop.city }}{{ shop.town }}{{ shop.address }}</p>
-            <p class="text-gray-700">{{ shop.bldg }}</p>
-        </div>
-        #}
     </div>
+    <table class="table-auto w-full mx-2">
+        <thead>
+            <tr class="border-black border-b">
+                <td class="p-2">依頼番号</td>
+                <td class="p-2">依頼日</td>
+                <td class="p-2">依頼内容</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% if requests %}
+        {% for request in requests %}
+            <tr class="">        
+                <td class="border-b">{{ '%05d' % request.id }}</td>
+                <td class="border-b">{{ request.registered_at.strftime('%Y-%m-%d') }}</td>
+                <td class="border-b">{{ request.details }}</td>
+            </tr>
+        {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+
 </div>
 
 {% endblock %}
