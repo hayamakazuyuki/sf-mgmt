@@ -1,33 +1,36 @@
-from crypt import methods
-from flask import Blueprint, render_template, request, session, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from datetime import datetime
 from sqlalchemy import desc
 
 from .extentions import db
+from .modules import get_customer_id
 from .models import Customer, CollectionRequest, Contract, Shop, VolumeReport
 from .forms import CollectionRequestForm
+
 
 shop = Blueprint('shop', __name__)
 
 
 @shop.route('/shop')
-def find_shop():
+def index():
 
     q = request.args.get('q')
     page = request.args.get('page', 1, type=int)
 
+    customer_id = get_customer_id()
+
     if q:
 
         search = "%{}%".format(q)
-        shops = Shop.query.filter(Shop.name.like(search)).paginate(page=page, per_page=20)
-        count = len(Shop.query.filter(Shop.name.like(search)).all())
+        shops = Shop.query.filter(Shop.customer_id == customer_id).filter(Shop.name.like(search)).paginate(page=page, per_page=20)
+        count = len(Shop.query.filter(Shop.customer_id == customer_id).filter(Shop.name.like(search)).all())
 
         return render_template('home.html', page=page, shops=shops, count=count)
 
     else:
-        shops = Shop.query.paginate(page=page, per_page=20)
+        shops = Shop.query.filter(Shop.customer_id == customer_id).paginate(page=page, per_page=20)
         
-        count = len(Shop.query.all())
+        count = len(Shop.query.filter(Shop.customer_id == customer_id).all())
 
         return render_template('home.html', page=page, shops=shops, count=count)
 
@@ -35,8 +38,7 @@ def find_shop():
 @shop.route('/<int:id>')
 def shop_profile(id):
 
-    userinfo = session['user']['userinfo']
-    customer_id = userinfo.get('customer')
+    customer_id = get_customer_id()
 
     shop = Shop.query.get((customer_id, id))
     contracts = Contract.query.all()
@@ -45,7 +47,7 @@ def shop_profile(id):
 
     return render_template('shop/shop-profile.html', shop=shop, contracts=contracts, reports=reports)
 
-
+"""
 @shop.route('/collection')
 def collection():
 
@@ -103,3 +105,5 @@ def collection_request():
         return redirect(url_for('shop.collection'))
 
     return render_template('shop/collection-request.html', shop=shop, form=form)
+
+"""

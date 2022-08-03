@@ -30,10 +30,8 @@ def index():
             return render_template('home.html', shops=shops, count=count)
 
         elif customer_id and shop_id is None:
-            shops = Shop.query.filter(Shop.customer_id == customer_id).paginate(page=page, per_page=20)
-            count = len(Shop.query.filter(Shop.customer_id == customer_id).all())
 
-            return render_template('home.html', shops=shops, count=count, page=page)
+            return redirect(url_for('shop.index'))
 
         else:
 
@@ -42,10 +40,3 @@ def index():
     else:
 
         return render_template('index.html')
-
-
-@main.route('/session')
-def show_session():
-    show = session.get('user').get('userinfo').get('customer')
-
-    return show

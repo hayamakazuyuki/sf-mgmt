@@ -1,6 +1,7 @@
 import os, io
 
 from flask import Blueprint, render_template, request, current_app, send_file, abort
+from google.cloud import storage
 
 from .models import Contract, Shop
 
@@ -15,7 +16,7 @@ def contract_details(id):
     return render_template('contract/contract-details.html', contract=contract, shop=shop)
     
 
-@contract.route('/get_copy/<int:id>')
+@contract.route('/contract/get_copy/<int:id>')
 def get_copy(id):
 
     contract = Contract.query.get(id)
