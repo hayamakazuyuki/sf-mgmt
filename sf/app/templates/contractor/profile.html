@@ -1,10 +1,11 @@
 {% extends "layout.html" -%}
 {% block content -%}
 {% include "navbar.html" -%}
-{% include "_flashing.html" -%}
 
-<div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
-    <div class="max-w-md mx-auto">
+<div class="container max-w-4xl mx-auto px-2 flex-grow">
+    {% include "_flashing.html" -%}
+
+    <div class="max-w-md mx-auto mt-10">
         <p class="font-bold text-lg my-5">パートナー情報</p>
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
             <div class="">

@@ -4,106 +4,126 @@
 {% include "_flashing.html" %}
 {% from "_macros.html" import render_field_with_errors, render_input_field %}
 
-<div class="container mx-auto max-w-sm py-10 flex-grow">
+<div class="container max-w-4xl mx-auto px-2 flex-grow">
 
-    <!-- x-data="{ open: false,
-              issuer: '',
-              license_type: '',
-              reserved_num: '',
-              unique_num: '',
-              effective_from: '',
-              expires_on: '',
-              copy_url: '',
-            }"> -->
+    <div class="max-w-sm mx-auto mt-10" x-data="{ open: false }">
 
-    <h1 class="font-bold text-xl text-gray-500">許可証の登録</h1>
-    <h2 class="my-5 font-bold text-lg text-gray-500">{{ '%05d' % contractor.id }}: {{ contractor.name }}</h2>
-        <form x-data="{}" action="/contractor/{{ contractor.id }}/license/register" method="POST" enctype="multipart/form-data">
-            {{ form.csrf_token }}
-    
-            <div class="my-5 text-gray-500 align-middle">
-                <p class="">許可番号<span class="text-xs ml-3 text-red-500">必須</span></p>
-                <div class="flex">
-                {{ render_input_field(form.issuer, class_="text-gray-700 focus:outline-none
-                    focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
-                -
-                {{ render_input_field(form.license_type, class_="text-gray-700 focus:outline-none
-                    focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
-                {{ render_input_field(form.reserved_num, class_="text-gray-700 focus:outline-none
-                    focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
-                -
-                {{ render_input_field(form.unique_num, class_="text-gray-700 focus:outline-none
-                    focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="数字6桁")}}
+        <h1 class="font-bold text-lg my-5">許可証情報の登録</h1>
+        <h2 class="my-5 font-bold text-lg text-gray-500">{{ '%05d' % contractor.id }}: {{ contractor.name }}</h2>
+            <form x-data="{ issuer: '',
+                            license_type: '',
+                            reserved_num: '',
+                            unique_num: '',
+                            effective_from: '',
+                            expires_on: '',
+                            copy_url: '',
+                            license_copy: '',
+                            select: ''
+                        }" 
+                action="/contractor/{{ contractor.id }}/license/register" method="POST" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+        
+                <div class="my-5 text-gray-500 align-middle">
+                    <p class="">許可番号<span class="text-xs ml-3 text-red-500">必須</span></p>
+                    <div class="flex">
+                    {{ render_input_field(form.issuer, class_="text-gray-700 focus:outline-none
+                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'issuer'})}}
+                    -
+                    {{ render_input_field(form.license_type, class_="text-gray-700 focus:outline-none
+                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'license_type'})}}
+                    {{ render_input_field(form.reserved_num, class_="text-gray-700 focus:outline-none
+                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'reserved_num'})}}
+                    -
+                    {{ render_input_field(form.unique_num, class_="text-gray-700 focus:outline-none
+                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="数字6桁"
+                        , **{'x-model':'unique_num'})}}
+                    </div>
                 </div>
-            </div>
-
-            <div class="my-5 text-gray-500">
-                {{ render_field_with_errors(form.effective_from, class_="w-full text-gray-700 focus:outline-none
-                   focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
-            </div>
-            <div class="my-5 text-gray-500">
-                {{ render_field_with_errors(form.expires_on, class_="w-full text-gray-700 focus:outline-none
-                   focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
-            </div>
-            <div x-data="{select: '',
-                        disableUrl: '',
-                        disableCopy: ''
-                        }">
+    
+                <div class="my-5 text-gray-500">
+                    {{ render_field_with_errors(form.effective_from, class_="w-full text-gray-700 focus:outline-none
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'effective_from'})}}
+                </div>
+                <div class="my-5 text-gray-500">
+                    {{ render_field_with_errors(form.expires_on, class_="w-full text-gray-700 focus:outline-none
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'expires_on'})}}
+                </div>
+    
                 <div class="my-5 text-gray-500">
                     <p class="">許可証写し<span class="text-xs ml-3 text-red-500">必須</span></p>
-                    <div class="mt-3 text-sm flex justify-around">
-                        <label class="mx-5 text-sm">Webのリンク<input type="radio" name="select_license" x-on:change="select = 1; disableUrl = false; disableCopy = true" class="ml-2"></label>
-                        <label class="text-sm">PDFアップロード<input type="radio" name="select_license" x-on:change="select = 2; disableCopy = false; disableUrl = true" class="ml-2"></label>
+                        <div class="mt-3 text-sm flex justify-around">
+                            <label class="mx-5 text-sm">Webのリンク
+                                <input type="radio" name="select" class="ml-2" x-model="select" value="url"></label>
+    
+                            <label class="text-sm">PDFアップロード
+                                <input type="radio" name="select" class="ml-2" x-model="select" value="pdf"></label>
+                        </div>
+                        <template x-if="select == 'url'">
+                            <div class="my-5 text-gray-500">
+                                {{ render_field_with_errors(form.copy_url, class_="w-full text-gray-700 focus:outline-none
+                                   focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="https://から始まるURL",
+                                   **{'x-model' : 'copy_url'}
+                                   )}}
+                            </div>    
+                        </template>
+    
+                        <template x-if="select == 'pdf'">
+                            <div class="my-5 text-gray-500">
+                                {{ render_field_with_errors(form.license_copy, class_="w-full text-gray-700 focus:outline-none
+                                   focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model' : 'license_copy'})}}
+                            </div>    
+                        </template>
+    
+                    
                     </div>
-
-                </div>
-
-                <div class="my-5 text-gray-500" x-show="select === 1">
-                    {{ render_field_with_errors(form.copy_url, class_="w-full text-gray-700 focus:outline-none
-                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="https://から始まるURL", **{'x-bind:disabled': 'disableUrl'})}}
-                </div>
-
-                <div class="my-5 text-gray-500" x-show="select === 2">
-                    {{ render_field_with_errors(form.license_copy, class_="w-full text-gray-700 focus:outline-none
-                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-bind:disabled': 'disableCopy'})}}
-                </div>
+                <!-- this works onclick="submit();" -->
+                <!-- this works too x-on:click="$el.closest('form').submit();" -->
+                <button type="button"
+                 x-on:click="issuer && license_type && reserved_num && unique_num && effective_from && expires_on && (copy_url || license_copy)
+                   ? open = true : alert('未入力の項目があります。');" 
+                class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
+            hover:bg-blue-800 transition duration-200">内容確認</button>
     
-            </div>
+            <div x-show="open" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
     
-            <button type="button" x-on:click="$el.closest('form').submit();" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
-        hover:bg-blue-800 transition duration-200">内容確認</button>
-    
-        <!-- x-on:click="$el.closest('form').dispatchEvent(new Event('submit'))" -->
-        <!-- <div x-show="open" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
             <div class="bg-white mx-3 md:mx-0 border p-6 shadow-md">
-                <h2 class="font-bold text-sm">登録内容の確認</h2>
-                <p class="text-gray-800 text-sm mt-5">{{ '%05d' % contractor.id }}: {{ contractor.name }}</p>
-                <p class="text-gray-500 text-xs mt-2">許可番号
-                    <span class="ml-3 font-bold text-gray-800 text-base" x-text="issuer"></span>
-                    <span class="font-bold text-gray-800 text-base" x-text="license_type"></span>
-                    <span class="font-bold text-gray-800 text-base" x-text="reserved_num"></span>
-                    <span class="font-bold text-gray-800 text-base" x-text="unique_num"></span>
-                </p>
-                <p class="text-gray-500 text-xs mt-2">許可の年月日
-                    <span class="font-bold text-gray-800 text-base" x-text="effective_from"></span>
-                </p>
-                <p class="text-gray-500 text-xs mt-2">許可の有効期限
-                    <span class="font-bold text-gray-800 text-base" x-text="expires_on"></span>
-                </p>
-                <p class="font-bold text-gray-800 text-base" x-text="copy_url"></p>
     
-                <div class="font-bold mt-5 text-right">
-                    <button type="button" @click="open = false" class="px-3 py-1 rounded-md text-gray-500 cursor-pointer hover:bg-gray-100">
-                        戻る</button>
-                    <button class="ml-8 px-3 py-1 rounded-md text-blue-500 cursor-pointer hover:bg-blue-100">登録</button>
-                </div>
+            <h2 class="font-bold text-sm">登録内容の確認</h2>
+            <p class="text-gray-800 text-sm mt-5">{{ '%05d' % contractor.id }}: {{ contractor.name }}</p>
+            <p class="text-gray-500 text-xs mt-2">許可番号
+                <span class="ml-3 font-bold text-gray-800 text-base" x-text="issuer"></span>
+                <span class="font-bold text-gray-800 text-base" x-text="license_type"></span>
+                <span class="font-bold text-gray-800 text-base" x-text="reserved_num"></span>
+                <span class="font-bold text-gray-800 text-base" x-text="unique_num"></span>
+            </p>
+            <p class="text-gray-500 text-xs mt-2">許可の年月日
+                <span class="font-bold text-gray-800 text-base" x-text="effective_from"></span>
+            </p>
+            <p class="text-gray-500 text-xs mt-2">許可の有効期限
+                <span class="font-bold text-gray-800 text-base" x-text="expires_on"></span>
+            </p>
+            <template x-if="select == 'url'">
+                <p class="text-gray-500 text-xs mt-2">Webのリンク
+                    <span class="font-bold text-gray-800" x-text="copy_url"></span>
+                </p>    
+            </template>
+            <template x-if="select == 'pdf'">
+                <p class="text-gray-500 text-xs mt-2">PDFアップロード
+                    <span class="font-bold text-gray-800" x-text="license_copy"></span>
+                </p>    
+            </template>
     
+            <div class="font-bold mt-5 text-right">
+                <button type="button" @click="open = false" class="px-3 py-1 rounded-md text-gray-500 cursor-pointer hover:bg-gray-100">
+                    戻る</button>
+                <button class="ml-8 px-3 py-1 rounded-md text-rose-500 cursor-pointer hover:bg-rose-100">登録</button>
             </div>
-        </div> -->
-    </form>
-</div>
+        </div>
+    </div>
+    
+        </form>
+    </div>
 
-<script>
-</script>
+</div>
 
 {% endblock %}

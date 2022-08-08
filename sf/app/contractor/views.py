@@ -140,7 +140,7 @@ def license_register(id):
         unique_num = request.form['unique_num']
         effective_from = request.form['effective_from']
         expires_on = request.form['expires_on']
-        copy_url = request.form['copy_url']
+        copy_url = request.form.get('copy_url')
         registered_by = 1
 
         license = License(contractor_id=contractor_id, issuer_id=issuer_id, license_type_id=license_type_id, reserved_num=reserved_num,
@@ -152,7 +152,7 @@ def license_register(id):
         flash('許可証情報を登録しました。', 'success')
 
         return redirect(url_for('contractor.profile', id=id))
-
+        # return request.form
     return render_template('contractor/license-register.html', contractor=contractor, form=form)
 
 

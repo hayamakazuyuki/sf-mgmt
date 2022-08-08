@@ -27,7 +27,6 @@ class LicenseRegisterForm(FlaskForm):
     unique_num = StringField('固有番号', validators=[Regexp('[0-9]{6}', message='数字のみ6桁です。'), DataRequired('6桁の数字を入力してください。')])
     effective_from = DateField('許可の年月日', validators=[InputRequired('許可の年月日を入力してください。')])
     expires_on = DateField('許可の有効年月日', validators=[InputRequired('許可の有効年月日を入力してください。')])
-    # copy_url = StringField('許可証のリンクURL', validators=[DataRequired('有効なURLを入力してください。'), URL(require_tld=True, message='有効なURLを入力してください。')])
     copy_url = StringField('許可証のリンクURL', validators=[Optional(), URL(require_tld=True, message='有効なURLを入力してください。')])
     license_copy = FileField('PDFアップロード')
 
@@ -39,7 +38,7 @@ class LicenseRegisterForm(FlaskForm):
     def _set_issuers(self):
         issuers = Issuer.query.all()
         # set issuers from db as tuple(value, text)
-        self.issuer.choices = [(issuer.id, '%03d' % issuer.id) for issuer in issuers]
+        self.issuer.choices = [('', '')]+[(issuer.id, '%03d' % issuer.id) for issuer in issuers]
 
     def _set_license_type(self):
         types = LicenseType.query.all()
