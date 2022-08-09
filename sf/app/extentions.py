@@ -4,3 +4,4 @@ from google.cloud import storage
 
 db = SQLAlchemy()
 admin = Admin(template_mode='bootstrap4')
+storage = storage
