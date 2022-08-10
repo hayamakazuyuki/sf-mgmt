@@ -176,11 +176,11 @@ def license_register(id):
 
                 bucket = storage_client.bucket(bucket_name)
 
-                blob = bucket.blob('license/' + issuer_id + license_type_id + reserved_num + unique_num + '.pdf')
+                blob = bucket.blob('license/' + issuer_id.zfill(3) + license_type_id + reserved_num + unique_num + '.pdf')
                 blob.upload_from_string(file.read(), content_type=file.content_type)
 
                 db.session.commit()
-                
+
                 flash('許可証情報を登録しました。', 'success')
 
                 return redirect(url_for('contractor.profile', id=id))
