@@ -20,7 +20,7 @@
                             license_copy: '',
                             select: ''
                         }" 
-                action="/contractor/{{ contractor.id }}/license/register" method="POST" enctype="multipart/form-data">
+                action="{{ request.path }}" method="POST" enctype="multipart/form-data">
                 {{ form.csrf_token }}
         
                 <div class="my-5 text-gray-500 align-middle">

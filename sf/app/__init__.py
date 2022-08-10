@@ -7,6 +7,8 @@ from .contract.views import contract
 from .contractor.views import contractor
 from .customer.views import customer
 from .report.views import report
+from .license.views import license
+
 
 def create_app():
     app = Flask(__name__)
@@ -28,5 +30,6 @@ def create_app():
     app.register_blueprint(customer)
     app.register_blueprint(contractor)
     app.register_blueprint(report)
+    app.register_blueprint(license)
 
     return app
