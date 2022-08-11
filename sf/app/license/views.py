@@ -9,12 +9,6 @@ from ..utils import get_contractor, get_license
 license = Blueprint('license', __name__, url_prefix='/license')
 
 
-@license.route('/')
-def index():
-
-    return 'ライセンス　ホーム'
-
-
 #register industrial waste license
 @license.route('/register/<int:contractor_id>', methods=['GET', 'POST'])
 def register(contractor_id):
@@ -88,15 +82,11 @@ def register(contractor_id):
 
 # industrial waste license details
 @license.route('/<int:contractor_id>/<int:id>')
+@license.route('/<int:contractor_id>/<int:id>/<mode>', methods=['GET', 'POST'])
 def details(contractor_id, id, mode=None):
 
     contractor = get_contractor(contractor_id)
     license = get_license(id)
-
-    return render_template('license/details.html', contractor=contractor, license=license)
-
-"""
-@contractor.route('/<int:contractor_id>/license/<int:id>/<mode>', methods=['GET', 'POST'])
 
     if mode == 'edit':
         issuer_id = license.issuer_id
@@ -119,7 +109,8 @@ def details(contractor_id, id, mode=None):
 
             flash('許可証情報を更新しました。', 'success')
 
-            return render_template('contractor/license-detail.html', contractor=contractor, license=license)
+            return redirect(url_for('license.details', contractor_id=contractor_id, id=id))
 
-        return render_template('contractor/license-edit.html', contractor=contractor, license=license, form=form)
-"""
+        return render_template('license/edit.html', contractor=contractor, license=license, form=form)
+
+    return render_template('license/details.html', contractor=contractor, license=license)
