@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Regexp, Optional, URL
 from ..models import Issuer, LicenseType
 
 
-class IwLicenseRegisterForm(FlaskForm):
+class LicenseRegisterForm(FlaskForm):
     issuer = SelectField('都道府県・政令市', validators=[DataRequired('必須です。')])
     license_type = SelectField('業の種類', validators=[DataRequired('選択してください。')])
     reserved_num = SelectField('都道府県・政令市用番号', choices=['',0,1,2,3,4,5,6,7,8,9], validators=[DataRequired('選択してください。')])

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from ..extentions import db, storage
 from ..models import License
 
-from .forms import IwLicenseRegisterForm
+from .forms import LicenseRegisterForm
 
 from ..utils import get_contractor, get_license
 
@@ -15,18 +15,13 @@ def index():
     return 'ライセンス　ホーム'
 
 
-@license.route('/register/bw/<int:id>', methods=['GET', 'POST'])
-def register_bw(id):
-    return '一般登録'
-
-
-#register license for industrial waste
-@license.route('/register/iw/<int:id>', methods=['GET', 'POST'])
-def register_iw(id):
+#register industrial waste license
+@license.route('/register/<int:id>', methods=['GET', 'POST'])
+def license_register(id):
 
     contractor = get_contractor(id)
 
-    form = IwLicenseRegisterForm()
+    form = LicenseRegisterForm()
 
     if form.validate_on_submit():
         contractor_id = id
@@ -88,17 +83,17 @@ def register_iw(id):
 
                 return redirect(url_for('contractor.profile', id=id))
 
-    return render_template('license/iw-license-register.html', form=form, contractor=contractor)
+    return render_template('license/register.html', form=form, contractor=contractor)
 
 
 # industrial waste license details
-@license.route('/iw/<int:contractor_id>/<int:id>')
-def details_industrial(contractor_id, id, mode=None):
+@license.route('/<int:contractor_id>/<int:id>')
+def license_details(contractor_id, id, mode=None):
 
     contractor = get_contractor(contractor_id)
     license = get_license(id)
 
-    return render_template('license/iw-license-details.html', contractor=contractor, license=license)
+    return render_template('license/details.html', contractor=contractor, license=license)
 
 """
 @contractor.route('/<int:contractor_id>/license/<int:id>/<mode>', methods=['GET', 'POST'])
