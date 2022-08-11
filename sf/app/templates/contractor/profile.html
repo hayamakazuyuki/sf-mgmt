@@ -40,15 +40,15 @@
             <div class="flex justify-between text-sm place-items-end mb-4">
 
                 <h2 class="text-gray-800"><span class="text-lg font-bold">一般</span>廃棄物処理業 許可</h2>
-                <a href="/license/register/bw/{{ contractor.id }}" class="text-blue-500 rounded-full hover:bg-blue-100 px-2">+ 登録</a>
+                <a href="/permit/register/{{ contractor.id }}" class="text-blue-500 rounded-full hover:bg-blue-100 px-2">+ 登録</a>
     
             </div>
 
-            {% if bw_licenses %}
+            {% if permits %}
             <table class="table-auto w-full">
                 <thead></thead>
                 <tbody>
-                    {% for license in bw_licenses %}
+                    {% for permit in permits %}
                     <tr class="">
                         <td class="mr-2"><a href="/license/bw/{{ contractor.id}}/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
                     {{ license.id }}</a></td>

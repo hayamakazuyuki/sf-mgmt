@@ -8,6 +8,7 @@ from .contractor.views import contractor
 from .customer.views import customer
 from .report.views import report
 from .license.views import license
+from .permit.views import permit
 
 
 def create_app():
@@ -31,5 +32,6 @@ def create_app():
     app.register_blueprint(contractor)
     app.register_blueprint(report)
     app.register_blueprint(license)
+    app.register_blueprint(permit)
 
     return app

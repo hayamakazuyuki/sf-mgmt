@@ -16,15 +16,15 @@ def index():
 
 
 #register industrial waste license
-@license.route('/register/<int:id>', methods=['GET', 'POST'])
-def license_register(id):
+@license.route('/register/<int:contractor_id>', methods=['GET', 'POST'])
+def register(contractor_id):
 
-    contractor = get_contractor(id)
+    contractor = get_contractor(contractor_id)
 
     form = LicenseRegisterForm()
 
     if form.validate_on_submit():
-        contractor_id = id
+        contractor_id = contractor_id
         issuer_id = request.form['issuer']
         license_type_id = request.form['license_type']
         reserved_num = request.form['reserved_num']
@@ -43,7 +43,7 @@ def license_register(id):
         if exists:
             flash('既に登録があります。', 'info')
 
-            return redirect(url_for('license.details_industrial', contractor_id=exists.contractor_id, id=exists.id))
+            return redirect(url_for('license.details', contractor_id=exists.contractor_id, id=exists.id))
 
         # register, if not already registered and copy_url
         license = License(contractor_id=contractor_id, issuer_id=issuer_id, license_type_id=license_type_id, reserved_num=reserved_num,
@@ -88,7 +88,7 @@ def license_register(id):
 
 # industrial waste license details
 @license.route('/<int:contractor_id>/<int:id>')
-def license_details(contractor_id, id, mode=None):
+def details(contractor_id, id, mode=None):
 
     contractor = get_contractor(contractor_id)
     license = get_license(id)
