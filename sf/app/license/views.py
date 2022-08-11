@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from ..extentions import db, storage
 from ..models import License
 
-from .forms import IWLicenseRegisterForm
+from .forms import IwLicenseRegisterForm
 
 from ..utils import get_contractor, get_license
 
@@ -26,7 +26,7 @@ def register_iw(id):
 
     contractor = get_contractor(id)
 
-    form = IWLicenseRegisterForm()
+    form = IwLicenseRegisterForm()
 
     if form.validate_on_submit():
         contractor_id = id
