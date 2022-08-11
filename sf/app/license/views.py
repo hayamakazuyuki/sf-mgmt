@@ -47,7 +47,7 @@ def register(contractor_id):
 
         if copy_url:
 
-            # db.session.commit()
+            db.session.commit()
             flash('許可証情報を登録しました。', 'success')
 
             return redirect(url_for('contractor.profile', id=id))
