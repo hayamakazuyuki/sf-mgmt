@@ -50,7 +50,7 @@ def register(contractor_id):
             db.session.commit()
             flash('許可証情報を登録しました。', 'success')
 
-            return redirect(url_for('contractor.profile', id=id))
+            return redirect(url_for('contractor.profile', id=contractor_id))
 
         # if pdf attachement.
         else:
