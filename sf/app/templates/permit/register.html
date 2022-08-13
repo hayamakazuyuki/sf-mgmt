@@ -10,8 +10,8 @@
 
         <h1 class="text-sm my-5 text-gray-700"><span class="text-xl font-bold">一般廃棄物</span> 処理業 許可情報の登録</h1>
         <h2 class="my-5 text-xl text-gray-700">{{ '%05d' % contractor.id }}: {{ contractor.name }}</h2>
-            <form x-data="{ issuer: '',
-                            license_type: '',
+            <form x-data="{ prefecture: '',
+                            city: '',
                             reserved_num: '',
                             unique_num: '',
                             effective_from: '',
@@ -22,24 +22,25 @@
                         }" 
                 action="{{ request.path }}" method="POST" enctype="multipart/form-data">
                 {{ form.csrf_token }}
-        {#
-                <div class="my-5 text-gray-500 align-middle">
-                    <p class="">許可番号<span class="text-xs ml-3 text-red-500">必須</span></p>
-                    <div class="flex">
-                    {{ render_input_field(form.issuer, class_="text-gray-700 focus:outline-none
-                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'issuer'})}}
-                    -
-                    {{ render_input_field(form.license_type, class_="text-gray-700 focus:outline-none
-                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'license_type'})}}
-                    {{ render_input_field(form.reserved_num, class_="text-gray-700 focus:outline-none
-                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'reserved_num'})}}
-                    -
-                    {{ render_input_field(form.unique_num, class_="text-gray-700 focus:outline-none
-                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", placeholder="数字6桁"
-                        , **{'x-model':'unique_num'})}}
-                    </div>
+
+                <div class="my-5 text-gray-500">
+                    {{ render_field_with_errors(form.prefecture, class_="w-full text-gray-700 focus:outline-none
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'prefecture'})}}
                 </div>
-                #}
+                <div class="my-5 text-gray-500">
+                    {{ render_field_with_errors(form.city, class_="w-full text-gray-700 focus:outline-none
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'city'})}}
+                </div>
+                <div class="my-5 text-gray-500">
+                    {{ render_field_with_errors(form.type, class_="w-full text-gray-700 focus:outline-none
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'type'})}}
+                </div>
+
+
+                <div class="my-5 text-gray-500">
+                    {{ render_field_with_errors(form.effective_from, class_="w-full text-gray-700 focus:outline-none
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'effective_from'})}}
+                </div>
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.effective_from, class_="w-full text-gray-700 focus:outline-none
                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'effective_from'})}}
