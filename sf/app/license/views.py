@@ -68,14 +68,14 @@ def register(contractor_id):
 
                 flash('許可証情報を登録しました。', 'success')
 
-                return redirect(url_for('contractor.profile', id=id))
+                return redirect(url_for('contractor.profile', id=contractor_id))
 
             except Exception:
 
                 db.session.rollback()
                 flash('許可証情報が登録出来ませんでした。', 'error')
 
-                return redirect(url_for('contractor.profile', id=id))
+                return redirect(url_for('contractor.profile', id=contractor_id))
 
     return render_template('license/register.html', form=form, contractor=contractor)
 
