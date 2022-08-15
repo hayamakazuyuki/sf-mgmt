@@ -4,7 +4,7 @@
 {% include "_flashing.html" %}
 {% from "_macros.html" import render_field_with_errors, render_input_field %}
 
-<div class="container max-w-4xl mx-auto px-2 flex-grow">
+<div class="container max-w-4xl mx-auto px-2 flex-grow" x-data="{}">
 
     <div class="max-w-sm mx-auto mt-10" x-data="{ open: false }">
 
@@ -12,34 +12,27 @@
         <h2 class="my-5 text-xl text-gray-700">{{ '%05d' % contractor.id }}: {{ contractor.name }}</h2>
             <form x-data="{ prefecture: '',
                             city: '',
-                            reserved_num: '',
-                            unique_num: '',
+                            type: '',
                             effective_from: '',
                             expires_on: '',
                             copy_url: '',
                             license_copy: '',
                             select: ''
                         }" 
-                action="{{ request.path }}" method="POST" enctype="multipart/form-data">
+                method="POST" enctype="multipart/form-data">
                 {{ form.csrf_token }}
 
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.prefecture, class_="w-full text-gray-700 focus:outline-none
-                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'prefecture'})}}
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'prefecture', 'x-on:change' : 'getCities();'})}}
                 </div>
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.city, class_="w-full text-gray-700 focus:outline-none
-                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'city'})}}
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'city', 'x-ref' : 'cities'})}}
                 </div>
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.type, class_="w-full text-gray-700 focus:outline-none
                        focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'type'})}}
-                </div>
-
-
-                <div class="my-5 text-gray-500">
-                    {{ render_field_with_errors(form.effective_from, class_="w-full text-gray-700 focus:outline-none
-                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'effective_from'})}}
                 </div>
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.effective_from, class_="w-full text-gray-700 focus:outline-none
@@ -80,7 +73,7 @@
                 <!-- this works onclick="submit();" -->
                 <!-- this works too x-on:click="$el.closest('form').submit();" -->
                 <button type="button"
-                 x-on:click="issuer && license_type && reserved_num && unique_num && effective_from && expires_on && (copy_url || license_copy)
+                 x-on:click="prefecture && city && type && effective_from && expires_on && (copy_url || license_copy)
                    ? open = true : alert('未入力の項目があります。');" 
                 class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
             hover:bg-blue-800 transition duration-200">内容確認</button>
@@ -91,12 +84,15 @@
     
             <h2 class="font-bold text-sm">登録内容の確認</h2>
             <p class="text-gray-800 text-sm mt-5">{{ '%05d' % contractor.id }}: {{ contractor.name }}</p>
-            <p class="text-gray-500 text-xs mt-2">許可番号
-                <span class="ml-3 font-bold text-gray-800 text-base" x-text="issuer.padStart(3, '0')"></span>
-                <span class="font-bold text-gray-800 text-base" x-text="license_type"></span>
-                <span class="font-bold text-gray-800 text-base" x-text="reserved_num"></span>
-                <span class="font-bold text-gray-800 text-base" x-text="unique_num"></span>
-            </p>
+
+            <div class="flex mt-2">
+                <p class="font-bold text-gray-800 text-base" x-text="prefecture"></p>
+                <p class="ml-3 font-bold text-gray-800 text-base" x-text="city"></p>
+            </div>
+
+            <p class="font-bold text-gray-800 text-base mt-2" x-text="type"></p>
+
+
             <p class="text-gray-500 text-xs mt-2">許可の年月日
                 <span class="font-bold text-gray-800 text-base" x-text="effective_from"></span>
             </p>
@@ -124,7 +120,28 @@
     
         </form>
     </div>
+    <script>
+        const getCities = () => {
+    
+            prefecture = prefecture.value;
+            
+            fetch('/permit/city/' + prefecture).then(function(response) {
+                response.json().then(function(data) {
 
+                    optionHTML = '<option value=""></option>';
+    
+                    for (let city of data.cities) {
+                        optionHTML += '<option value="' + city.code + '">' + city.name + '</option>';
+                    }
+    
+                    document.getElementById('city').innerHTML = optionHTML;
+    
+                });
+            });
+        }
+    </script>
 </div>
+
+
 
 {% endblock %}
