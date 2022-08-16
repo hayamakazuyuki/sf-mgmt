@@ -35,6 +35,19 @@ class License(db.Model):
     registered_at = db.Column(db.DateTime, default=func.now())
 
 
+class Permit(db.Model):
+    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), nullable=False)
+    prefecture = db.Column(db.Integer, nullable=False)
+    city = db.Column(db.String, nullable=False)
+    permit_type_id = db.Column(db.Integer, db.ForeignKey('permit_type.id'), nullable=False)
+    effective_from = db.Column(db.Date, nullable=False)
+    expires_on = db.Column(db.Date, nullable=False)
+    copy_url = db.Column(db.String(2083))
+    registered_by = db.Column(db.Integer, nullable=False)
+    registered_at = db.Column(db.DateTime, default=func.now())
+
+
 class Satiscare(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), unique=True, nullable=False)
@@ -107,10 +120,17 @@ class Issuer(db.Model):
     name = db.Column(db.String(10), nullable=False)
     licenses = db.relationship('License', backref=db.backref('issuer', lazy=True))
 
+
 class LicenseType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     licenses = db.relationship('License', backref=db.backref('license_type', lazy=True))
+
+
+class PermitType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    permits = db.relationship('Permit', backref=db.backref('permit_type', lazy=True))
 
 
 class VolumeReport(db.Model):
@@ -141,9 +161,14 @@ class LicenseTypeAdminView(ModelView):
     form_columns = ['id', 'name']
     column_list = ['id', 'name']
 
+class PermitTypeAdminView(ModelView):
+    form_columns = ['name']
+    # column_list = ['id', 'name']
+
 
 admin.add_view(ParentAdminView(Parent, db.session))
 admin.add_view(ItemAdminView(Item, db.session))
 admin.add_view(IssuerAdminView(Issuer, db.session))
 admin.add_view(LicenseTypeAdminView(LicenseType, db.session))
 admin.add_view(ModelView(Customer, db.session, endpoint='customerview'))
+admin.add_view(PermitTypeAdminView(PermitType, db.session))

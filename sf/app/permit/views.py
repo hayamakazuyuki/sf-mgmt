@@ -1,6 +1,4 @@
-from crypt import methods
-from wsgiref import headers
-import requests, json
+import requests
 
 from flask import Blueprint, render_template, current_app, jsonify, request, flash, redirect, url_for
 
