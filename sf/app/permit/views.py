@@ -19,10 +19,9 @@ def api():
         "X-API-KEY":current_app.config['X_API_KEY']
     }
 
-    req = requests.get(endpoint, headers=header).json()
-    # content = json.loads(res.content)
-    return req
-    # return render_template('test.html', req=req.json)
+    r = requests.get(endpoint, headers=header).json()
+
+    return r
 
 
 @permit.route('/register/<int:contractor_id>', methods=['GET', 'POST'])
@@ -34,7 +33,7 @@ def register(contractor_id):
     if form.validate_on_submit():
 
         flash('許可情報を登録しました。', 'success')
-        
+
         return redirect(url_for('contractor.profile', id=contractor_id))
 
     return render_template('permit/register.html', contractor=contractor, form=form)
@@ -46,7 +45,6 @@ def city(prefecture):
     endpoint = 'https://opendata.resas-portal.go.jp/api/v1/cities'
 
     header = {
-        # "Content-Type":"application/json",
         "X-API-KEY":current_app.config['X_API_KEY']
     }
 
@@ -54,14 +52,11 @@ def city(prefecture):
         "prefCode" : prefecture
     }
 
-
-    res = requests.get(endpoint, headers=header, params=params)
-    content = json.loads(res.content)
-    # return f'{content["result"]}'
+    r = requests.get(endpoint, headers=header, params=params).json()
 
     cityArray = []
 
-    for c in content['result']:
+    for c in r['result']:
         cityObj = {}
         cityObj['code'] = c['cityCode']
         cityObj['name'] = c['cityName']

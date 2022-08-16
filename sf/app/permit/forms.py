@@ -28,11 +28,11 @@ class PermitRegisterForm(FlaskForm):
             "X-API-KEY":current_app.config['X_API_KEY']
         }
 
-        req = requests.get(endpoint, headers=header).json()
+        r = requests.get(endpoint, headers=header).json()
 
         choices = [('', '')]
 
-        for c in req['result']:
+        for c in r['result']:
             choices.append((c['prefCode'], c['prefName']))
 
         self.prefecture.choices = choices
