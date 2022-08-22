@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 
 from ..extentions import db, storage
 
-from ..models import Contractor, Satiscare, License
+from ..models import Contractor, Satiscare, License, Permit
 
-from .forms import ContractorForm, LicenseRegisterForm
+from .forms import ContractorForm
 
 contractor = Blueprint('contractor', __name__, url_prefix='/contractor')
 
@@ -78,9 +78,11 @@ def register():
 @contractor.route('/<int:id>')
 @contractor.route('/<int:id>/<mode>', methods=['GET', 'POST'])
 def profile(id, mode=None):
+
     contractor = Contractor.query.get(id)
-    bw_licenses = ''
+
     licenses = License.query.filter(License.contractor_id == id).all()
+    permits = Permit.query.filter(Permit.contractor_id == id).all()
 
     if mode == 'edit':
         form = ContractorForm()
@@ -123,4 +125,4 @@ def profile(id, mode=None):
 
         return render_template('contractor/edit.html', contractor=contractor, form=form)
 
-    return render_template('contractor/profile.html', contractor=contractor, licenses=licenses, bw_licenses=bw_licenses)
+    return render_template('contractor/profile.html', contractor=contractor, licenses=licenses, permits=permits)

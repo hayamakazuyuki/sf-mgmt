@@ -1,5 +1,7 @@
 {% extends "layout.html" -%}
+
 {% block content -%}
+
 {% include "navbar.html" -%}
 
 <div class="container max-w-4xl mx-auto px-2 flex-grow">
@@ -45,18 +47,18 @@
             </div>
 
             {% if permits %}
-            <table class="table-auto w-full">
+            <table class="w-full table-fixed">
                 <thead></thead>
                 <tbody>
                     {% for permit in permits %}
                     <tr class="">
-                        <td class="mr-2"><a href="/license/bw/{{ contractor.id}}/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
-                    {{ license.id }}</a></td>
-                    <td class="">{{ license.issuer.name }}</td>
-                    <td class="">{{ license.license_type.name }}</td>
-                    <td class="text-right">
-                        <a href="{{ license.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
-                        {{ '%03d' % license.issuer_id }} {{ license.license_type_id }}{{ license.reserved_num }} {{ license.unique_num }}                    
+                        <td class="mr-2"><a href="/permit/{{ contractor.id}}/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+                    {{ permit.id }}</a></td>
+                    <td class="">{{ permit.issuer.name }}</td>
+                    <td class="">{{ permit.city }}</td>
+                    <td class="">
+                        <a href="{{ permit.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                        {{ permit.permit_type.name }}
                     </a>
                 </td>
             </tr>
@@ -109,4 +111,9 @@
 
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+</script>
 {% endblock %}

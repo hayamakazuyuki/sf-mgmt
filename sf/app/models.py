@@ -38,13 +38,13 @@ class License(db.Model):
 class Permit(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
     contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), nullable=False)
-    prefecture = db.Column(db.Integer, nullable=False)
+    prefecture = db.Column(db.Integer, db.ForeignKey('issuer.id'), nullable=False)
     city = db.Column(db.String, nullable=False)
     permit_type_id = db.Column(db.Integer, db.ForeignKey('permit_type.id'), nullable=False)
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     copy_url = db.Column(db.String(2083))
-    registered_by = db.Column(db.Integer, nullable=False)
+    registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
 
 
@@ -119,6 +119,7 @@ class Issuer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(10), nullable=False)
     licenses = db.relationship('License', backref=db.backref('issuer', lazy=True))
+    permits = db.relationship('Permit', backref=db.backref('issuer', lazy=True))
 
 
 class LicenseType(db.Model):

@@ -16,16 +16,16 @@
 
             <p class="mt-3 text-lg font-bold">{{ '%05d' % contractor.id }}</p>
             <p class="text-2xl my-2">{{ contractor.name }}</p>
-            {#
-            <p class="text-lg font-bold">{{ license.issuer.name }} {{ license.license_type.name }}</p>
-            <p class="text-gray-700 text-sm">許可番号：
-                {% if license.copy_url %}
-                <a href="{{ license.copy_url }}" class="text-lg text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
-                    {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}
+            <p class="text-lg font-bold">{{ permit.issuer.name }}
+                <span id="permitCity" x-init="getCityName({{ permit.prefecture }}, {{ permit.city }} )"></span></p>
+            <p class="text-base my-1">
+                {% if permit.copy_url %}
+                <a href="{{ permit.copy_url }}" class="px-2 py-1 text-blue-500 rounded-full hover:bg-blue-100" target="_blank" rel="noopener">
+                    {{ permit.permit_type.name }}
                 </a>
                 {% else %}
                 <span>
-                    {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}
+                    {{ permit.permit_type.name }}
                 </span>
                 {% endif %}
             </p>
@@ -36,15 +36,61 @@
             <p class="text-gray-700 text-sm">許可の有効年月日：
                 <span class="text-lg font-bold">{{ permit.expires_on }}</span>
             </p>
-
+            
             <hr class="mt-5 mb-3">
 
             <div class="flex justify-between text-gray-500 text-sm">
                 <p class="items-end">{{ permit.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
                 <p class="items-end">{{ permit.registered_by }}</p>
-            </div> #}
+            </div>
+
         </div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+    // const getCityName = ( prefectureId, cityId ) => {
+    //     const strPrefId = prefectureId.toString().padStart(2, '0');
+    //     const strCityId = cityId.toString().padStart(5, '0');
+    //     alert(strCityId);
+
+    //     const endpoint = 'https://www.land.mlit.go.jp/webland/api/CitySearch?area=' + strPrefId;
+    //     const permitCity = document.getElementById('permitCity')
+
+    //     fetch(endpoint)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //         data['data'].forEach((city) => {
+    //             if (city.id == strCityId){
+    //                 let cityName = city.name;
+    //                 permitCity.textContent = cityName;
+    //             }
+    //         });
+    //     })
+    // }
+
+    async function getCityName(prefectureId, cityId) {
+
+        const strPrefId = prefectureId.toString().padStart(2, '0');
+        const strCityId = cityId.toString().padStart(5, '0');
+        // alert(strCityId);
+
+        const endpoint = 'https://www.land.mlit.go.jp/webland/api/CitySearch?area=' + strPrefId;
+        const permitCity = document.getElementById('permitCity')
+
+        const res = await fetch(endpoint);
+        const cities = await res.json();
+
+        cities['data'].forEach((city) => {
+            if (city.id == strCityId) {
+                const cityName = city.name;
+                permitCity.textContent = cityName;
+            };
+        });
+    }
+
+</script>
 {% endblock %}
