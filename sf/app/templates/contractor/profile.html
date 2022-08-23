@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <!-- business waste licenses -->
+        <!-- permits -->
 
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
 
@@ -50,20 +50,21 @@
             <table class="w-full table-fixed">
                 <thead></thead>
                 <tbody>
-                    {% for permit in permits %}
-                    <tr class="">
-                        <td class="mr-2"><a href="/permit/{{ contractor.id}}/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+
+                {% for permit in permits %}
+                <tr class="">
+                    <td class="mr-2"><a href="/permit/{{ contractor.id}}/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
                     {{ permit.id }}</a></td>
                     <td class="">{{ permit.issuer.name }}</td>
                     <td class="">{{ permit.city }}</td>
                     <td class="">
                         <a href="{{ permit.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
-                        {{ permit.permit_type.name }}
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
+                        {{ permit.permit_type.name }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
     </table>
 
     {% endif %}
@@ -99,12 +100,12 @@
                     </a>
                 </td>
             </tr>
+
         {% endfor %}
         </tbody>
     </table>
 
     {% endif %}
-
 </div>
 <!--  -->
     </div>
@@ -115,5 +116,15 @@
 
 {% block script %}
 <script>
+
+    // var permits = {{ permits| safe }};
+    // alert(permits)
+    // const permits = ("{{ permit }}")
+    // async function setCityNames (prefecture) {
+    //     console.log(permits);
+    // };
+
+    // console.log(permits);
+
 </script>
 {% endblock %}
