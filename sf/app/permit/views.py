@@ -1,7 +1,7 @@
 import requests
 
 from flask import Blueprint, render_template, current_app, jsonify, request, flash, redirect, url_for
-from ..extentions import db
+from ..extentions import db, storage
 
 from ..models import Permit
 
@@ -64,11 +64,29 @@ def register(contractor_id):
 
             return redirect(url_for('contractor.profile', id=contractor_id))
 
+        else:
+            try:
+                bucket_name = current_app.config['GCS_BUCKET_NAME']
 
+                storage_client = storage.Client()
 
-        # flash('許可情報を登録しました。', 'success')
+                bucket = storage_client.bucket(bucket_name)
 
-        # return redirect(url_for('contractor.profile', id=contractor_id))
+                blob = bucket.blob('permit/' + city.zfill(5) + permit_type_id + '.pdf')
+                blob.upload_from_string(file.read(), content_type=file.content_type)
+
+                db.session.commit()
+
+                flash('許可証情報を登録しました。', 'success')
+
+                return redirect(url_for('contractor.profile', id=contractor_id))
+
+            except Exception:
+                
+                db.session.rollback()
+                flash('許可証情報が登録出来ませんでした。', 'error')
+
+                return redirect(url_for('contractor.profile', id=contractor_id))
 
     return render_template('permit/register.html', contractor=contractor, form=form)
 
