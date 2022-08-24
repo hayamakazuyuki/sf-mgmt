@@ -56,7 +56,7 @@
                     <td class="mr-2"><a href="/permit/{{ contractor.id}}/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
                     {{ permit.id }}</a></td>
                     <td class="">{{ permit.issuer.name }}</td>
-                    <td class="">{{ permit.city }}</td>
+                    <td class=""><span class="cityName" data-city="{{ permit.city }}"></span></td>
                     <td class="">
                         <a href="{{ permit.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
                         {{ permit.permit_type.name }}</a>
@@ -116,15 +116,28 @@
 
 {% block script %}
 <script>
+    const cityNameHolders = document.querySelectorAll("span.cityName");
+    
+    function setCityNames () {
+        cityNameHolders.forEach(async (cityNameHolder) => {
+            const cityId = cityNameHolder.dataset.city;
+            const prefectureId = cityId.substr(0, 2);
+            const endpoint = 'https://www.land.mlit.go.jp/webland/api/CitySearch?area=' + prefectureId;
 
-    // var permits = {{ permits| safe }};
-    // alert(permits)
-    // const permits = ("{{ permit }}")
-    // async function setCityNames (prefecture) {
-    //     console.log(permits);
-    // };
+            const res = await fetch(endpoint);
+            const cities = await res.json();
 
-    // console.log(permits);
+            cities['data'].forEach((city) => {
+                if (city.id == cityId) {
+                    const cityName = city.name;
+                    cityNameHolder.textContent = cityName;
+                };
+            });
+
+        })
+    };
+
+    setCityNames();
 
 </script>
 {% endblock %}
