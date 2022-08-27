@@ -57,10 +57,6 @@ def register(contractor_id):
 
         db.session.add(permit)
         
-        # get the permit id
-        permit_id = str(permit.id)
-
-
         if copy_url:
 
             db.session.commit()
@@ -69,29 +65,33 @@ def register(contractor_id):
             return redirect(url_for('contractor.profile', id=contractor_id))
 
         else:
-            try:
+            db.session.commit()
 
-                bucket_name = current_app.config['GCS_BUCKET_NAME']
+            # try:
 
-                storage_client = storage.Client()
+            # get the permit id
+            permit_id = str(permit.id)
+            contractor_id_str = str(contractor_id)
 
-                bucket = storage_client.bucket(bucket_name)
+            bucket_name = current_app.config['GCS_BUCKET_NAME']
 
-                blob = bucket.blob('permit/' + contractor_id.zfill(5) + city.zfill(5) + permit_id + '.pdf')
-                blob.upload_from_string(file.read(), content_type=file.content_type)
+            storage_client = storage.Client()
 
-                db.session.commit()
+            bucket = storage_client.bucket(bucket_name)
 
-                flash('許可証情報を登録しました。', 'success')
+            blob = bucket.blob('permit/' + contractor_id_str.zfill(5) + city.zfill(5) + permit_id + '.pdf')
+            blob.upload_from_string(file.read(), content_type=file.content_type)
 
-                return redirect(url_for('contractor.profile', id=contractor_id))
+            flash('許可証情報を登録しました。', 'success')
 
-            except Exception:
+            return redirect(url_for('contractor.profile', id=contractor_id))
+
+            # except Exception:
                 
-                db.session.rollback()
-                flash('許可証情報が登録出来ませんでした。', 'error')
+                # db.session.rollback()
+                # flash('許可証情報が登録出来ませんでした。', 'error')
 
-                return redirect(url_for('contractor.profile', id=contractor_id))
+                # return redirect(url_for('contractor.profile', id=contractor_id))
 
     return render_template('permit/register.html', contractor=contractor, form=form)
 
