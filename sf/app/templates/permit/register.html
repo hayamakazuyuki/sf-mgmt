@@ -63,8 +63,8 @@
     
                         <template x-if="select == 'pdf'">
                             <div class="my-5 text-gray-500">
-                                {{ render_field_with_errors(form.license_copy, class_="w-full text-gray-700 focus:outline-none
-                                   focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model' : 'license_copy'})}}
+                                {{ render_field_with_errors(form.permit_copy, class_="w-full text-gray-700 focus:outline-none
+                                   focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model' : 'permit_copy'})}}
                             </div>    
                         </template>
     
@@ -106,7 +106,7 @@
             </template>
             <template x-if="select == 'pdf'">
                 <p class="text-gray-500 text-xs mt-2">PDFアップロード
-                    <span class="font-bold text-gray-800" x-text="license_copy"></span>
+                    <span class="font-bold text-gray-800" x-text="permit_copy"></span>
                 </p>    
             </template>
     

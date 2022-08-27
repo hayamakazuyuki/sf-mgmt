@@ -14,7 +14,7 @@ class PermitRegisterForm(FlaskForm):
     effective_from = DateField('許可の年月日', validators=[DataRequired('許可の年月日を入力してください。')])
     expires_on = DateField('許可の有効年月日', validators=[DataRequired('許可の有効年月日を入力してください。')])
     copy_url = StringField('許可証のリンクURL', validators=[Optional(), URL(require_tld=True, message='有効なURLを入力してください。')])
-    license_copy = FileField('PDFアップロード')
+    permit_copy = FileField('PDFアップロード')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
