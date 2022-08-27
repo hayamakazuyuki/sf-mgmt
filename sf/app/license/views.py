@@ -54,28 +54,20 @@ def register(contractor_id):
 
         # if pdf attachement.
         else:
-            try:
-                bucket_name = current_app.config['GCS_BUCKET_NAME']
+            bucket_name = current_app.config['GCS_BUCKET_NAME']
 
-                storage_client = storage.Client()
+            storage_client = storage.Client()
 
-                bucket = storage_client.bucket(bucket_name)
+            bucket = storage_client.bucket(bucket_name)
 
-                blob = bucket.blob('license/' + issuer_id.zfill(3) + license_type_id + reserved_num + unique_num + '.pdf')
-                blob.upload_from_string(file.read(), content_type=file.content_type)
+            blob = bucket.blob('license/' + issuer_id.zfill(3) + license_type_id + reserved_num + unique_num + '.pdf')
+            blob.upload_from_string(file.read(), content_type=file.content_type)
 
-                db.session.commit()
+            db.session.commit()
 
-                flash('許可証情報を登録しました。', 'success')
+            flash('許可証情報を登録しました。', 'success')
 
-                return redirect(url_for('contractor.profile', id=contractor_id))
-
-            except Exception:
-
-                db.session.rollback()
-                flash('許可証情報が登録出来ませんでした。', 'error')
-
-                return redirect(url_for('contractor.profile', id=contractor_id))
+            return redirect(url_for('contractor.profile', id=contractor_id))
 
     return render_template('license/register.html', form=form, contractor=contractor)
 
