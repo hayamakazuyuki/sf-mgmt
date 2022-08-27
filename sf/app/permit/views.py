@@ -1,6 +1,6 @@
-import requests
+import requests, io
 
-from flask import Blueprint, render_template, current_app, jsonify, request, flash, redirect, url_for
+from flask import Blueprint, render_template, current_app, jsonify, request, flash, redirect, url_for, send_file, abort
 from ..extentions import db, storage
 
 from ..models import Permit
@@ -72,7 +72,7 @@ def register(contractor_id):
 
                 bucket = storage_client.bucket(bucket_name)
 
-                blob = bucket.blob('permit/' + city.zfill(5) + permit_type_id + '.pdf')
+                blob = bucket.blob('permit/' + contractor_id.zfill(5) + city.zfill(5) + permit_type_id + '.pdf')
                 blob.upload_from_string(file.read(), content_type=file.content_type)
 
                 db.session.commit()
@@ -129,3 +129,22 @@ def details(contractor_id, id, mode=None):
 
     return render_template('permit/details.html', contractor=contractor, permit=permit)
     
+
+@permit.route('/<filename>')
+def get_permit_copy(filename):
+    try:
+        bucket_name = current_app.config['GCS_BUCKET_NAME']
+        storage_client = storage.Client()
+        bucket = storage_client.bucket(bucket_name)
+        blob = bucket.blob('permit/' + filename  + '.pdf')
+        pdf_binary = blob.download_as_bytes()
+
+        return send_file(
+            io.BytesIO(pdf_binary),
+            mimetype='application/pdf',
+            as_attachment=False,
+            attachment_filename=filename + '.pdf'
+        )
+
+    except FileNotFoundError:
+        abort(404)
