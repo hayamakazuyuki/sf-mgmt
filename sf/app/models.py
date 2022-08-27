@@ -64,7 +64,7 @@ class Parent(db.Model):
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    parent_id = db.Column(db.Integer, db.ForeignKey('parent.id'), nullable=True)
+    # parent_id = db.Column(db.Integer, db.ForeignKey('parent.id'), nullable=True)
     name = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(50), nullable=True)
     representative = db.Column(db.String(50), nullable=False)
@@ -74,7 +74,7 @@ class Customer(db.Model):
     town = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(100))
     bldg = db.Column(db.String(50))
-    registered_by = db.Column(db.Integer, nullable=False)
+    registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
     shops = db.relationship('Shop', backref=db.backref('customer', lazy=True))
 
@@ -90,7 +90,7 @@ class Shop(db.Model):
     town = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(100))
     bldg = db.Column(db.String(50))
-    registered_by = db.Column(db.Integer, nullable=False)
+    registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
 
 
