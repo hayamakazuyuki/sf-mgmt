@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+import io
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, abort, send_file
 from ..extentions import db, storage
 from ..models import License
 
@@ -106,3 +107,24 @@ def details(contractor_id, id, mode=None):
         return render_template('license/edit.html', contractor=contractor, license=license, form=form)
 
     return render_template('license/details.html', contractor=contractor, license=license)
+
+
+@license.route('/<filename>')
+def get_license_copy(filename):
+
+    try:
+        bucket_name = current_app.config['GCS_BUCKET_NAME']
+        storage_client = storage.Client()
+        bucket = storage_client.bucket(bucket_name)
+        blob = bucket.blob('license/' + filename  + '.pdf')
+        pdf_binary = blob.download_as_bytes()
+
+        return send_file(
+            io.BytesIO(pdf_binary),
+            mimetype='application/pdf',
+            as_attachment=False,
+            attachment_filename=filename + '.pdf'
+        )
+
+    except FileNotFoundError:
+        abort(404)
