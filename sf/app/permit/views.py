@@ -56,6 +56,10 @@ def register(contractor_id):
             effective_from=effective_from, expires_on=expires_on, copy_url=copy_url, registered_by=registered_by)
 
         db.session.add(permit)
+        
+        # get the permit id
+        permit_id = str(permit.id)
+
 
         if copy_url:
 
@@ -66,13 +70,14 @@ def register(contractor_id):
 
         else:
             try:
+
                 bucket_name = current_app.config['GCS_BUCKET_NAME']
 
                 storage_client = storage.Client()
 
                 bucket = storage_client.bucket(bucket_name)
 
-                blob = bucket.blob('permit/' + contractor_id.zfill(5) + city.zfill(5) + permit_type_id + '.pdf')
+                blob = bucket.blob('permit/' + contractor_id.zfill(5) + city.zfill(5) + permit_id + '.pdf')
                 blob.upload_from_string(file.read(), content_type=file.content_type)
 
                 db.session.commit()

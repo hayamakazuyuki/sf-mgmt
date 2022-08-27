@@ -61,7 +61,7 @@
                             {{ permit.permit_type.name }}</a>
     
                         {% else %}
-                        <a href="/permit/{{ '%05d' % contractor.id }}{{ permit.city }}{{ permit.permit_type_id}}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                        <a href="/permit/{{ '%05d' % contractor.id }}{{ permit.city }}{{ permit.id}}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
                             {{ permit.permit_type.name }}</a>
     
                         {% endif %}
