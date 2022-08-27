@@ -1,6 +1,6 @@
 from flask import Blueprint, session, render_template, request, redirect, url_for
 
-from .models import Customer, Shop, VolumeReport
+from .models import Customer, Shop
 
 main = Blueprint('main', __name__)
 
