@@ -73,7 +73,7 @@
                 <!-- this works onclick="submit();" -->
                 <!-- this works too x-on:click="$el.closest('form').submit();" -->
                 <button type="button"
-                 x-on:click="prefecture && permit_type && effective_from && expires_on && (copy_url || license_copy)
+                 x-on:click="prefecture && permit_type && effective_from && expires_on && (copy_url || permit_copy)
                    ? open = true : alert('未入力の項目があります。');" 
                 class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
             hover:bg-blue-800 transition duration-200">内容確認</button>
