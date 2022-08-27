@@ -20,13 +20,11 @@
                 <span id="permitCity"></span></p>
             <p class="text-base my-1">
                 {% if permit.copy_url %}
-                <a href="{{ permit.copy_url }}" class="px-2 py-1 text-blue-500 rounded-full hover:bg-blue-100" target="_blank" rel="noopener">
-                    {{ permit.permit_type.name }}
-                </a>
+                <a href="{{ permit.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                    {{ permit.permit_type.name }}</a>
                 {% else %}
-                <span>
-                    {{ permit.permit_type.name }}
-                </span>
+                <a href="/permit/{{ '%05d' % contractor.id }}{{ permit.city }}{{ permit.id}}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                    {{ permit.permit_type.name }}</a>
                 {% endif %}
             </p>
 
