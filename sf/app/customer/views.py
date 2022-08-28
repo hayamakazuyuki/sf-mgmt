@@ -2,18 +2,18 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from ..extentions import db
 
-from ..models import Customer, Shop, Parent, Contract
+from ..models import Customer, Shop, Contract
 
 from .forms import CustomerForm, ShopForm
 
 customer = Blueprint('customer', __name__, url_prefix='/customer')
 
 
-@customer.route('/parent')
-def parent():
-    parents = Parent.query.all()
+# @customer.route('/parent')
+# def parent():
+#     parents = Parent.query.all()
 
-    return render_template('customer/parent.html', parents=parents)
+#     return render_template('customer/parent.html', parents=parents)
 
 
 @customer.route('/')
