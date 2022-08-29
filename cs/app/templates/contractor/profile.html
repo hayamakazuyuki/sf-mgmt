@@ -18,9 +18,8 @@
 <!-- permits -->
 <div class="max-w-xl rounded shadow-lg my-5 p-5">
 
-    <div class="flex justify-between text-sm place-items-end mb-4">
+    <div class="text-sm mb-4">
         <h2 class="text-gray-800"><span class="text-lg font-bold">一般</span>廃棄物処理業 許可</h2>
-        <a href="/permit/register/{{ contractor.id }}" class="text-blue-500 rounded-full hover:bg-blue-100 px-2">+ 登録</a>
     </div>
 
     {% if permits %}
@@ -30,7 +29,7 @@
 
         {% for permit in permits %}
         <tr class="">
-            <td class="mr-2"><a href="/contractor/{{ contractor.id}}/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+            <td class="mr-2"><a href="/contractor/{{ contractor.id}}/permit/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
             {{ permit.id }}</a></td>
             <td>{{ permit.issuer.name }}</td>
             <td class=""><span class="cityName" data-city="{{ permit.city }}"></span></td>
@@ -56,11 +55,8 @@
 
 <!-- licenses -->
 <div class="max-w-xl rounded shadow-lg my-5 p-5">
-    <div class="flex justify-between text-sm place-items-end mb-4">
-
+    <div class="text-sm mb-4">
         <h2 class="text-gray-800"><span class="text-lg font-bold">産業</span>廃棄物処理業 許可</h2>
-        <a href="/license/register/{{ contractor.id }}" class="text-blue-500 rounded-full hover:bg-blue-100 px-2">+ 登録</a>
-
     </div>
 
     {% if licenses %}
@@ -69,7 +65,7 @@
         <tbody>
             {% for license in licenses %}
             <tr class="">
-                <td class="mr-2"><a href="/license/{{ contractor.id}}/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+                <td class="mr-2"><a href="/contractor/{{ contractor.id}}/license/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
             {{ license.id }}</a></td>
             <td class="">{{ license.issuer.name }}</td>
             <td class="">{{ license.license_type.name }}</td>

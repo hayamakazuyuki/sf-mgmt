@@ -14,7 +14,6 @@
             <p class="text-gray-700">{{ shop.bldg }}</p>
         </div>
 
-        {% if contracts and not session['user'].userinfo.shop %}
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
             <div class="flex">
                 <p class="text-base font-bold">契約一覧</p>
@@ -29,6 +28,8 @@
                             <td class="p-2">処理業者</td>
                         </tr>
                     </thead>
+
+                    {% if contracts and not session['user'].userinfo.shop %}
                     <tbody>
                     {% for contract in contracts %}
                         <tr class="">
@@ -39,9 +40,9 @@
                         </tr>
                     {% endfor %}
                     </tbody>
+                    {% endif %}
                 </table>
             </div>
-            {% endif %}
         </div>
 
         <div class="mx-auto max-w-md rounded shadow-lg my-5 p-5">

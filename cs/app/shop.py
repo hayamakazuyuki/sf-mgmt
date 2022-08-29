@@ -43,7 +43,7 @@ def shop_profile(id):
     shop = Shop.query.get((customer_id, id))
     contracts = Contract.query.all()
 
-    reports = VolumeReport.query.all()
+    reports = VolumeReport.query.filter(VolumeReport.customer_id == customer_id).all()
 
     return render_template('shop/shop-profile.html', shop=shop, contracts=contracts, reports=reports)
 

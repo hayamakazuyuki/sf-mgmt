@@ -44,7 +44,7 @@ def license_detail(contractor_id, id):
     return render_template('contractor/license-details.html', contractor=contractor, license=license)
 
 
-@contractor.route('/contractor/<int:contractor_id>/<int:id>')
+@contractor.route('/contractor/<int:contractor_id>/permit/<int:id>')
 def permit_details(contractor_id, id):
     
     contractor = Contractor.query.get(contractor_id)
