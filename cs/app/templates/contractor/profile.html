@@ -15,33 +15,111 @@
             <p class="text-gray-700">{{ contractor.bldg }}</p>
         </div>
 
-        <div class="flex justify-between mt-10 mb-5 px-5">
-            <h2 class="font-bold text-gray-800">許可情報</h2>
-        </div>
+<!-- permits -->
+<div class="max-w-xl rounded shadow-lg my-5 p-5">
 
-        {% if licenses %}
-        <table class="table-auto w-full m-2">
-            <thead></thead>
-            <tbody>
-            {% for license in licenses %}
-                <tr class="w-full">
-                    <td class="mr-2"><a href="/contractor/{{ contractor.id}}/license/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
-                        {{ license.id }}</a></td>
-                    <td class="">{{ license.issuer.name }}</td>
-                    <td class="">{{ license.license_type.name }}</td>
-                    <td class="text-right">
-                        <a href="{{ license.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
-                            {{ '%03d' % license.issuer_id }} {{ license.license_type_id }}{{ license.reserved_num }} {{ license.unique_num }}                    
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        {% endif %}
+    <div class="flex justify-between text-sm place-items-end mb-4">
+        <h2 class="text-gray-800"><span class="text-lg font-bold">一般</span>廃棄物処理業 許可</h2>
+        <a href="/permit/register/{{ contractor.id }}" class="text-blue-500 rounded-full hover:bg-blue-100 px-2">+ 登録</a>
     </div>
+
+    {% if permits %}
+    <table class="w-full table-fixed">
+        <thead></thead>
+        <tbody>
+
+        {% for permit in permits %}
+        <tr class="">
+            <td class="mr-2"><a href="/contractor/{{ contractor.id}}/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+            {{ permit.id }}</a></td>
+            <td>{{ permit.issuer.name }}</td>
+            <td class=""><span class="cityName" data-city="{{ permit.city }}"></span></td>
+            <td class="">
+                {% if permit.copy_url %}
+                <a href="{{ permit.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                    {{ permit.permit_type.name }}</a>
+
+                {% else %}
+                <a href="/permit/{{ '%05d' % contractor.id }}{{ permit.city }}{{ permit.id}}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                    {{ permit.permit_type.name }}</a>
+
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endif %}
+</div>
+<!-- permits end -->
+
+<!-- licenses -->
+<div class="max-w-xl rounded shadow-lg my-5 p-5">
+    <div class="flex justify-between text-sm place-items-end mb-4">
+
+        <h2 class="text-gray-800"><span class="text-lg font-bold">産業</span>廃棄物処理業 許可</h2>
+        <a href="/license/register/{{ contractor.id }}" class="text-blue-500 rounded-full hover:bg-blue-100 px-2">+ 登録</a>
+
+    </div>
+
+    {% if licenses %}
+    <table class="table-auto w-full">
+        <thead></thead>
+        <tbody>
+            {% for license in licenses %}
+            <tr class="">
+                <td class="mr-2"><a href="/license/{{ contractor.id}}/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+            {{ license.id }}</a></td>
+            <td class="">{{ license.issuer.name }}</td>
+            <td class="">{{ license.license_type.name }}</td>
+            <td class="text-right">
+                {% if license.copy_url %}
+                <a href="{{ license.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}</a>
+
+                {% else %}
+                <a href="/license/{{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                    {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+</div>
+    
+</div>
 
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+    const cityNameHolders = document.querySelectorAll("span.cityName");
+    
+    function setCityNames () {
+        cityNameHolders.forEach(async (cityNameHolder) => {
+            const cityId = cityNameHolder.dataset.city;
+            const prefectureId = cityId.substr(0, 2);
+            const endpoint = 'https://www.land.mlit.go.jp/webland/api/CitySearch?area=' + prefectureId;
+
+            const res = await fetch(endpoint);
+            const cities = await res.json();
+
+            cities['data'].forEach((city) => {
+                if (city.id == cityId) {
+                    const cityName = city.name;
+                    cityNameHolder.textContent = cityName;
+                };
+            });
+
+        })
+    };
+
+    setCityNames();
+
+</script>
 {% endblock %}

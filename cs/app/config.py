@@ -13,6 +13,7 @@ class BaseConfig(object):
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024
 
     SECRET_KEY = env.get('SECRET_KEY')
+    X_API_KEY = env.get('X_API_KEY')
 
     GCS_BUCKET_NAME = env.get('GCS_BUCKET_NAME')
     AUTH0_CLIENT_ID = env.get('AUTH0_CLIENT_ID')

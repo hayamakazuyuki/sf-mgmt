@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 
-from .models import Contractor, License
+from .models import Contractor, License, Permit
 
 contractor = Blueprint('contractor', __name__)
 
@@ -28,9 +28,11 @@ def contractor_profile(id):
 
     contractor = Contractor.query.get_or_404(id)
 
+    permits = Permit.query.filter(Permit.contractor_id == id).all()
     licenses = License.query.filter(License.contractor_id == id).all()
 
-    return render_template('contractor/profile.html', contractor=contractor, licenses=licenses)
+    return render_template('contractor/profile.html', contractor=contractor, permits=permits, licenses=licenses)
+
 
 
 # license detail
@@ -42,3 +44,10 @@ def license_detail(contractor_id, id):
     return render_template('contractor/license-details.html', contractor=contractor, license=license)
 
 
+@contractor.route('/contractor/<int:contractor_id>/<int:id>')
+def permit_details(contractor_id, id):
+    
+    contractor = Contractor.query.get(contractor_id)
+    permit = Permit.query.get(id)
+
+    return render_template('contractor/permit-details.html', contractor=contractor, permit=permit)
