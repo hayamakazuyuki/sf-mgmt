@@ -3,5 +3,5 @@ dispatch:
     service: sf
   - url: "cs.singen.io/*"
     service: cs
-  # - url: "www.singen.eco/*"
+  # - url: "www.singen.io/*"
   #   service: default
