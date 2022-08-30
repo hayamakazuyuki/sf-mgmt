@@ -5,7 +5,7 @@ from google.cloud import storage
 
 from ..extentions import db
 
-from ..models import Contract, Shop
+from ..models import Contract, Customer
 from .forms import ContractRegisterForm
 
 
@@ -17,15 +17,14 @@ def index():
     return render_template('contract/index.html')
 
 
-@contract.route('/register/<int:customer_id>/<int:id>', methods=['GET', 'POST'])
-def register(customer_id, id):
+@contract.route('/register/<int:customer_id>', methods=['GET', 'POST'])
+def register(customer_id):
 
-    shop = Shop.query.get_or_404((customer_id, id))
+    customer = Customer.query.get(customer_id)
     form = ContractRegisterForm()
 
     if form.validate_on_submit():
         customer_id = request.form['customer_id']
-        shop_id = request.form['shop_id']
         contractor_id = request.form['contractor_id']
         item_id = request.form['item_id']
         effective_from = request.form['effective_from']
@@ -35,7 +34,7 @@ def register(customer_id, id):
             auto_extention = 1
         registered_by = 1
 
-        contract = Contract(customer_id=customer_id, shop_id=shop_id, contractor_id=contractor_id,
+        contract = Contract(customer_id=customer_id, contractor_id=contractor_id,
             item_id=item_id, effective_from=effective_from, expires_on=expires_on, auto_extention=auto_extention, 
             registered_by=registered_by)
 
@@ -55,7 +54,7 @@ def register(customer_id, id):
 
                 bucket = storage_client.bucket(bucket_name)
 
-                blob = bucket.blob('contract/' + customer_id + '/' + shop_id + '/' + contractor_id + '/' + contract_id + '.pdf')
+                blob = bucket.blob('contract/' + customer_id.zfill(5) + contractor_id.zfill(5) + contract_id + '.pdf')
                 blob.upload_from_string(file.read(), content_type=file.content_type)
 
                 contract = Contract.query.get(contract.id)
@@ -67,9 +66,9 @@ def register(customer_id, id):
 
         flash('契約を登録しました。', 'success')
 
-        return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=shop_id))
+        return redirect(url_for('customer.profile', id=customer_id))
 
-    return render_template('contract/register.html', shop=shop, form=form)
+    return render_template('contract/register.html', customer=customer, form=form)
 
 
 @contract.route('/<int:id>')

@@ -10,8 +10,6 @@ from ..models import Item
 class ContractRegisterForm(FlaskForm):
     customer_id = IntegerField('取引先ID', validators=[DataRequired('取引先IDは必須です。'),
         NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
-    shop_id = IntegerField('事業所ID', validators=[DataRequired('事業所IDは必須です。'),
-        NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
     contractor_id = IntegerField('パートナーID', validators=[DataRequired('パートナーIDは必須です。'),
         NumberRange(min=1, max=99999, message='有効なIDを入力してください。')])
     item_id = SelectField('契約種類', coerce=int)

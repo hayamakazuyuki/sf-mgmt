@@ -104,14 +104,13 @@ class Item(db.Model):
 class Contract(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
     customer_id = db.Column(db.Integer, nullable=False)
-    shop_id = db.Column(db.Integer, nullable=False)
     contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     auto_extention = db.Column(db.Boolean, nullable=True)
     has_copy = db.Column(db.Boolean, nullable=True)
-    registered_by = db.Column(db.Integer, nullable=False)
+    registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
 
 

@@ -7,17 +7,12 @@
 <div class="container mx-auto max-w-sm py-10">
     <h1 class="font-bold text-xl text-gray-500">契約の登録</h1>
 
-    <form action="/contract/register/{{ shop.customer_id }}/{{ shop.id }}" method="POST" enctype="multipart/form-data"
-    x-data="{}">
+    <form method="POST" enctype="multipart/form-data" x-data="{}">
         {{ form.csrf_token }}
 
         <div class="my-5 text-gray-500 text-sm">
             {{ render_field_with_errors(form.customer_id, class_="w-full text-gray-700 text-base font-bold mt-2 
-            px-3 pb-1", readonly=True, value=shop.customer_id)}}
-        </div>
-        <div class="my-5 text-gray-500 text-sm">
-            {{ render_field_with_errors(form.shop_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 text-base font-bold",
-            readonly=True, value=shop.id)}}
+            px-3 pb-1", readonly=True, value=customer.id)}}
         </div>
         <div class="my-5 text-gray-500 text-sm">
             {{ render_field_with_errors(form.contractor_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b
