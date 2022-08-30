@@ -74,19 +74,17 @@ def register(customer_id):
 @contract.route('/<int:id>')
 def detail(id):
     contract = Contract.query.get_or_404(id)
-    shop = Shop.query.get_or_404((contract.customer_id, contract.shop_id))
 
-    return render_template('contract/details.html', contract=contract, shop=shop)
+    return render_template('contract/details.html', contract=contract)
 
 
-@contract.route('/get_copy/<int:id>')
-def get_copy(id):
+@contract.route('/copy/<int:id>')
+def contract_copy(id):
 
     contract = Contract.query.get(id)
 
     try:
         customer_id = str(contract.customer_id)
-        shop_id = str(contract.shop_id)
         contractor_id = str(contract.contractor_id)
         contract_id = str(contract.id)
 
@@ -95,7 +93,7 @@ def get_copy(id):
         storage_client = storage.Client()
 
         bucket = storage_client.bucket(bucket_name)
-        blob = bucket.blob('contract/' + customer_id + '/' + shop_id + '/' + contractor_id + '/' + contract_id + '.pdf')
+        blob = bucket.blob('contract/' + customer_id.zfill(5) + contractor_id.zfill(5) + contract_id + '.pdf')
         pdf_binary = blob.download_as_bytes()
 
         return send_file(
