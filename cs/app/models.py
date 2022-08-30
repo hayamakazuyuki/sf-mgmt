@@ -85,7 +85,6 @@ class PermitType(db.Model):
 class Contract(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
     customer_id = db.Column(db.Integer, nullable=False)
-    shop_id = db.Column(db.Integer, nullable=False)
     contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     effective_from = db.Column(db.Date, nullable=False)
