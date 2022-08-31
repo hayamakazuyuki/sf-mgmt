@@ -6,12 +6,6 @@
     <div class="max-w-md mx-auto mt-10">
         <p class="font-bold text-lg my-5">一般廃棄物処理業許可情報</p>
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
-            <div class="">
-                <p class="text-right">
-                    <a href="{{ request.path }}/edit" class="px-2 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right text-sm">編集</a>
-                </p>
-            </div>
-
             <p class="mt-3 text-lg font-bold">{{ '%05d' % contractor.id }}</p>
             <p class="text-2xl my-2">{{ contractor.name }}</p>
             <p class="text-lg font-bold">{{ permit.issuer.name }}
