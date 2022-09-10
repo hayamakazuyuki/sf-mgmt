@@ -24,11 +24,11 @@
 
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.prefecture, class_="w-full text-gray-700 focus:outline-none
-                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'prefecture', 'x-on:change' : 'getCities();'})}}
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'prefecture', 'x-on:change' : 'getCities($el.value);'})}}
                 </div>
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.city, class_="w-full text-gray-700 focus:outline-none
-                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'city', 'x-ref' : 'cities'})}}
+                       focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", **{'x-model':'city'})}}
                 </div>
                 <div class="my-5 text-gray-500">
                     {{ render_field_with_errors(form.permit_type, class_="w-full text-gray-700 focus:outline-none
@@ -120,27 +120,28 @@
     
         </form>
     </div>
-    <script>
-        const getCities = () => {
-    
-            prefecture = prefecture.value;
-            
-            fetch('/permit/city/' + prefecture).then(function(response) {
-                response.json().then(function(data) {
-
-                    optionHTML = '<option value=""></option>';
-    
-                    for (let city of data.cities) {
-                        optionHTML += '<option value="' + city.code + '">' + city.name + '</option>';
-                    }
-    
-                    document.getElementById('city').innerHTML = optionHTML;
-    
-                });
-            });
-        }
-    </script>
 </div>
+{% endblock %}
 
+{% block script %}
+<script>
+    const getCities = (prefecture) => {
 
+        // prefecture = prefecture.value;
+        
+        fetch('/permit/city/' + prefecture).then(function(response) {
+            response.json().then(function(data) {
+
+                optionHTML = '<option value=""></option>';
+
+                for (let city of data.cities) {
+                    optionHTML += '<option value="' + city.code + '">' + city.name + '</option>';
+                }
+
+                document.getElementById('city').innerHTML = optionHTML;
+
+            });
+        });
+    }
+</script>
 {% endblock %}

@@ -7,9 +7,9 @@
 <div class="container max-w-4xl mx-auto px-2 flex-grow">
 
     <div class="max-w-sm mx-auto mt-10" x-data="{ open: false }">
-
         <h1 class="font-bold text-lg my-5">許可証情報の登録</h1>
         <h2 class="my-5 font-bold text-lg text-gray-500">{{ '%05d' % contractor.id }}: {{ contractor.name }}</h2>
+
             <form x-data="{ issuer: '',
                             license_type: '',
                             reserved_num: '',
@@ -20,7 +20,7 @@
                             license_copy: '',
                             select: ''
                         }" 
-                action="{{ request.path }}" method="POST" enctype="multipart/form-data">
+                method="POST" enctype="multipart/form-data">
                 {{ form.csrf_token }}
         
                 <div class="my-5 text-gray-500 align-middle">
@@ -83,7 +83,8 @@
                    ? open = true : alert('未入力の項目があります。');" 
                 class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
             hover:bg-blue-800 transition duration-200">内容確認</button>
-    
+
+<!-- confirmation modal starts -->
             <div x-show="open" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
     
             <div class="bg-white mx-3 md:mx-0 border p-6 shadow-md">
@@ -120,7 +121,8 @@
             </div>
         </div>
     </div>
-    
+<!-- confirmation modal ends -->
+
         </form>
     </div>
 

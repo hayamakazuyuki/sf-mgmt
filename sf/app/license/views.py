@@ -82,11 +82,15 @@ def details(contractor_id, id, mode=None):
     license = get_license(id)
 
     if mode == 'edit':
-        issuer_id = license.issuer_id
-        license_type_id = license.license_type_id
-        reserved_num = license.reserved_num
 
-        form = LicenseRegisterForm(issuer=issuer_id, license_type=license_type_id, reserved_num=reserved_num)
+        form = LicenseRegisterForm(issuer=license.issuer_id, license_type=license.license_type_id,
+                                    reserved_num=license.reserved_num)
+        
+        select = ''
+        if license.copy_url:
+            select = 'url'
+        else:
+            select = 'pdf'
 
         if form.validate_on_submit():
             license.issuer_id = request.form['issuer']
@@ -104,7 +108,7 @@ def details(contractor_id, id, mode=None):
 
             return redirect(url_for('license.details', contractor_id=contractor_id, id=id))
 
-        return render_template('license/edit.html', contractor=contractor, license=license, form=form)
+        return render_template('license/edit.html', contractor=contractor, license=license, form=form, select=select)
 
     return render_template('license/details.html', contractor=contractor, license=license)
 

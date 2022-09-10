@@ -130,7 +130,13 @@ def details(contractor_id, id, mode=None):
     permit = get_permit(id)
 
     if mode == 'edit':
-        return '編集'
+        form = PermitRegisterForm(prefecture=permit.prefecture, city=permit.city, 
+                permit_type=permit.permit_type_id)
+
+        if form.validate_on_submit():
+            return request.form
+
+        return render_template('permit/edit.html', contractor=contractor, permit=permit, form=form)
 
     return render_template('permit/details.html', contractor=contractor, permit=permit)
     
