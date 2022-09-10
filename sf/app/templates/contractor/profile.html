@@ -99,7 +99,7 @@
                         {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}</a>
 
                         {% else %}
-                        <a href="/license/{{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}" class="" target="_blank" rel="noopener">
+                        <a href="/license/{{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
                             {{ '%03d' % license.issuer_id }}{{ license.license_type_id }}{{ license.reserved_num }}{{ license.unique_num }}</a>
                         {% endif %}
                     </td>
