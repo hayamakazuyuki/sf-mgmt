@@ -4,20 +4,30 @@
 {% include "_flashing.html" %}
 {% from "_macros.html" import render_field_with_errors, render_input_field %}
 
-<div class="container mx-auto max-w-sm py-10">
+<div class="container mx-auto max-w-sm py-10" x-data="">
     <h1 class="font-bold text-xl text-gray-500">契約の登録</h1>
 
     <form method="POST" enctype="multipart/form-data" x-data="{}">
         {{ form.csrf_token }}
 
         <div class="my-5 text-gray-500 text-sm">
-            {{ render_field_with_errors(form.customer_id, class_="w-full text-gray-700 text-base font-bold mt-2 
-            px-3 pb-1", readonly=True, value=customer.id)}}
+            {{ render_field_with_errors(form.customer_id, class_="text-gray-700 text-base font-bold mt-2 
+            px-3 pb-1", readonly=True, value=customer.id)}}: {{ customer.name }}
         </div>
-        <div class="my-5 text-gray-500 text-sm">
-            {{ render_field_with_errors(form.contractor_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b
-            text-base font-bold")}}
+        <div class="my-5 text-sm">
+            {{ render_field_with_errors(form.contractor_id, class_="text-gray-700 w-1/4 mt-2 px-3 pb-1
+            text-sm border-b", placeholder="12345", **{'x-on:change' : 'fetchContractor'}) }}
+            {{ form.contractor_name(class_="bg-white border-b mt-2 px-3 pb-1 text-sm w-max", readonly="True") }}
+            <button type="button" class="w-fit hover:bg-blue-100 rounded-full px-2 py-1 text-blue-500" x-on:click="openSearchWindow">
+                <svg class="mr-1 text-blue-500 h-4 w-4 fill-current inline" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"
+                viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;">
+                <path
+                d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+            </svg>検索
+            </button>
         </div>
+
         <div class="my-5 text-gray-500 text-sm">
             {{ render_field_with_errors(form.item_id, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b font-bold text-base")}}
         </div>
@@ -27,12 +37,12 @@
         </div>
 
         <div class="my-5 text-gray-500 text-sm">
-            {{ render_field_with_errors(form.expires_on, class_="w-1/2 text-gray-700 mt-2 px-3 pb-1 border-b text-base")}}
+            {{ render_field_with_errors(form.expires_on, class_="w-1/2 text-gray-700 mt-2 px-3 pb-1 border-b")}}
             <span class="ml-3">{{ form.auto_extention }}</span><span class="ml-2">{{ form.auto_extention.label }}</span>
         </div>
 
         <div class="my-5 text-gray-500 text-sm">
-            {{ render_field_with_errors(form.contract_copy, class_="w-full text-gray-700 mt-2 px-3 pb-1 border-b")}}
+            {{ render_field_with_errors(form.contract_copy, class_="text-sm w-full mt-2 px-3 pb-1 border-b")}}
         </div>
 
         <button type="button" x-on:click="$el.closest('form').submit();" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
@@ -40,3 +50,37 @@
     </form>
 </div>
 {% endblock %}
+{% block script %}
+<script>
+    const openSearchWindow = () => {
+        const horizontalCenter = (screen.width - 500)/2
+        window.open('/contract/search_contractor',
+        "_blank",
+        "location=no, menubar=0, width=500, height=500, left=" + horizontalCenter)
+    }
+
+    async function fetchContractor() {
+
+        const contractorId = document.getElementById('contractor_id').value;
+        const contractor_name = document.getElementById('contractor_name');
+
+        const res = await fetch('/contract/contractor/' + contractorId);
+        const resJson = await res.json();
+
+        if (res.ok) {
+            if (resJson['name'] == '') {
+                contractor_name.value = '';
+                alert('パートナーがみつかりません。');
+                return;
+            } else {
+                contractor_name.value = resJson['name'];
+            }
+
+        } else {
+            console.log(res.status);
+        };
+    };
+
+</script>
+{% endblock %}
+

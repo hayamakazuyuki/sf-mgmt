@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- tailwind css cdn -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.8.1/dist/cdn.min.js"></script>
+
+    <title>パートナー検索</title>
+</head>
+<body>
+    <div class="m-5" x-data="">
+        <h1 class="font-bold">パートナー検索</h1>
+
+        <div class="w-full my-5">
+            <form action="/contract/search_contractor" method="GET">
+                <div class="relative flex">
+                    <input class="w-full rounded-full shadow-md h-10 px-5 pr-16 focus:border-blue-400 focus:bg-white" type="search" name="q" placeholder="キーワード">
+                    <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
+                        <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                            viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+                            width="512px" height="512px">
+                            <path
+                            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% if contractors %}
+        <div>
+            <table class="table-auto w-full mx-2 text-sm">
+                <thead class="font-bold">
+                    <tr class="border-black border-b">
+                        <td class="">ID</td>
+                        <td class="">PT名</td>
+                        <td class="">都道府県市区町村</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for contractor in contractors %}
+                    <tr class="hover:text-rose-500 hover:bg-rose-100 cursor-pointer" x-on:click="setContractor( {{ contractor.id }}, '{{ contractor.name }}' )">
+                        <td class="border-b">{{ '%05d' % contractor.id }}</td>
+                        <td class="border-b">{{ contractor.name }}</td>
+                        <td class="border-b">{{ contractor.prefecture }}{{ contractor.city }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        {% elif change_keyword %}
+            <div class="text-red-800 text-sm">{{ change_keyword }}</div>
+        {% endif %}
+
+    </div>
+
+<script>
+    const setContractor = (contractorId, name) => {
+
+        if (!window.opener || window.opener.closed) {
+            alert('メインのウインドウがありません。');
+
+        } else {
+            window.opener.document.getElementById("contractor_id").value = contractorId;
+            window.opener.document.getElementById("contractor_name").value = name;
+        }
+
+        window.close();
+
+    }
+
+</script>
+</body>
+</html>

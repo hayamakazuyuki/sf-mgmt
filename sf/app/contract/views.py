@@ -1,11 +1,11 @@
-import os, io
+import io
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort, send_file
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort, send_file, make_response
 from google.cloud import storage
 
 from ..extentions import db
 
-from ..models import Contract, Customer
+from ..models import Contract, Customer, Contractor, Shop
 from .forms import ContractRegisterForm
 
 
@@ -21,6 +21,7 @@ def index():
 def register(customer_id):
 
     customer = Customer.query.get(customer_id)
+
     form = ContractRegisterForm()
 
     if form.validate_on_submit():
@@ -41,7 +42,7 @@ def register(customer_id):
         db.session.add(contract)
         db.session.commit()
 
-        # retrieve the contract id
+        # get the contract id
         contract_id = str(contract.id)
 
         file = request.files.get('contract_copy')
@@ -69,6 +70,41 @@ def register(customer_id):
         return redirect(url_for('customer.profile', id=customer_id))
 
     return render_template('contract/register.html', customer=customer, form=form)
+
+
+@contract.route('/search_contractor')
+def search_contractor():
+    q = request.args.get('q')
+
+    if q:
+        search = "%{}%".format(q)
+        contractors = Contractor.query.filter(Contractor.name.like(search)).all()
+        count = len(contractors)
+
+        change_keyword = None
+
+        if count > 21:
+            change_keyword = '検索結果が20件を超えています。検索ワードを変えて下さい。'
+            contractors = None
+        
+        else:
+            pass
+
+        return render_template('contract/search_contractor.html', contractors=contractors, change_keyword=change_keyword)
+
+    return render_template('contract/search_contractor.html')
+
+
+@contract.route('/contractor/<int:id>')
+def get_contractor(id):
+
+    contractor = Contractor.query.get(id)
+
+    if contractor:
+        return {'name': contractor.name}
+
+    else:
+        return {'name': ''}
 
 
 @contract.route('/<int:id>')
