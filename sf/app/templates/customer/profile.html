@@ -27,6 +27,10 @@
                 <p class="items-end">{{ customer.registered_by }}</p>
             </div>
         </div>
+
+        <!-- shops -->
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+
         <p class="mx-5 text-sm text-right">
             <a href="/customer/{{ customer.id }}/register" class="px-2 py-1 text-blue-500 hover:text-blue-700 hover:bg-blue-100 rounded-full">
             + 事業所の登録
@@ -52,9 +56,9 @@
         <table class="table-auto w-full m-2 text-sm">
             <thead>
                 <tr class="font-bold border-black border-b">
-                    <td class="p-2">ID</td>
-                    <td class="p-2">事業所名</td>
-                    <td class="p-2">住所</td>
+                    <td class="px-2">ID</td>
+                    <td class="px-2">事業所名</td>
+                    <td class="px-2">住所</td>
                 </tr>
             </thead>
             <tbody>
@@ -69,11 +73,39 @@
             </tbody>
         </table>
         {% endif %}
+        </div>
 
-        <p class="mt-5 text-sm text-right">
-            <a href="/contract/register/{{ customer.id }}" class="px-2 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right text-sm">
-                + 契約を登録</a>
-        </p>    
+        <!-- contracts -->
+        <div class="max-w-xl rounded shadow-lg my-5 p-5">
+            <p class="mt-5 text-sm text-right">
+                <a href="/contract/register/{{ customer.id }}" class="px-2 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right text-sm">
+                    + 契約を登録</a>
+            </p>
+
+            {% if contracts %}
+            <table class="table-auto w-full m-2 text-sm">
+                <thead>
+                    <tr class="font-bold border-black border-b">
+                        <td class="px-2">ID</td>
+                        <td class="px-2">業者名</td>
+                        <td class="px-2">種類</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for contract in contracts %}
+                    <tr class="">
+                        <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contract/{{ contract.id }}">
+                            {{ contract.id }}</a></td>
+                        <td class="border-b">{{ contract.contractor.name }}</td>
+                        <td class="border-b">{{ contract.item.name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+    
+        </div>
+
 
     </div>
 

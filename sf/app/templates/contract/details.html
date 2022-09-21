@@ -9,11 +9,17 @@
         <div class="max-w-xl rounded shadow-lg my-5 p-5 text-sm">
             <div class="flex justify-between">
                 <p class="text-gray-700">
+
+                    {% if contract.file_name %}
                     <a href="/contract/copy/{{ contract.id }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
-                        {{ '%05d' % contract.id }}
+                        {{ contract.id }}
+                        <span class="ml-3 text-lg font-bold">{{ contract.item.name }}</span></p>
                     </a>
-                    <span class="ml-1 text-lg font-bold">{{ contract.item.name }}</span></p>
-                <p class="">
+                    {% else %}
+                        {{ contract.id }}<span class="ml-3 text-lg font-bold">{{ contract.item.name }}</span></p>
+                    {% endif %}
+
+                <p>
                     <a href="/contractor/{{ contract.id }}/edit" class="px-1 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right">編集</a>
                 </p>
             </div>

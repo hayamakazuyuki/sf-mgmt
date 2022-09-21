@@ -84,6 +84,7 @@ def profile(id, mode=None):
     page = request.args.get('page', 1, type=int)
 
     shops = Shop.query.filter_by(customer_id=id).paginate(page=page, per_page=20)
+    contracts = Contract.query.filter_by(customer_id=id).all()
 
     if mode == 'edit':
         form = CustomerForm()
@@ -108,7 +109,7 @@ def profile(id, mode=None):
 
         return render_template('customer/edit.html', form=form, customer=customer)
 
-    return render_template('customer/profile.html', customer=customer, shops=shops, page=page)
+    return render_template('customer/profile.html', customer=customer, shops=shops, page=page, contracts=contracts)
 
 
 @customer.route('/<int:id>/register', methods=['GET', 'POST'])
