@@ -50,16 +50,17 @@ def register(customer_id):
         if file:
             try:
                 bucket_name = current_app.config['GCS_BUCKET_NAME']
+                file_name = customer_id.zfill(5) + contractor_id.zfill(5) + contract_id + '.pdf'
 
                 storage_client = storage.Client()
 
                 bucket = storage_client.bucket(bucket_name)
 
-                blob = bucket.blob('contract/' + customer_id.zfill(5) + contractor_id.zfill(5) + contract_id + '.pdf')
+                blob = bucket.blob('contract/' + file_name)
                 blob.upload_from_string(file.read(), content_type=file.content_type)
 
                 contract = Contract.query.get(contract.id)
-                contract.has_copy = 1
+                contract.file_name = file_name
                 db.session.commit()
 
             except Exception:

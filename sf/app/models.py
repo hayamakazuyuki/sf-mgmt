@@ -109,7 +109,7 @@ class Contract(db.Model):
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     auto_extention = db.Column(db.Boolean, nullable=True)
-    has_copy = db.Column(db.Boolean, nullable=True)
+    file_name = db.Column(db.String(255), nullable=True)
     registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
 
