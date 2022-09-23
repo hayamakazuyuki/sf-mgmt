@@ -56,3 +56,19 @@ services:
       - ./sf:/app
 
     command: flask run --host=0.0.0.0
+
+  astro-lp:
+    build:
+      context: ./astro-lp
+      dockerfile: Dockerfile
+    container_name: astro_c
+    ports:
+      - 3000:3000
+    volumes:
+      - ./astro-lp:/usr/src/app
+      # paths below are ephemeral volumes
+      - "/usr/src/app/.tscache"
+      - "/usr/src/app/dist"
+      - "/usr/src/app/node_modules"
+
+
