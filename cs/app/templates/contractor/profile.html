@@ -34,6 +34,8 @@
         {% else %}
         <tr class="">
         {% endif %}
+
+        <tr class="">
             <td class="mr-2"><a href="/contractor/{{ contractor.id}}/permit/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
             {{ permit.id }}</a></td>
             <td>{{ permit.issuer.name }}</td>
@@ -69,11 +71,11 @@
         <thead></thead>
         <tbody>
             {% for license in licenses %}
-            {% set countdown = permit.expires_on - today %}
+            {% set countdown = license.expires_on - today %}
             {% if countdown.days < 60 %}
             <tr class="bg-red-100">
             {% else %}
-            <tr class="bg-green-100">
+            <tr class="">
             {% endif %}
                     <td class="mr-2"><a href="/contractor/{{ contractor.id}}/license/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
             {{ license.id }}</a></td>
