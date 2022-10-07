@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from sqlalchemy import desc
 
 from .extentions import db
@@ -9,7 +9,7 @@ from .forms import CollectionRequestForm
 
 
 shop = Blueprint('shop', __name__)
-
+JST = timezone(timedelta(hours=+9), 'JST')
 
 @shop.route('/shop')
 def index():
@@ -45,7 +45,9 @@ def shop_profile(id):
 
     reports = VolumeReport.query.filter(VolumeReport.customer_id == customer_id).all()
 
-    return render_template('shop/shop-profile.html', shop=shop, contracts=contracts, reports=reports)
+    today = datetime.now(JST).date()
+
+    return render_template('shop/shop-profile.html', shop=shop, contracts=contracts, reports=reports, today=today)
 
 """
 @shop.route('/collection')

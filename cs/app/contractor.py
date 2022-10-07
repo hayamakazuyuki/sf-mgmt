@@ -1,8 +1,11 @@
 from flask import Blueprint, render_template, request
+from datetime import datetime, timedelta, timezone
 
 from .models import Contractor, License, Permit
 
 contractor = Blueprint('contractor', __name__)
+JST = timezone(timedelta(hours=+9), 'JST')
+
 
 @contractor.route('/contractor')
 def index():
@@ -30,9 +33,9 @@ def contractor_profile(id):
 
     permits = Permit.query.filter(Permit.contractor_id == id).all()
     licenses = License.query.filter(License.contractor_id == id).all()
+    today = datetime.now(JST).date()
 
-    return render_template('contractor/profile.html', contractor=contractor, permits=permits, licenses=licenses)
-
+    return render_template('contractor/profile.html', contractor=contractor, permits=permits, licenses=licenses, today=today)
 
 
 # license detail
