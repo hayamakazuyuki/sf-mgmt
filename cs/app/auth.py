@@ -43,7 +43,7 @@ def logout():
         + "/v2/logout?"
         + urlencode(
             {
-                "returnTo": url_for("main.index", _external=True),
+                "returnTo": "https://www.singen.io/",
                 "client_id": current_app.config["AUTH0_CLIENT_ID"],
             },
             quote_via=quote_plus,
