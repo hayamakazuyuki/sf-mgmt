@@ -27,3 +27,7 @@ class ContractRegisterForm(FlaskForm):
         items = Item.query.all()
         # set item_id from db as tuple(value, text)
         self.item_id.choices = [('', '')]+[(item.id, item.name) for item in items]
+
+
+class AddShopForm(FlaskForm):
+    shop_id = SelectField('契約事業所', validators=[DataRequired('契約事業所は必須です。')])

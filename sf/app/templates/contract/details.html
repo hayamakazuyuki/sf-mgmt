@@ -31,7 +31,7 @@
             <p class="text-gray-700 mt-3 text-base font-bold">{{ contract.effective_from }}<span class="font-normal">〜</span>
                 {{ contract.expires_on }}
                 {% if contract.auto_extention == 1 %}
-                <span class="ml-3 px-2 py-1 text-xs text-white bg-gray-500 rounded-full font-light">自動更新</span>
+                <span class="ml-3 px-2 py-1 text-xs text-white bg-green-500 rounded-full font-light">自動更新</span>
                 {% endif %}
             </p>
             <hr class="mt-5 mb-3">
@@ -39,6 +39,30 @@
             <div class="flex justify-between text-gray-500 text-sm">
                 <p class="items-end">{{ contract.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
                 <p class="items-end">{{ contract.registered_by }}</p>
+            </div>
+        </div>
+
+        <div class="max-w-md rounded shadow-lg my-5 p-5">
+
+            <div class="flex justify-between text-sm place-items-end mb-4">
+                <h2 class="text-gray-800"><span class="text-lg font-bold">契約事業所</span></h2>
+            </div>
+            <div>
+                {% if contracted_shops %}
+                <ul>
+                    {% for shop in contracted_shops %}
+                    <li>{{ shop.id }}{{ shop.name }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="w-full text-sm text-gray-500">
+                <form method="post">
+                    {{ form.csrf_token }}
+                    {{ form.shop_id.label(class_="sr-only") }}
+                    {{ form.shop_id() }}
+                    <button type="button" class="py-1 px-2 rounded-full text-rose-700 hover:bg-rose-200" onclick="submit();">登録</button>
+                </form>
             </div>
         </div>
     </div>

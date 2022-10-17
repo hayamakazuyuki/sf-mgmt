@@ -112,6 +112,14 @@ class Contract(db.Model):
     file_name = db.Column(db.String(255), nullable=True)
     registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
+    shops = db.relationship('ContractShop', backref=db.backref('contract', lazy=True))
+
+
+class ContractShop(db.Model):
+    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    contract_id = db.Column(db.Integer, db.ForeignKey('contract.id'), nullable=False)
+    customer_id = db.Column(db.Integer, nullable=False)
+    shop_id = db.Column(db.Integer, nullable=False)
 
 
 class Issuer(db.Model):
