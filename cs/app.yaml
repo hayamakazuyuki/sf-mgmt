@@ -1,5 +1,5 @@
 runtime: python39
-service: cs
+service: app
 
 includes:
   - env_variables.yaml
