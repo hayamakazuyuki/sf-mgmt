@@ -16,7 +16,7 @@
             </div>
 
             <p class="mt-3 text-lg font-bold">{{ '%05d' % license.contractor.id }}</p>
-            <p class="text-xl my-2">{{ license.contractor.name }}</p>
+            <a href="/contractor/{{ license.contractor.id }}" class="text-lg text-blue-600 hover:text-blue-800">{{ license.contractor.name }}</a>
             <p class="text-lg font-bold">{{ license.issuer.name }} {{ license.license_type.name }}</p>
             <p class="text-gray-700 text-sm">許可番号：
                 {% if license.copy_url %}
