@@ -28,7 +28,6 @@
                 <p class="items-end">{{ shop.registered_by }}</p>
             </div>
         </div>
-        <p><a href="/report/register/{{ shop.customer_id}}/{{ shop.id }}/{{ 1041 }}">reg</a></p>
 
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
             <div class="">
@@ -48,10 +47,10 @@
                     <tbody>
                     {% for contract in contracts %}
                         <tr class="">
-                            <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contract/{{ contract.id }}">
-                                {{ '%05d' % contract.id }}</a></td>
-                            <td class="border-b">{{ contract.item.name }}</td>
-                            <td class="border-b">{{ contract.contractor.name }}</td>
+                            <td class="border-b"><a class="text-blue-600 hover:underline hover:text-blue-800" href="/contract/{{ contract.contract_id }}">
+                                {{ '%05d' % contract.contract_id }}</a></td>
+                            <td class="border-b">{{ contract.contract.item.name }}</td>
+                            <td class="border-b">{{ contract.contract.contractor.name }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

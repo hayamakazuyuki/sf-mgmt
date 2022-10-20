@@ -45,23 +45,23 @@
         <div class="max-w-md rounded shadow-lg my-5 p-5">
 
             <div class="flex justify-between text-sm place-items-end mb-4">
-                <h2 class="text-gray-800"><span class="text-lg font-bold">契約事業所</span></h2>
+                <h2 class="text-gray-800"><span class="text-base">契約事業所</span></h2>
             </div>
             <div>
                 {% if contracted_shops %}
                 <ul>
-                    {% for shop in contracted_shops %}
-                    <li>{{ shop.id }}{{ shop.name }}</li>
+                    {% for cs in contracted_shops %}
+                    <li>{{ cs.shop.id }} <span class="font-bold">{{ cs.shop.name }}</span></li>
                     {% endfor %}
                 </ul>
                 {% endif %}
             </div>
-            <div class="w-full text-sm text-gray-500">
+            <div class="w-full text-sm text-gray-500 mt-5">
                 <form method="post">
                     {{ form.csrf_token }}
                     {{ form.shop_id.label(class_="sr-only") }}
                     {{ form.shop_id() }}
-                    <button type="button" class="py-1 px-2 rounded-full text-rose-700 hover:bg-rose-200" onclick="submit();">登録</button>
+                    <button type="button" class="py-1 px-2 rounded-full text-rose-700 hover:bg-rose-200" onclick="submit();">追加</button>
                 </form>
             </div>
         </div>

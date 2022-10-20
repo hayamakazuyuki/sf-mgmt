@@ -1,5 +1,6 @@
 from crypt import methods
 import io
+from logging import warning
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort, send_file, make_response
 from google.cloud import storage
@@ -112,22 +113,29 @@ def get_contractor(id):
 @contract.route('/<int:id>', methods=['GET', 'POST'])
 def detail(id):
     contract = Contract.query.get_or_404(id)
-    contracted_shops = ContractShop.query.all()
+    contracted_shops = ContractShop.query.filter_by(contract_id=contract.id).all()
 
     shops = Shop.query.filter(Shop.customer_id == contract.customer_id).all()
-    shop_choices = [('','')]+[(shop.id, shop.name) for shop in shops]
+    shop_choices = [('','-- 選択 --')]+[(shop.id, shop.name) for shop in shops]
     form = AddShopForm()
     form.shop_id.choices = shop_choices
 
     if form.validate_on_submit():
         shop_id = request.form['shop_id']
 
-        contract_shop = ContractShop(contract_id=contract.id, shop_id=shop_id)
+        exists = ContractShop.query.filter_by(contract_id=contract.id).filter_by(customer_id=contract.customer_id).filter_by(shop_id=shop_id).first()
+
+        if exists:
+            flash('その事業所は既に登録されています。', 'info')
+
+            return redirect(url_for('contract.detail', id=id))
+
+        contract_shop = ContractShop(contract_id=contract.id, customer_id=contract.customer_id, shop_id=shop_id)
         db.session.add(contract_shop)
         db.session.commit()
         flash('契約対象事業所を登録しました。', 'success')
 
-        return render_template('contract/details.html', contract=contract, form=form, contracted_shops=contracted_shops)
+        return redirect(url_for('contract.detail', id=id))
 
     return render_template('contract/details.html', contract=contract, form=form, contracted_shops=contracted_shops)
 

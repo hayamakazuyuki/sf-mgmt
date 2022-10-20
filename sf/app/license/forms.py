@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField, StringField, SelectField, FileField
+from wtforms import DateField, StringField, SelectField, FileField, SelectMultipleField
 from wtforms.validators import DataRequired, Regexp, Optional, URL
 
-from ..models import Issuer, LicenseType
+from ..models import Issuer, LicenseType, IndWaste
 
 
 class LicenseRegisterForm(FlaskForm):
@@ -31,3 +31,15 @@ class LicenseRegisterForm(FlaskForm):
         types = LicenseType.query.all()
         # set issuers from db as tuple(value, text)
         self.license_type.choices = [('')]+[(type.id) for type in types]
+
+
+class LicensedIndWasteForm(FlaskForm):
+    item = SelectMultipleField('許可品目', coerce=int)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._set_items()
+
+    def _set_items(self):
+        items = IndWaste.query.all()
+        self.item.choices = [(item.id, item.name) for item in items]

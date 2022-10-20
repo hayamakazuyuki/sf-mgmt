@@ -1,7 +1,7 @@
 from wsgiref import validate
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, FileField, SelectField, DateField, BooleanField, StringField, SelectMultipleField
-from wtforms.validators import NumberRange, DataRequired
+from wtforms.validators import NumberRange, DataRequired, InputRequired
 from flask_wtf.file import FileAllowed
 
 from ..models import Item
@@ -30,4 +30,4 @@ class ContractRegisterForm(FlaskForm):
 
 
 class AddShopForm(FlaskForm):
-    shop_id = SelectField('契約事業所', validators=[DataRequired('契約事業所は必須です。')])
+    shop_id = SelectField('契約事業所', validators=[InputRequired('契約事業所は必須です。')])

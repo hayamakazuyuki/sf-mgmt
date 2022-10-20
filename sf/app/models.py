@@ -1,5 +1,5 @@
 from .extentions import db, admin
-from sqlalchemy import func
+from sqlalchemy import func, ForeignKeyConstraint
 from flask_admin.contrib.sqla import ModelView
 
 
@@ -33,7 +33,17 @@ class License(db.Model):
     copy_url = db.Column(db.String(2083))
     registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
+    licensed_items = db.relationship('LicensedItem', backref=db.backref('license', lazy=True))
 
+class LicensedItem(db.Model):
+    license_id = db.Column(db.Integer, db.ForeignKey('license.id'), primary_key=True)
+    ind_waste_id = db.Column(db.Integer, db.ForeignKey('ind_waste.id'), primary_key=True)
+
+
+class IndWaste(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    licensed_items = db.relationship('LicensedItem', backref=db.backref('ind_waste', lazy=True))
 
 class Permit(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
@@ -92,6 +102,7 @@ class Shop(db.Model):
     bldg = db.Column(db.String(50))
     registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
+    contracts = db.relationship('ContractShop', backref=db.backref('shop', lazy=True))
 
 
 class Item(db.Model):
@@ -116,10 +127,11 @@ class Contract(db.Model):
 
 
 class ContractShop(db.Model):
-    id = db.Column(db.Integer, primary_key=True, auto_increment=True)
-    contract_id = db.Column(db.Integer, db.ForeignKey('contract.id'), nullable=False)
-    customer_id = db.Column(db.Integer, nullable=False)
-    shop_id = db.Column(db.Integer, nullable=False)
+    contract_id = db.Column(db.Integer, db.ForeignKey('contract.id'), primary_key=True)
+    customer_id = db.Column(db.Integer, primary_key=True)
+    shop_id = db.Column(db.Integer, primary_key=True)
+
+    __table_args__ = (ForeignKeyConstraint(['customer_id', 'shop_id'], ['shop.customer_id', 'shop.id']),)
 
 
 class Issuer(db.Model):
@@ -173,6 +185,11 @@ class PermitTypeAdminView(ModelView):
     form_columns = ['name']
     # column_list = ['id', 'name']
 
+class IndWasteAdminView(ModelView):
+    form_columns = ['id', 'name']
+    column_list = ['id', 'name']
+
+
 
 # admin.add_view(ParentAdminView(Parent, db.session))
 admin.add_view(ItemAdminView(Item, db.session))
@@ -180,3 +197,4 @@ admin.add_view(IssuerAdminView(Issuer, db.session))
 admin.add_view(LicenseTypeAdminView(LicenseType, db.session))
 admin.add_view(ModelView(Customer, db.session, endpoint='customerview'))
 admin.add_view(PermitTypeAdminView(PermitType, db.session))
+admin.add_view(IndWasteAdminView(IndWaste, db.session))

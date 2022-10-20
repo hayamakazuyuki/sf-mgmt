@@ -1,9 +1,10 @@
+from crypt import methods
 import io
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, abort, send_file
 from ..extentions import db, storage
-from ..models import License
+from ..models import License, LicensedItem
 
-from .forms import LicenseRegisterForm
+from .forms import LicenseRegisterForm, LicensedIndWasteForm
 
 from ..utils import get_contractor, get_license
 
@@ -74,12 +75,15 @@ def register(contractor_id):
 
 
 # industrial waste license details
-@license.route('/<int:contractor_id>/<int:id>')
-@license.route('/<int:contractor_id>/<int:id>/<mode>', methods=['GET', 'POST'])
-def details(contractor_id, id, mode=None):
+@license.route('/details/<int:id>')
+@license.route('/details/<int:id>/<mode>', methods=['GET', 'POST'])
+def details(id, mode=None):
 
-    contractor = get_contractor(contractor_id)
     license = get_license(id)
+
+    # get only licensed industrial waste ids
+    result = LicensedItem.query.filter_by(license_id=id).with_entities(LicensedItem.ind_waste_id).all()
+    licensed_items = [ e[0] for e in result ]
 
     if mode == 'edit':
 
@@ -106,11 +110,38 @@ def details(contractor_id, id, mode=None):
 
             flash('許可証情報を更新しました。', 'success')
 
-            return redirect(url_for('license.details', contractor_id=contractor_id, id=id))
+            return redirect(url_for('license.details', contractor_id=license.contractor_id, id=id))
 
-        return render_template('license/edit.html', contractor=contractor, license=license, form=form, select=select)
+        return render_template('license/edit.html', license=license, form=form, select=select)
 
-    return render_template('license/details.html', contractor=contractor, license=license)
+    return render_template('license/details.html', license=license, licensed_items=licensed_items)
+
+
+@license.route('/items/<int:id>', methods=['GET', 'POST'])
+def license_items(id):
+    license = get_license(id)
+
+    form = LicensedIndWasteForm()
+
+    if form.validate_on_submit():
+
+        reqs = request.form.getlist('item')
+
+        if reqs:
+            for req in reqs:
+                licenseditem = LicensedItem(license_id=id, ind_waste_id=req)
+                db.session.add(licenseditem)
+
+        try:
+            db.session.commit()
+            flash('許可証情報を更新しました。', 'success')
+
+        except:
+            flash('内容をご確認ください。', 'info')
+
+        return redirect(url_for('license.details', id=id))
+
+    return render_template('license/edit-details.html', license=license, form=form)
 
 
 @license.route('/<filename>')
