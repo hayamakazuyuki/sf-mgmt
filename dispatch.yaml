@@ -1,7 +1,5 @@
 dispatch:
   - url: "sf.singen.io/*"
     service: sf
-  - url: "cs.singen.io/*"
-    service: cs
   - url: "app.singen.io/*"
     service: app
