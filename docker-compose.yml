@@ -29,24 +29,11 @@ services:
       - ./cs:/app
     command: flask run --host=0.0.0.0
 
-  default:
-    build: ./default
-    container_name: default_c
-    ports:
-      - 50001:5000
-    tty: true
-    environment:
-      FLASK_APP: main.py
-      FLASK_ENV: development
-    volumes:
-      - ./default:/app
-    command: flask run --host=0.0.0.0
-
   sf:
     build: ./sf
     container_name: sf_c
     ports:
-      - 50005:5000
+      - 5000:5000
     tty: true
     environment:
       FLASK_APP: main.py
