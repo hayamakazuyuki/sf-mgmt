@@ -8,8 +8,8 @@
         <p class="font-bold text-lg my-5">許可情報</p>
         <div class="max-w-xl rounded shadow-lg my-5 p-5">
 
-            <p class="mt-3 text-lg font-bold">{{ '%05d' % contractor.id }}</p>
-            <p class="text-2xl my-2">{{ contractor.name }}</p>
+            <p class="mt-3 text-lg font-bold">{{ '%05d' % license.contractor.id }}</p>
+            <p class="text-2xl my-2">{{ license.contractor.name }}</p>
             <p class="text-lg font-bold">{{ license.issuer.name }} {{ license.license_type.name }}</p>
             <p class="text-gray-700 text-sm">許可番号：
                 {% if license.copy_url %}

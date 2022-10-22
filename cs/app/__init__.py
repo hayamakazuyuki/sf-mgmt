@@ -6,6 +6,8 @@ from app.auth import auth
 from app.shop import shop
 from app.contractor import contractor
 from app.contract import contract
+from .license import license
+from .permit import permit
 
 
 def create_app():
@@ -39,5 +41,7 @@ def create_app():
     app.register_blueprint(shop)
     app.register_blueprint(contractor)
     app.register_blueprint(contract)
+    app.register_blueprint(license)
+    app.register_blueprint(permit)
     
     return app

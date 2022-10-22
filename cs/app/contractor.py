@@ -38,15 +38,6 @@ def contractor_profile(id):
     return render_template('contractor/profile.html', contractor=contractor, permits=permits, licenses=licenses, today=today)
 
 
-# license detail
-@contractor.route('/contractor/<int:contractor_id>/license/<int:id>')
-def license_detail(contractor_id, id):
-    contractor = Contractor.query.get(contractor_id)
-    license = License.query.get(id)
-
-    return render_template('contractor/license-details.html', contractor=contractor, license=license)
-
-
 @contractor.route('/contractor/<int:contractor_id>/permit/<int:id>')
 def permit_details(contractor_id, id):
     

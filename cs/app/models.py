@@ -53,6 +53,7 @@ class Contractor(db.Model):
     bldg = db.Column(db.String(50))
     contracts = db.relationship('Contract', backref=db.backref('contractor', lazy=True))
     licenses = db.relationship('License', backref=db.backref('contractor', lazy=True))
+    permits = db.relationship('Permit', backref=db.backref('contractor', lazy=True))
 
 
 class License(db.Model):
@@ -65,6 +66,16 @@ class License(db.Model):
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     copy_url = db.Column(db.String(2083))
+
+class LicensedItem(db.Model):
+    license_id = db.Column(db.Integer, db.ForeignKey('license.id'), primary_key=True)
+    ind_waste_id = db.Column(db.Integer, db.ForeignKey('ind_waste.id'), primary_key=True)
+
+
+class IndWaste(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    licensed_items = db.relationship('LicensedItem', backref=db.backref('ind_waste', lazy=True))
 
 
 class Permit(db.Model):
@@ -91,6 +102,14 @@ class Contract(db.Model):
     expires_on = db.Column(db.Date, nullable=False)
     auto_extention = db.Column(db.Boolean, nullable=True)
     file_name = db.Column(db.String(255), nullable=True)
+
+
+class ContractShop(db.Model):
+    contract_id = db.Column(db.Integer, db.ForeignKey('contract.id'), primary_key=True)
+    customer_id = db.Column(db.Integer, primary_key=True)
+    shop_id = db.Column(db.Integer, primary_key=True)
+
+    __table_args__ = (ForeignKeyConstraint(['customer_id', 'shop_id'], ['shop.customer_id', 'shop.id']),)
 
 
 class Item(db.Model):
