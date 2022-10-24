@@ -57,3 +57,17 @@
 </div>
 
 {% endblock %}
+
+{% block script %}
+<script>
+    const createItemList = () => {
+        let licensed_items = {{ licensed_items | tojson }};
+
+        licensed_items.forEach((licensed_item) => {
+            let target_li = document.getElementById(licensed_item);
+            target_li.className = 'm-1 p-1 rounded-lg text-white bg-green-500';
+        });
+    }
+
+</script>
+{% endblock %}

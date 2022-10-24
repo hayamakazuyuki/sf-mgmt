@@ -66,6 +66,8 @@ class License(db.Model):
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     copy_url = db.Column(db.String(2083))
+    licensed_items = db.relationship('LicensedItem', backref=db.backref('license', lazy=True))
+
 
 class LicensedItem(db.Model):
     license_id = db.Column(db.Integer, db.ForeignKey('license.id'), primary_key=True)
