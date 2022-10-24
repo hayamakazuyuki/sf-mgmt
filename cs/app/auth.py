@@ -31,7 +31,7 @@ def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
 
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.home'))
 
 
 @auth.route("/logout")

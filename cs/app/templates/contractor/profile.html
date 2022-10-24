@@ -1,7 +1,9 @@
 {% extends "layout.html" -%}
 {% block content -%}
-{% include "navbar.html" -%}
-{% include "_flashing.html" -%}
+<header>
+    {% include "nav.html" %}
+</header>
+{% include "_flashing.html" %}
 
 <div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
     <div class="max-w-md mx-auto">
@@ -36,7 +38,7 @@
         {% endif %}
 
         <tr class="">
-            <td class="mr-2"><a href="/permit/{{ contractor.id}}/permit/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+            <td class="mr-2"><a href="/contractor/permit/{{ permit.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
             {{ permit.id }}</a></td>
             <td>{{ permit.issuer.name }}</td>
             <td class=""><span class="cityName" data-city="{{ permit.city }}"></span></td>
@@ -77,7 +79,7 @@
             {% else %}
             <tr class="">
             {% endif %}
-                    <td class="mr-2"><a href="/license/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
+                    <td class="mr-2"><a href="/contractor/license/{{ license.id }}" class="text-blue-600 hover:underline hover:text-blue-800">
             {{ license.id }}</a></td>
             <td class="">{{ license.issuer.name }}</td>
             <td class="">{{ license.license_type.name }}</td>

@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block content %}
+<header>
+    {% include "nav.html" %}
+</header>
+{% include "_flashing.html" %}
+
+<div div class="max-w-7xl px-4 sm:px-6 lg:px-8 flex-grow">
+
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+        <h1 class="text-lg font-medium leading-6 text-gray-900">ダッシュボード</h1>
+      </div>
+      
+    <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
+
+        <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
+          <div class="flex w-full items-center justify-between space-x-6 p-6">
+            <div class="flex-1 truncate">
+              <div class="flex items-center space-x-3 mb-3">
+                <h2 class="truncate text-base font-medium text-gray-900">事業所</h2>
+              </div>
+              <p class="mt-1 truncate text-sm text-gray-500 text-center"><span class="text-3xl font-bold mx-3">{{ count }}</span>件</p>
+            </div>
+          </div>
+        </li>
+      
+        <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+              <div class="flex-1 truncate">
+                <div class="flex items-center space-x-3">
+                  <h2 class="truncate text-base font-medium text-gray-900 mb-3">契約書</h2>
+                </div>
+                {% if contracts %}
+                <ul class="mt-1 truncate text-sm text-gray-500">
+                    <li></li>
+                </ul>
+                {% else %}
+                <div class="mt-1 truncate text-green-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 inline-block">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm text-gray-500">期限切れの契約書はありません。</span>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+        </li>
+
+          <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+              <div class="flex-1 truncate">
+                <div class="flex items-center space-x-3">
+                  <h2 class="truncate text-base font-medium text-gray-900 mb-3">処理業者の許可証</h2>
+                </div>
+                {% if licenses %}
+                <ul class="mt-1 truncate text-sm text-gray-500">
+                    <li></li>
+                </ul>
+                {% else %}
+                <div class="mt-1 truncate text-green-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 inline-block">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm text-gray-500">期限切れの許可証はありません。</span>
+                </div>
+                <!-- <p class="mt-1 truncate text-sm text-gray-500"></p> -->
+                {% endif %}
+              </div>
+            </div>
+        </li>
+      </ul>
+</div>
+{% endblock %}

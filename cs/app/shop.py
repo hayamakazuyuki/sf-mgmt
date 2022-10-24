@@ -8,10 +8,10 @@ from .models import Customer, CollectionRequest, Contract, Shop, VolumeReport
 from .forms import CollectionRequestForm
 
 
-shop = Blueprint('shop', __name__)
+shop = Blueprint('shop', __name__, url_prefix='/shop')
 JST = timezone(timedelta(hours=+9), 'JST')
 
-@shop.route('/shop')
+@shop.route('/')
 def index():
 
     q = request.args.get('q')
@@ -25,14 +25,14 @@ def index():
         shops = Shop.query.filter(Shop.customer_id == customer_id).filter(Shop.name.like(search)).paginate(page=page, per_page=20)
         count = len(Shop.query.filter(Shop.customer_id == customer_id).filter(Shop.name.like(search)).all())
 
-        return render_template('home.html', page=page, shops=shops, count=count)
+        return render_template('shop/shop.html', page=page, shops=shops, count=count)
 
     else:
         shops = Shop.query.filter(Shop.customer_id == customer_id).paginate(page=page, per_page=20)
         
         count = len(Shop.query.filter(Shop.customer_id == customer_id).all())
 
-        return render_template('home.html', page=page, shops=shops, count=count)
+        return render_template('shop/shop.html', page=page, shops=shops, count=count)
 
 
 @shop.route('/<int:id>')

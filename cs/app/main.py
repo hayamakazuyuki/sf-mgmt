@@ -6,11 +6,24 @@ main = Blueprint('main', __name__)
 
 
 @main.route('/')
-def index():
-
-    page = request.args.get('page', 1, type=int)
-
+def home():
     if 'user' in session:
+
+        userinfo = session['user']['userinfo']
+        customer_id = userinfo.get('customer')
+        count = len(Shop.query.filter(Shop.customer_id==customer_id).all())
+
+        return render_template('customer/index.html', count=count)
+    
+    else:
+        return redirect(url_for('auth.login'))
+
+# @main.route('/')
+# def index():
+
+#     page = request.args.get('page', 1, type=int)
+
+#     if 'user' in session:
 
         # userinfo = session['user']['userinfo']
 
@@ -31,12 +44,12 @@ def index():
 
         # elif customer_id and shop_id is None:
 
-        return redirect(url_for('shop.index'))
+        # return redirect(url_for('shop.index'))
 
         # else:
 
         #     return redirect(url_for('shop.shop_profile', id=shop_id))
 
-    else:
+    # else:
 
-        return render_template('index.html')
+    #     return render_template('index.html')

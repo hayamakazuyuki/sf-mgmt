@@ -1,7 +1,9 @@
 {% extends "layout.html" -%}
 {% block content -%}
-{% include "navbar.html" -%}
-{% include "_flashing.html" -%}
+<header>
+    {% include "nav.html" %}
+</header>
+{% include "_flashing.html" %}
 
 <div class="container max-w-2xl mx-auto mt-7 px-2 flex-grow">
     <div class="max-w-md mx-auto">
