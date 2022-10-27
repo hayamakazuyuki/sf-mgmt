@@ -5,6 +5,7 @@
 </header>
 {% include "_flashing.html" %}
 
+
 <div class="container max-w-4xl mx-auto px-2 flex-grow">
     <div class="max-w-md mx-auto mt-10">
         <p class="font-bold text-lg my-5">一般廃棄物処理業許可情報</p>
@@ -18,7 +19,7 @@
                 <a href="{{ permit.copy_url }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
                     {{ permit.permit_type.name }}</a>
                 {% else %}
-                <a href="/permit/{{ '%05d' % contractor.id }}{{ permit.city }}{{ permit.id}}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                <a href="/permit/{{ '%05d' % permit.contractor_id }}{{ permit.city }}{{ permit.id}}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
                     {{ permit.permit_type.name }}</a>
                 {% endif %}
             </p>
