@@ -31,7 +31,7 @@
                         </tr>
                     </thead>
 
-                    {% if contracts and not session['user'].userinfo.shop %}
+                    {% if contracts %}
                     <tbody>
                     {% for contract in contracts %}
                     {% set countdown = contract.expires_on - today %}

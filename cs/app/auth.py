@@ -29,8 +29,14 @@ def login():
 def callback():
 
     token = oauth.auth0.authorize_access_token()
-    session["user"] = token
+    session['user'] = token
 
+    session['profile'] = {
+        'uuid' : token['userinfo']['https://app.singen.io/claims/uuid'],
+        'customer_id' : token['userinfo']['https://app.singen.io/claims/customerid'],
+        'name' : token['userinfo']['name']
+    }
+    
     return redirect(url_for('main.home'))
 
 
@@ -50,8 +56,9 @@ def logout():
         )
     )
 
-@auth.route('/info')
-@requires_auth
-def info():
+# @auth.route('/info')
+# @requires_auth
+# def info():
 
-    return render_template("info.html", session=session.get('user'), pretty=json.dumps(session['user'], indent=4))
+#     return render_template("info.html", session=session['user'], pretty=json.dumps(session['user'], indent=4))
+

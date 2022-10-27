@@ -7,10 +7,9 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-    if 'user' in session:
+    if 'profile' in session:
 
-        userinfo = session['user']['userinfo']
-        customer_id = userinfo.get('customer')
+        customer_id = session['profile']['customer_id']
         count = len(Shop.query.filter(Shop.customer_id==customer_id).all())
 
         return render_template('customer/index.html', count=count)

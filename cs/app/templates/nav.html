@@ -22,7 +22,7 @@
         </div>
 
         <div class="hidden md:flex sm:items-center">
-            <div class="text-sm text-gray-500 mr-3">{{ session['user'].userinfo.email }}</div>
+            <div class="text-sm text-gray-500 mr-3">{{ session['profile'].name }}</div>
             <a href="/logout" class="block bg-rose-700 rounded-full px-4 py-2 text-sm text-white hover:bg-rose-500">ログアウト</a>
         </div>
 
@@ -59,7 +59,7 @@
       <div class="border-t border-gray-200 pt-4 pb-3">
         <div class="flex items-center px-4">
           <div class="">
-            <div class="text-sm text-gray-500">{{ session['user'].userinfo.email }}</div>
+            <div class="text-sm text-gray-500">{{ session['profile'].name }}</div>
           </div>
         </div>
         <div class="mt-3 px-3">

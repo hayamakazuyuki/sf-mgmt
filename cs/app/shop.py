@@ -1,9 +1,8 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from datetime import datetime, timedelta, timezone
 from sqlalchemy import desc
 
 from .extentions import db
-from .modules import get_customer_id
 from .models import Customer, CollectionRequest, Contract, Shop, VolumeReport
 from .forms import CollectionRequestForm
 
@@ -17,7 +16,7 @@ def index():
     q = request.args.get('q')
     page = request.args.get('page', 1, type=int)
 
-    customer_id = get_customer_id()
+    customer_id = session['profile']['customer_id']
 
     if q:
 
@@ -38,7 +37,7 @@ def index():
 @shop.route('/<int:id>')
 def shop_profile(id):
 
-    customer_id = get_customer_id()
+    customer_id = session['profile']['customer_id']
 
     shop = Shop.query.get((customer_id, id))
     contracts = Contract.query.all()
