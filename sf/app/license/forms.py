@@ -1,8 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField, StringField, SelectField, FileField, SelectMultipleField
+from wtforms import DateField, StringField, SelectField, FileField, SelectMultipleField, widgets
 from wtforms.validators import DataRequired, Regexp, Optional, URL
 
 from ..models import Issuer, LicenseType, IndWaste
+
+
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
 
 
 class LicenseRegisterForm(FlaskForm):

@@ -33,21 +33,6 @@ def index():
 
         return render_template('shop/shop.html', page=page, shops=shops, count=count)
 
-
-@shop.route('/<int:id>')
-def shop_profile(id):
-
-    customer_id = session['profile']['customer_id']
-
-    shop = Shop.query.get((customer_id, id))
-    contracts = Contract.query.all()
-
-    reports = VolumeReport.query.filter(VolumeReport.customer_id == customer_id).all()
-
-    today = datetime.now(JST).date()
-
-    return render_template('shop/shop-profile.html', shop=shop, contracts=contracts, reports=reports, today=today)
-
 """
 @shop.route('/collection')
 def collection():

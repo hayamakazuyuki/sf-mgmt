@@ -1,6 +1,6 @@
 from flask import Blueprint, session, render_template, request, redirect, url_for
 
-from .models import Customer, Shop
+from .models import Shop, Contract
 
 main = Blueprint('main', __name__)
 
@@ -10,10 +10,12 @@ def home():
     if 'profile' in session:
 
         customer_id = session['profile']['customer_id']
-        count = len(Shop.query.filter(Shop.customer_id==customer_id).all())
+        shops_count = len(Shop.query.filter(Shop.customer_id==customer_id).all())
+        contractors = Contract.query.filter(Contract.customer_id==customer_id).with_entities(Contract.contractor_id).all()
+        contractors_count = len(set(contractors))
+        
+        return render_template('customer/home.html', shops_count=shops_count, contractors_count=contractors_count)
 
-        return render_template('customer/index.html', count=count)
-    
     else:
         return redirect(url_for('auth.login'))
 

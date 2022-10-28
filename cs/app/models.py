@@ -36,7 +36,6 @@ class Shop(db.Model):
     town = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(100))
     bldg = db.Column(db.String(50))
-    # registered_at = db.Column(db.DateTime, default=func.now())
     # collection_requests = db.relationship('CollectionRequest', backref=db.backref('shop', lazy=True))
 
 
@@ -95,6 +94,7 @@ class PermitType(db.Model):
     name = db.Column(db.String(50), nullable=False)
     permits = db.relationship('Permit', backref=db.backref('permit_type', lazy=True))
 
+
 class Contract(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
     customer_id = db.Column(db.Integer, nullable=False)
@@ -104,6 +104,7 @@ class Contract(db.Model):
     expires_on = db.Column(db.Date, nullable=False)
     auto_extention = db.Column(db.Boolean, nullable=True)
     file_name = db.Column(db.String(255), nullable=True)
+    shops = db.relationship('ContractShop', backref=db.backref('contract', lazy=True))
 
 
 class ContractShop(db.Model):
