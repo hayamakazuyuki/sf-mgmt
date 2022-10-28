@@ -13,25 +13,30 @@
       
     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
 
-        <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white drop-shadow hover:bg-slate-50 hover:drop-shadow-lg">
-          <div class="flex w-full items-center justify-between space-x-6 p-6">
-            <div class="flex-1 truncate">
-              <div class="flex items-center space-x-3 mb-3">
-                <h2 class="truncate text-base font-medium text-gray-900">事業所</h2>
+        <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white drop-shadow hover:drop-shadow-xl">
+          <a href="/shop">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+              <div class="flex-1 truncate">
+                <div class="flex items-center space-x-3 mb-3">
+                  <h2 class="truncate text-base font-medium text-gray-900">事業所</h2>
+                </div>
+                <p class="mt-1 truncate text-sm text-gray-500 text-center"><span class="text-3xl font-bold mx-3">{{ shops_count }}</span>件</p>
               </div>
-              <p class="mt-1 truncate text-sm text-gray-500 text-center"><span class="text-3xl font-bold mx-3">{{ shops_count }}</span>件</p>
             </div>
-          </div>
+          </a>
+
         </li>
-        <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white drop-shadow hover:bg-slate-50 hover:drop-shadow-lg">
-          <div class="flex w-full items-center justify-between space-x-6 p-6">
-            <div class="flex-1 truncate">
-              <div class="flex items-center space-x-3 mb-3">
-                <h2 class="truncate text-base font-medium text-gray-900">契約先処理業者</h2>
+        <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white drop-shadow hover:drop-shadow-xl">
+          <a href="#">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+              <div class="flex-1 truncate">
+                <div class="flex items-center space-x-3 mb-3">
+                  <h2 class="truncate text-base font-medium text-gray-900">契約先処理業者</h2>
+                </div>
+                <p class="mt-1 truncate text-sm text-gray-500 text-center"><span class="text-3xl font-bold mx-3">{{ contractors_count }}</span>社</p>
               </div>
-              <p class="mt-1 truncate text-sm text-gray-500 text-center"><span class="text-3xl font-bold mx-3">{{ contractors_count }}</span>社</p>
-            </div>
-          </div>
+            </div>  
+          </a>
         </li>
 
         <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
