@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 from datetime import datetime, timedelta, timezone
 
-from .models import Contractor, License, Permit, LicensedItem
+from .models import Contractor, License, Permit, LicensedItem, Contract
 
 contractor = Blueprint('contractor', __name__, url_prefix='/contractor')
 JST = timezone(timedelta(hours=+9), 'JST')
@@ -9,6 +9,8 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 @contractor.route('/')
 def index():
+    
+    customer_id = session['profile']['customer_id']
 
     q = request.args.get('q')
     page = request.args.get('page', 1, type=int)
@@ -21,7 +23,9 @@ def index():
         return render_template('contractor/index.html', page=page, contractors=contractors)
 
     else:
-        contractors = Contractor.query.paginate(page=page, per_page=20)
+        contractors = Contractor.query.filter(Contractor.contracts.any(customer_id=customer_id)).paginate(page=page, per_page=20)
+        # .filter(Contract.customer_id==customer_id).with_entities(Contract.contractor_id)
+        # contractors = Contractor.query
 
         return render_template('contractor/index.html', page=page, contractors=contractors)
 
