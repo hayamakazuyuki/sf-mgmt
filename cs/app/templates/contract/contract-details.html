@@ -11,23 +11,24 @@
         <div class="max-w-xl rounded shadow-lg my-5 p-5 text-sm">
             <div class="flex justify-between">
                 <p class="text-gray-700">
-                    <a href="/contract/copy/{{ contract.id }}" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
+                    <a href="" class="text-blue-600 hover:underline hover:text-blue-800" target="_blank" rel="noopener">
                         {{ '%05d' % contract.id }}
                     </a>
                     <span class="ml-1 text-lg font-bold">{{ contract.item.name }}</span></p>
             </div>
 
             <hr class="mt-2">
+            <p class="mt-5 text-base font-bold">
+                <a href="" class="text-rose-500 hover:underline hover:text-rose-700">{{ contract.shop.name }}</a>
+            </p>
 
-            <p class="text-gray-700 mt-5">{{ '%05d' % contract.contractor.id }}
-                <span class="ml-1 text-base font-bold">
-                    <a href="/contractor/{{ contract.contractor_id}}" class="text-rose-500 hover:underline hover:text-rose-700">{{ contract.contractor.name }}</a>
-                </span>
+            <p class="mt-5 text-base font-bold">
+                <a href="/contractor/{{ contract.contractor_id}}" class="text-rose-500 hover:underline hover:text-rose-700">{{ contract.contractor.name }}</a>
             </p>
             <p class="text-gray-700 mt-3 text-base font-bold">{{ contract.effective_from }}<span class="font-normal">〜</span>
                 {{ contract.expires_on }}
                 {% if contract.auto_extention == 1 %}
-                <span class="ml-3 px-2 py-1 text-xs text-white bg-gray-500 rounded-full font-light">自動更新</span>
+                <span class="ml-3 px-2 py-1 text-xs text-white bg-green-500 rounded-full font-light">自動更新</span>
                 {% endif %}
             </p>
         </div>

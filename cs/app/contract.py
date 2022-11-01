@@ -3,7 +3,7 @@ import os, io
 from flask import Blueprint, render_template, request, current_app, send_file, abort
 from google.cloud import storage
 
-from .models import Contract, Shop
+from .models import Contract
 
 contract = Blueprint('contract', __name__)
 

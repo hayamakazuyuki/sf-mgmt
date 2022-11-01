@@ -34,16 +34,16 @@
                     {% if contracts %}
                     <tbody>
                     {% for contract in contracts %}
-                    {% set countdown = contract.contract.expires_on - today %}
+                    {% set countdown = contract.expires_on - today %}
                     {% if countdown.days < 60 %}
                     <tr class="bg-red-100">
                     {% else %}
                     <tr class="">
                     {% endif %}
                             <td class="border-b"><a class="text-rose-500 hover:underline hover:text-rose-700" href="/contract/{{ contract.id }}">
-                                {{ '%05d' % contract.contract.contractor_id }}</a></td>
-                            <td class="border-b">{{ contract.contract.item.name }}</td>
-                            <td class="border-b"><a href="/contractor/{{ contract.contract.contractor_id}}" class="text-rose-500 hover:underline hover:text-rose-700">{{ contract.contract.contractor.name }}</a></td>
+                                {{ '%05d' % contract.contractor_id }}</a></td>
+                            <td class="border-b">{{ contract.item.name }}</td>
+                            <td class="border-b"><a href="/contractor/{{ contract.contractor_id}}" class="text-rose-500 hover:underline hover:text-rose-700">{{ contract.contractor.name }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
