@@ -87,6 +87,7 @@ class Customer(db.Model):
     registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
     shops = db.relationship('Shop', backref=db.backref('customer', lazy=True))
+    contracts = db.relationship('Contract', backref=db.backref('customer', lazy=True))
 
 
 class Shop(db.Model):
@@ -102,7 +103,7 @@ class Shop(db.Model):
     bldg = db.Column(db.String(50))
     registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
-    contracts = db.relationship('ContractShop', backref=db.backref('shop', lazy=True))
+    contracts = db.relationship('Contract', backref=db.backref('shop', lazy=True))
 
 
 class Item(db.Model):
@@ -114,24 +115,25 @@ class Item(db.Model):
 
 class Contract(db.Model):
     id = db.Column(db.Integer, primary_key=True, auto_increment=True)
-    customer_id = db.Column(db.Integer, nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
+    shop_id = db.Column(db.Integer, nullable=False)
     contractor_id = db.Column(db.Integer, db.ForeignKey('contractor.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     effective_from = db.Column(db.Date, nullable=False)
     expires_on = db.Column(db.Date, nullable=False)
     auto_extention = db.Column(db.Boolean, nullable=True)
-    file_name = db.Column(db.String(255), nullable=True)
     registered_by = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=func.now())
-    shops = db.relationship('ContractShop', backref=db.backref('contract', lazy=True))
-
-
-class ContractShop(db.Model):
-    contract_id = db.Column(db.Integer, db.ForeignKey('contract.id'), primary_key=True)
-    customer_id = db.Column(db.Integer, primary_key=True)
-    shop_id = db.Column(db.Integer, primary_key=True)
-
+    # shops = db.relationship('ContractShop', backref=db.backref('contract', lazy=True))
     __table_args__ = (ForeignKeyConstraint(['customer_id', 'shop_id'], ['shop.customer_id', 'shop.id']),)
+
+
+# class ContractShop(db.Model):
+#     contract_id = db.Column(db.Integer, db.ForeignKey('contract.id'), primary_key=True)
+#     customer_id = db.Column(db.Integer, primary_key=True)
+#     shop_id = db.Column(db.Integer, primary_key=True)
+
+#     __table_args__ = (ForeignKeyConstraint(['customer_id', 'shop_id'], ['shop.customer_id', 'shop.id']),)
 
 
 class Issuer(db.Model):

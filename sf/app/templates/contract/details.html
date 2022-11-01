@@ -20,12 +20,16 @@
                     {% endif %}
 
                 <p>
-                    <a href="/contractor/{{ contract.id }}/edit" class="px-1 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right">編集</a>
+                    <a href="/contract/{{ contract.id }}/edit" class="px-1 py-1 text-blue-500 rounded-full hover:bg-blue-100 text-right">編集</a>
                 </p>
             </div>
 
             <hr class="mt-2">
-
+            <p class="text-gray-700 mt-5">{{ '%05d' % contract.customer_id }}
+                <span class="ml-1 text-base font-bold">{{ contract.customer.name }}</span></p>
+                <p class="text-gray-700 mt-2">{{ '%05d' % contract.shop.id }}
+                    <span class="ml-1 text-base font-bold">{{ contract.shop.name }}</span></p>
+    
             <p class="text-gray-700 mt-5">{{ '%05d' % contract.contractor.id }}
                 <span class="ml-1 text-base font-bold">{{ contract.contractor.name }}</span></p>
             <p class="text-gray-700 mt-3 text-base font-bold">{{ contract.effective_from }}<span class="font-normal">〜</span>
@@ -39,30 +43,6 @@
             <div class="flex justify-between text-gray-500 text-sm">
                 <p class="items-end">{{ contract.registered_at.strftime('%Y-%m-%d %H:%M') }}</p>
                 <p class="items-end">{{ contract.registered_by }}</p>
-            </div>
-        </div>
-
-        <div class="max-w-md rounded shadow-lg my-5 p-5">
-
-            <div class="flex justify-between text-sm place-items-end mb-4">
-                <h2 class="text-gray-800"><span class="text-base">契約事業所</span></h2>
-            </div>
-            <div>
-                {% if contracted_shops %}
-                <ul>
-                    {% for cs in contracted_shops %}
-                    <li>{{ cs.shop.id }} <span class="font-bold">{{ cs.shop.name }}</span></li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </div>
-            <div class="w-full text-sm text-gray-500 mt-5">
-                <form method="post">
-                    {{ form.csrf_token }}
-                    {{ form.shop_id.label(class_="sr-only") }}
-                    {{ form.shop_id() }}
-                    <button type="button" class="py-1 px-2 rounded-full text-rose-700 hover:bg-rose-200" onclick="submit();">追加</button>
-                </form>
             </div>
         </div>
     </div>
