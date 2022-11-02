@@ -87,7 +87,7 @@ def profile(id, mode=None):
     contracts = Contract.query.filter_by(customer_id=id).all()
 
     if mode == 'edit':
-        form = CustomerForm()
+        form = CustomerForm(obj=customer)
 
         if form.validate_on_submit():
             customer.name = request.form['name']
@@ -161,7 +161,7 @@ def shop_profile(customer_id, id, mode=None):
     contracts = Contract.query.filter_by(customer_id=customer_id).filter_by(shop_id=id).all()
 
     if mode == 'edit':
-        form = ShopForm()
+        form = ShopForm(obj=shop)
 
         if form.validate_on_submit():
             shop.shop_number = request.form.get('shop_number')

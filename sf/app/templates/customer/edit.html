@@ -9,48 +9,40 @@
 
     <form action="/customer/{{ customer.id }}/edit" method="POST">
         {{ form.csrf_token }}
-        {{ form.id(value=customer.id, readonly=True, hidden=True) }}
 
-        <div class="my-5 text-gray-800">
-            <h2 class="text-lg font-bold">{{ '%05d' % customer.id }}</h2>
+        <div class="my-5 text-gray-500">
+            {{ render_field_with_errors(form.id, class_="w-full text-gray-700 focus:outline-none
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1", readonly=True)}}
         </div>
+
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.name, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=customer.name)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.title, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=customer.title)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.representative, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=customer.representative)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.zip, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=customer.zip)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="flex my-3 text-gray-500">
-            {{ render_input_field(form.prefecture, class_="w-full border-b px-3 text-lg", readonly=True,
-            value=customer.prefecture)}}
-            {{ render_input_field(form.city, class_="w-full border-b px-3 text-lg", readonly=True,
-            value=customer.city)}}
-            {{ render_input_field(form.town, class_="w-full border-b px-3 text-lg", readonly=True,
-            value=customer.town)}}
+            {{ render_input_field(form.prefecture, class_="w-full border-b px-3 text-lg", readonly=true)}}
+            {{ render_input_field(form.city, class_="w-full border-b px-3 text-lg", readonly=true)}}
+            {{ render_input_field(form.town, class_="w-full border-b px-3 text-lg")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.address, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=customer.address)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.bldg, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=customer.bldg)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
     
         <button type="submit" class="bg-blue-600 text-white text-sm my-5 py-1 px-28 w-full rounded shadow-lg
@@ -59,7 +51,9 @@
     </form>
 
 </div>
+{% endblock %}
 
+{% block script %}
 <!-- 住所補完JavaScriptライブラリの読み込み -->
 <script type="text/javascript" src="https://postcode-jp.com/js/postcodejp.js" charset="utf-8"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/postcode.js') }}"></script>
