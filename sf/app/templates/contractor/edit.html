@@ -9,57 +9,47 @@
 
     <form action="/contractor/{{ contractor.id }}/edit" method="POST">
         {{ form.csrf_token }}
-        {{ form.id(value=contractor.id, readonly=True, hidden=True) }}
-
+        
         <div class="my-5 text-gray-800">
-            <h2 class="text-lg font-bold">{{ '%05d' % contractor.id }}</h2>
+            <h2 class="text-lg font-bold">{{ form.id(value=contractor.id, readonly=True) }}</h2>
         </div>
 
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.name, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=contractor.name)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.title, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=contractor.title)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.representative, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=contractor.representative)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.zip, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=contractor.zip)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="flex my-3 text-gray-500">
-            {{ render_input_field(form.prefecture, class_="w-full border-b px-3 text-lg", readonly=True,
-            value=contractor.prefecture)}}
-            {{ render_input_field(form.city, class_="w-full border-b px-3 text-lg", readonly=True,
-            value=contractor.city)}}
-            {{ render_input_field(form.town, class_="w-full border-b px-3 text-lg", readonly=True,
-            value=contractor.town)}}
+            {{ render_input_field(form.prefecture, class_="w-full border-b px-3 text-lg", readonly=True)}}
+            {{ render_input_field(form.city, class_="w-full border-b px-3 text-lg", readonly=True)}}
+            {{ render_input_field(form.town, class_="w-full border-b px-3 text-lg")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.address, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=contractor.address)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
         <div class="my-5 text-gray-500">
             {{ render_field_with_errors(form.bldg, class_="w-full text-gray-700 focus:outline-none
-               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1",
-               value=contractor.bldg)}}
+               focus:bg-gray-100 border-b border-gray-300 focus:border-blue-500 px-3 pb-1")}}
         </div>
 
         <div class="my-3 text-sm">
-            {{ form.care.label(class_=" text-base text-gray-500") }}
-            {% if contractor.satiscare.membership == 1 %}
-                {{ form.care(class_="border mx-3 align-middle", value="1", checked=True) }}
+            {{ form.care.label(class_="text-base text-gray-500") }}
+            {% if contractor.satiscare.membership %}
+                {{ form.care(class_="border mx-3 align-middle", checked=True) }}
             {% else %}
-                {{ form.care(class_="border mx-3 align-middle", value="1") }}
+                {{ form.care(class_="border mx-3 align-middle") }}
             {% endif %}
         </div>
 

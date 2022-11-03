@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, jsonify
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 
-from ..extentions import db, storage
+from ..extentions import db
 
 from ..models import Contractor, Satiscare, License, Permit
 
@@ -62,7 +62,7 @@ def register():
             db.session.add(contractor)
 
             if care:
-                care = Satiscare(contractor_id=id, membership=care)
+                care = Satiscare(contractor_id=id, membership=True)
                 db.session.add(care)
 
             db.session.commit()
@@ -85,7 +85,7 @@ def profile(id, mode=None):
     permits = Permit.query.filter(Permit.contractor_id == id).all()
 
     if mode == 'edit':
-        form = ContractorForm()
+        form = ContractorForm(obj=contractor)
 
         if form.validate_on_submit():
 

@@ -176,7 +176,7 @@ def shop_profile(customer_id, id, mode=None):
 
             db.session.commit()
 
-            flash('事業所の情報を更新しました。')
+            flash('事業所の情報を更新しました。', 'success')
 
             return redirect(url_for('customer.shop_profile', customer_id=customer_id, id=id))
 
