@@ -86,6 +86,7 @@ def profile(id, mode=None):
 
     if mode == 'edit':
         form = ContractorForm(obj=contractor)
+        form.care.checked = Satiscare.query.filter_by(contractor_id = id).first()
 
         if form.validate_on_submit():
 
@@ -111,7 +112,7 @@ def profile(id, mode=None):
                 db.session.delete(member)
 
             elif not is_member and care:
-                care = Satiscare(contractor_id=id, membership=care)
+                care = Satiscare(contractor_id=id, membership=True)
                 db.session.add(care)
 
             else:
